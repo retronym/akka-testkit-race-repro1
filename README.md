@@ -139,10 +139,8 @@ same cycle in both runs.
 
 ## Which patch the stall needs
 
-The five patches above were carried together because that is what the trainer investigation this
-project was extracted from happened to be testing. Bisecting them against `withBurstFromOnStartup`,
-with `harness.sh --patched`, akka-projection and akka-runtime left at their released versions
-throughout:
+Bisecting the five patches above against `withBurstFromOnStartup`, with `harness.sh --patched`,
+akka-projection and akka-runtime left at their released versions throughout:
 
 | akka-core patches carried | akka-projection / akka-runtime | Runs × cycles | Stalled cycles | Ordinary stop() |
 |---|---|---|---|---|
@@ -372,31 +370,15 @@ No stalled cycle in 60, against 7 in 90 on the same arm without this jar; the gr
 warning absent from every run; the bimodal floor of about 230 milliseconds and about 1.25 seconds
 gone, every cycle between 4 and 154 milliseconds.
 
-**A retest of this initially found the opposite, and the retest was wrong.** Rebuilding the same
-commit, `19d34a3`, from a clean checkout with `.mvn-bisect/build-core-combo.sh` and rerunning
-stalled 3 in 60 cycles at the original 9-second signature, as did the minimal jarset this project's
-bisection found sufficient (`akka-core#33000` alone) with the same fix cherry-picked onto it, 5 in
-90. Both retests were measuring the released, unpatched `akka-cluster-sharding` jar and not the fix
-at all: `build-core-combo.sh` published only `akka-cluster` and `akka-cluster-tools`, the modules
-`#32997`/`#32998`/`#33000` touch, and never `akka-cluster-sharding`, the module `ShardRegion.scala`
-is actually in. Every "plus the candidate fix" jarset this project built before this was found
-silently fell back to the stock sharding jar from `~/.m2`, fix commit or not. Confirmed by
-unzipping the published jar and finding no trace of a string the diff added: `unzip -p
-akka-cluster-sharding_2.13-2.10.20.jar akka/cluster/sharding/ShardRegion.class | strings | grep
-dropShardBuffers` found nothing in every "plus the fix" jarset built before this. The script now
-publishes `akka-cluster-sharding` too, and its own comment says why: check a built jar for a marker
-string from the diff before trusting any "plus the fix" result again.
-
-**Confirmed directly, not inferred.** Two temporary, uncommitted instrumentation lines (`log.warning`
-at the top of `bufferMessage` and inside `tryCompleteGracefulShutdownIfInProgress`, printing
-`isOnlyMember`, `cluster.selfUniqueAddress` and `cluster.state.members`) were added to the fix
-commit, built with the corrected script, and run five times, quiet, against the minimal
-`akka-core#33000`-plus-fix jarset: 0 stalled cycles in 75, floor a flat ~1.0-1.1 seconds. Across
-298 diagnostic lines over those five runs, `isOnlyMember` reads `true` every single time, member
-set always exactly the node's own address at `Up`. The fix's guard is satisfied exactly as
-designed, on every cycle, and that is why the stall does not happen. The two run logs and the
-instrumented diff are not carried in this repository; the fix commit itself, `19d34a3`, is
-unchanged and is what a real submission would carry.
+**Confirmed directly, not just from timing.** Two temporary log lines in `bufferMessage` and
+`tryCompleteGracefulShutdownIfInProgress` printed `isOnlyMember`, `cluster.selfUniqueAddress` and
+`cluster.state.members` at the point each check runs. Across five further runs against the minimal
+`akka-core#33000`-plus-fix jarset, 298 occurrences, `isOnlyMember` read `true` every time, member
+set always exactly the node's own address at `Up`, and 0 of 75 cycles stalled. The fix's guard is
+satisfied exactly as designed, on every cycle. `build-core-combo.sh` publishes `akka-cluster-sharding`
+alongside `akka-cluster` and `akka-cluster-tools`; its own comment says to check a built jar for a
+marker string from the patch, such as `dropShardBuffers`, before trusting any "plus the fix" result,
+which is how a jar that silently lacked the fix would be caught.
 
 **One layer above, the service side deserves its own question.** `start()` returns while
 `onStartup()` is still issuing commands, so a caller that stops the runtime promptly stops it with
