@@ -1,0 +1,325 @@
+[INFO] Scanning for projects...
+[INFO] ------------------------------------------------------------------------
+[INFO] Detecting the operating system and CPU architecture
+[INFO] ------------------------------------------------------------------------
+[INFO] os.detected.name: osx
+[INFO] os.detected.arch: aarch_64
+[INFO] os.detected.bitness: 64
+[INFO] os.detected.version: 27.0
+[INFO] os.detected.version.major: 27
+[INFO] os.detected.version.minor: 0
+[INFO] os.detected.classifier: osx-aarch_64
+[INFO] 
+[INFO] ---------------< io.akka.repro:akka-testkit-race-repro >----------------
+[INFO] Building akka-testkit-race-repro 0.1.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- dependency:3.7.0:tree (default-cli) @ akka-testkit-race-repro ---
+[INFO] io.akka.repro:akka-testkit-race-repro:jar:0.1.0-SNAPSHOT
+[INFO] +- org.junit.jupiter:junit-jupiter:jar:5.11.4:test
+[INFO] |  +- org.junit.jupiter:junit-jupiter-api:jar:5.11.4:test
+[INFO] |  |  +- org.opentest4j:opentest4j:jar:1.3.0:test
+[INFO] |  |  +- org.junit.platform:junit-platform-commons:jar:1.11.4:test
+[INFO] |  |  \- org.apiguardian:apiguardian-api:jar:1.1.2:test
+[INFO] |  +- org.junit.jupiter:junit-jupiter-params:jar:5.11.4:test
+[INFO] |  \- org.junit.jupiter:junit-jupiter-engine:jar:5.11.4:test
+[INFO] |     \- org.junit.platform:junit-platform-engine:jar:1.11.4:test
+[INFO] +- org.assertj:assertj-core:jar:3.27.7:test
+[INFO] |  \- net.bytebuddy:byte-buddy:jar:1.18.3:test
+[INFO] +- io.akka:akka-javasdk:jar:3.6.3:compile
+[INFO] |  +- org.scala-lang:scala-library:jar:2.13.18:compile
+[INFO] |  +- io.akka:akka-javasdk-validations:jar:3.6.3:compile
+[INFO] |  +- com.thesamet.scalapb:scalapb-runtime_2.13:jar:0.11.18:compile
+[INFO] |  |  +- com.thesamet.scalapb:lenses_2.13:jar:0.11.18:compile
+[INFO] |  |  +- com.google.protobuf:protobuf-java:jar:3.25.8:compile
+[INFO] |  |  \- org.scala-lang.modules:scala-collection-compat_2.13:jar:2.12.0:compile
+[INFO] |  +- com.lightbend.akka.grpc:akka-grpc-runtime_2.13:jar:2.5.10:compile
+[INFO] |  |  +- io.grpc:grpc-protobuf:jar:1.77.0:compile
+[INFO] |  |  |  +- com.google.api.grpc:proto-google-common-protos:jar:2.59.2:compile
+[INFO] |  |  |  \- io.grpc:grpc-protobuf-lite:jar:1.77.0:runtime
+[INFO] |  |  +- io.grpc:grpc-core:jar:1.77.0:compile
+[INFO] |  |  |  +- com.google.android:annotations:jar:4.1.1.4:runtime
+[INFO] |  |  |  +- io.perfmark:perfmark-api:jar:0.27.0:runtime
+[INFO] |  |  |  \- io.grpc:grpc-context:jar:1.77.0:runtime
+[INFO] |  |  \- io.grpc:grpc-netty-shaded:jar:1.77.0:compile
+[INFO] |  |     \- io.grpc:grpc-util:jar:1.77.0:runtime
+[INFO] |  +- io.grpc:grpc-stub:jar:1.77.0:compile
+[INFO] |  |  +- io.grpc:grpc-api:jar:1.77.0:compile
+[INFO] |  |  +- org.codehaus.mojo:animal-sniffer-annotations:jar:1.24:compile
+[INFO] |  |  +- com.google.guava:guava:jar:33.4.8-android:compile
+[INFO] |  |  |  +- com.google.guava:failureaccess:jar:1.0.3:compile
+[INFO] |  |  |  +- com.google.guava:listenablefuture:jar:9999.0-empty-to-avoid-conflict-with-guava:compile
+[INFO] |  |  |  \- org.jspecify:jspecify:jar:1.0.0:compile
+[INFO] |  |  \- com.google.errorprone:error_prone_annotations:jar:2.36.0:compile
+[INFO] |  +- io.opentelemetry:opentelemetry-api:jar:1.64.0:compile
+[INFO] |  +- io.opentelemetry:opentelemetry-sdk:jar:1.64.0:compile
+[INFO] |  |  +- io.opentelemetry:opentelemetry-sdk-common:jar:1.64.0:compile
+[INFO] |  |  +- io.opentelemetry:opentelemetry-sdk-trace:jar:1.64.0:compile
+[INFO] |  |  +- io.opentelemetry:opentelemetry-sdk-metrics:jar:1.64.0:compile
+[INFO] |  |  \- io.opentelemetry:opentelemetry-sdk-logs:jar:1.64.0:compile
+[INFO] |  +- io.opentelemetry:opentelemetry-context:jar:1.64.0:compile
+[INFO] |  |  \- io.opentelemetry:opentelemetry-common:jar:1.64.0:compile
+[INFO] |  +- io.opentelemetry.semconv:opentelemetry-semconv:jar:1.39.0:compile
+[INFO] |  +- com.typesafe.akka:akka-pki_2.13:jar:2.10.20:compile
+[INFO] |  |  +- com.typesafe.akka:akka-actor_2.13:jar:2.10.20:compile
+[INFO] |  |  \- com.hierynomus:asn-one:jar:0.6.0:compile
+[INFO] |  +- com.typesafe.akka:akka-discovery_2.13:jar:2.10.20:compile
+[INFO] |  +- org.slf4j:slf4j-api:jar:2.0.16:compile
+[INFO] |  +- ch.qos.logback:logback-classic:jar:1.5.38:compile
+[INFO] |  |  \- ch.qos.logback:logback-core:jar:1.5.38:compile
+[INFO] |  +- ch.qos.logback.contrib:logback-json-classic:jar:0.1.5:compile
+[INFO] |  |  \- ch.qos.logback.contrib:logback-json-core:jar:0.1.5:compile
+[INFO] |  +- ch.qos.logback.contrib:logback-jackson:jar:0.1.5:compile
+[INFO] |  +- com.fasterxml.jackson.core:jackson-core:jar:2.21.5:compile
+[INFO] |  +- com.fasterxml.jackson.core:jackson-annotations:jar:2.21:compile
+[INFO] |  +- com.fasterxml.jackson.core:jackson-databind:jar:2.21.5:compile
+[INFO] |  +- com.fasterxml.jackson.datatype:jackson-datatype-jdk8:jar:2.21.5:compile
+[INFO] |  +- com.fasterxml.jackson.datatype:jackson-datatype-jsr310:jar:2.21.5:compile
+[INFO] |  +- com.fasterxml.jackson.module:jackson-module-parameter-names:jar:2.21.5:compile
+[INFO] |  +- com.fasterxml.jackson.module:jackson-module-scala_2.13:jar:2.21.5:compile
+[INFO] |  |  \- com.thoughtworks.paranamer:paranamer:jar:2.8.3:compile
+[INFO] |  +- dev.langchain4j:langchain4j:jar:1.15.0:compile
+[INFO] |  |  +- dev.langchain4j:langchain4j-core:jar:1.15.0:compile
+[INFO] |  |  \- org.apache.opennlp:opennlp-tools:jar:2.5.9:compile
+[INFO] |  +- com.google.protobuf:protobuf-java-util:jar:3.25.8:compile
+[INFO] |  |  +- com.google.code.findbugs:jsr305:jar:3.0.2:compile
+[INFO] |  |  +- com.google.code.gson:gson:jar:2.8.9:compile
+[INFO] |  |  \- com.google.j2objc:j2objc-annotations:jar:2.8:compile
+[INFO] |  +- io.akka:akka-sdk-spi_2.13:jar:1.6.15:compile
+[INFO] |  +- com.typesafe:config:jar:1.4.6:compile
+[INFO] |  +- com.typesafe.akka:akka-http_2.13:jar:10.7.4:compile
+[INFO] |  +- com.typesafe.akka:akka-http-core_2.13:jar:10.7.4:compile
+[INFO] |  |  \- com.typesafe.akka:akka-parsing_2.13:jar:10.7.4:compile
+[INFO] |  \- com.typesafe.akka:akka-stream_2.13:jar:2.10.20:compile
+[INFO] |     +- com.typesafe.akka:akka-protobuf-v3_2.13:jar:2.10.20:compile
+[INFO] |     \- org.reactivestreams:reactive-streams:jar:1.0.4:compile
+[INFO] +- io.akka:akka-javasdk-testkit:jar:3.6.3:test
+[INFO] |  +- com.typesafe.akka:akka-actor-testkit-typed_2.13:jar:2.10.20:test
+[INFO] |  |  +- com.typesafe.akka:akka-actor-typed_2.13:jar:2.10.20:runtime
+[INFO] |  |  \- com.typesafe.akka:akka-slf4j_2.13:jar:2.10.20:runtime
+[INFO] |  +- com.typesafe.akka:akka-stream-testkit_2.13:jar:2.10.20:test
+[INFO] |  +- com.typesafe.akka:akka-testkit_2.13:jar:2.10.20:test
+[INFO] |  \- org.awaitility:awaitility:jar:4.2.1:test
+[INFO] |     \- org.hamcrest:hamcrest:jar:2.1:test
+[INFO] \- io.akka:akka-runtime-dev_2.13:jar:1.6.15:runtime
+[INFO]    +- io.akka:akka-runtime-core_2.13:jar:1.6.15:runtime
+[INFO]    |  +- com.typesafe.akka:akka-persistence_2.13:jar:2.10.20:runtime
+[INFO]    |  +- com.typesafe.akka:akka-persistence-typed_2.13:jar:2.10.20:runtime
+[INFO]    |  +- com.typesafe.akka:akka-persistence-query_2.13:jar:2.10.20:runtime
+[INFO]    |  +- com.typesafe.akka:akka-serialization-jackson_2.13:jar:2.10.20:runtime
+[INFO]    |  |  \- at.yawk.lz4:lz4-java:jar:1.10.2:runtime
+[INFO]    |  +- com.typesafe.akka:akka-stream-typed_2.13:jar:2.10.20:runtime
+[INFO]    |  +- com.typesafe.akka:akka-remote_2.13:jar:2.10.20:runtime
+[INFO]    |  |  \- org.agrona:agrona:jar:1.22.0:runtime
+[INFO]    |  +- com.typesafe.akka:akka-cluster_2.13:jar:2.10.20:runtime
+[INFO]    |  |  \- com.typesafe.akka:akka-coordination_2.13:jar:2.10.20:runtime
+[INFO]    |  +- com.typesafe.akka:akka-cluster-typed_2.13:jar:2.10.20:runtime
+[INFO]    |  |  +- com.typesafe.akka:akka-cluster-tools_2.13:jar:2.10.20:runtime
+[INFO]    |  |  \- com.typesafe.akka:akka-distributed-data_2.13:jar:2.10.20:runtime
+[INFO]    |  |     \- org.lmdbjava:lmdbjava:jar:0.9.1:runtime
+[INFO]    |  |        +- com.github.jnr:jnr-constants:jar:0.10.4:runtime
+[INFO]    |  |        \- com.github.jnr:jnr-ffi:jar:2.2.17:runtime
+[INFO]    |  |           +- com.github.jnr:jffi:jar:1.3.13:runtime
+[INFO]    |  |           +- com.github.jnr:jffi:jar:native:1.3.13:runtime
+[INFO]    |  |           +- org.ow2.asm:asm:jar:9.7.1:runtime
+[INFO]    |  |           +- org.ow2.asm:asm-commons:jar:9.7.1:runtime
+[INFO]    |  |           +- org.ow2.asm:asm-analysis:jar:9.7.1:runtime
+[INFO]    |  |           +- org.ow2.asm:asm-tree:jar:9.7.1:runtime
+[INFO]    |  |           +- org.ow2.asm:asm-util:jar:9.7.1:runtime
+[INFO]    |  |           +- com.github.jnr:jnr-a64asm:jar:1.0.0:runtime
+[INFO]    |  |           \- com.github.jnr:jnr-x86asm:jar:1.0.2:runtime
+[INFO]    |  +- com.typesafe.akka:akka-cluster-sharding_2.13:jar:2.10.20:runtime
+[INFO]    |  +- com.typesafe.akka:akka-cluster-sharding-typed_2.13:jar:2.10.20:runtime
+[INFO]    |  +- com.typesafe:ssl-config-core_2.13:jar:0.7.1:runtime
+[INFO]    |  +- org.scala-lang.modules:scala-parser-combinators_2.13:jar:2.4.0:runtime
+[INFO]    |  +- io.grpc:grpc-auth:jar:1.77.1:runtime
+[INFO]    |  |  \- com.google.auth:google-auth-library-credentials:jar:1.24.1:runtime
+[INFO]    |  +- com.google.auth:google-auth-library-oauth2-http:jar:1.43.0:runtime
+[INFO]    |  |  +- com.google.auto.value:auto-value-annotations:jar:1.11.0:runtime
+[INFO]    |  |  +- com.google.http-client:google-http-client:jar:2.1.0:runtime
+[INFO]    |  |  |  +- org.apache.httpcomponents:httpclient:jar:4.5.14:runtime
+[INFO]    |  |  |  |  \- commons-codec:commons-codec:jar:1.11:runtime
+[INFO]    |  |  |  +- org.apache.httpcomponents:httpcore:jar:4.4.16:runtime
+[INFO]    |  |  |  +- io.opencensus:opencensus-api:jar:0.31.1:runtime
+[INFO]    |  |  |  \- io.opencensus:opencensus-contrib-http-util:jar:0.31.1:runtime
+[INFO]    |  |  +- com.google.http-client:google-http-client-gson:jar:2.1.0:runtime
+[INFO]    |  |  \- com.google.api:api-common:jar:2.53.0:runtime
+[INFO]    |  |     \- javax.annotation:javax.annotation-api:jar:1.3.2:runtime
+[INFO]    |  +- com.typesafe.akka:akka-http-caching_2.13:jar:10.7.4:runtime
+[INFO]    |  |  \- com.github.ben-manes.caffeine:caffeine:jar:2.9.3:runtime
+[INFO]    |  |     \- org.checkerframework:checker-qual:jar:3.19.0:runtime
+[INFO]    |  +- com.typesafe.akka:akka-http-jackson_2.13:jar:10.7.4:runtime
+[INFO]    |  +- com.typesafe.akka:akka-http-jwt_2.13:jar:10.7.4:runtime
+[INFO]    |  +- com.typesafe.akka:akka-stream-kafka_2.13:jar:8.0.2:runtime
+[INFO]    |  |  \- org.apache.kafka:kafka-clients:jar:4.1.2:runtime
+[INFO]    |  |     +- com.github.luben:zstd-jni:jar:1.5.6-10:runtime
+[INFO]    |  |     \- org.xerial.snappy:snappy-java:jar:1.1.10.7:runtime
+[INFO]    |  +- com.azure:azure-messaging-eventhubs-checkpointstore-blob:jar:1.20.9:runtime
+[INFO]    |  |  +- com.azure:azure-messaging-eventhubs:jar:5.20.5:runtime
+[INFO]    |  |  |  \- com.azure:azure-core-amqp:jar:2.10.2:runtime
+[INFO]    |  |  |     +- com.microsoft.azure:qpid-proton-j-extensions:jar:1.2.6:runtime
+[INFO]    |  |  |     \- org.apache.qpid:proton-j:jar:0.34.1:runtime
+[INFO]    |  |  \- com.azure:azure-storage-blob:jar:12.31.0:runtime
+[INFO]    |  |     +- com.azure:azure-xml:jar:1.2.0:runtime
+[INFO]    |  |     +- com.azure:azure-storage-common:jar:12.30.0:runtime
+[INFO]    |  |     \- com.azure:azure-storage-internal-avro:jar:12.16.0:runtime
+[INFO]    |  +- com.typesafe.akka:akka-http-spray-json_2.13:jar:10.7.4:runtime
+[INFO]    |  +- com.lightbend.akka.management:akka-management-cluster-bootstrap_2.13:jar:1.6.4:runtime
+[INFO]    |  |  \- com.lightbend.akka.management:akka-management_2.13:jar:1.6.4:runtime
+[INFO]    |  +- com.lightbend.akka.discovery:akka-discovery-kubernetes-api_2.13:jar:1.6.4:runtime
+[INFO]    |  |  \- com.lightbend.akka.management:akka-management-pki_2.13:jar:1.6.4:runtime
+[INFO]    |  +- com.lightbend.akka.management:akka-rolling-update-kubernetes_2.13:jar:1.6.4:runtime
+[INFO]    |  +- com.lightbend.akka.management:akka-management-loglevels-logback_2.13:jar:1.6.4:runtime
+[INFO]    |  +- com.lightbend.akka:akka-projection-core_2.13:jar:1.6.20:runtime
+[INFO]    |  +- com.lightbend.akka:akka-projection-eventsourced_2.13:jar:1.6.20:runtime
+[INFO]    |  +- com.lightbend.akka:akka-persistence-r2dbc_2.13:jar:1.3.16:runtime
+[INFO]    |  |  +- io.r2dbc:r2dbc-pool:jar:1.0.2.RELEASE:runtime
+[INFO]    |  |  |  +- io.projectreactor:reactor-core:jar:3.5.20:runtime
+[INFO]    |  |  |  \- io.projectreactor.addons:reactor-pool:jar:1.0.8:runtime
+[INFO]    |  |  +- org.postgresql:r2dbc-postgresql:jar:1.1.2.RELEASE:runtime
+[INFO]    |  |  |  \- com.ongres.scram:scram-common:jar:3.2:runtime
+[INFO]    |  |  +- com.ongres.scram:scram-client:jar:3.4:runtime
+[INFO]    |  |  |  +- com.ongres.stringprep:saslprep:jar:2.4:runtime
+[INFO]    |  |  |  \- com.ongres.stringprep:stringprep:jar:2.4:runtime
+[INFO]    |  |  +- io.projectreactor.netty:reactor-netty-core:jar:1.2.18:runtime
+[INFO]    |  |  |  +- io.netty:netty-resolver-dns-native-macos:jar:osx-x86_64:4.1.135.Final:runtime
+[INFO]    |  |  |  \- io.netty:netty-transport-native-epoll:jar:linux-x86_64:4.1.135.Final:runtime
+[INFO]    |  |  +- io.netty:netty-buffer:jar:4.1.136.Final:runtime
+[INFO]    |  |  +- io.netty:netty-codec:jar:4.1.136.Final:runtime
+[INFO]    |  |  +- io.netty:netty-codec-dns:jar:4.1.136.Final:runtime
+[INFO]    |  |  +- io.netty:netty-codec-http:jar:4.1.136.Final:runtime
+[INFO]    |  |  +- io.netty:netty-codec-socks:jar:4.1.136.Final:runtime
+[INFO]    |  |  +- io.netty:netty-common:jar:4.1.136.Final:runtime
+[INFO]    |  |  +- io.netty:netty-handler:jar:4.1.136.Final:runtime
+[INFO]    |  |  +- io.netty:netty-handler-proxy:jar:4.1.136.Final:runtime
+[INFO]    |  |  +- io.netty:netty-resolver:jar:4.1.136.Final:runtime
+[INFO]    |  |  +- io.netty:netty-resolver-dns:jar:4.1.136.Final:runtime
+[INFO]    |  |  +- io.netty:netty-resolver-dns-classes-macos:jar:4.1.136.Final:runtime
+[INFO]    |  |  +- io.netty:netty-resolver-dns-native-macos:jar:4.1.136.Final:runtime
+[INFO]    |  |  +- io.netty:netty-transport:jar:4.1.136.Final:runtime
+[INFO]    |  |  +- io.netty:netty-transport-classes-epoll:jar:4.1.136.Final:runtime
+[INFO]    |  |  +- io.netty:netty-transport-native-epoll:jar:4.1.136.Final:runtime
+[INFO]    |  |  \- io.netty:netty-transport-native-unix-common:jar:4.1.136.Final:runtime
+[INFO]    |  +- com.lightbend.akka:akka-projection-r2dbc_2.13:jar:1.6.20:runtime
+[INFO]    |  |  \- com.lightbend.akka:akka-projection-durable-state_2.13:jar:1.6.20:runtime
+[INFO]    |  +- com.lightbend.akka:akka-projection-grpc_2.13:jar:1.6.20:runtime
+[INFO]    |  +- io.prometheus:prometheus-metrics-core:jar:1.5.1:runtime
+[INFO]    |  |  +- io.prometheus:prometheus-metrics-model:jar:1.5.1:runtime
+[INFO]    |  |  +- io.prometheus:prometheus-metrics-config:jar:1.5.1:runtime
+[INFO]    |  |  \- io.prometheus:prometheus-metrics-tracer-initializer:jar:1.5.1:runtime
+[INFO]    |  |     +- io.prometheus:prometheus-metrics-tracer-common:jar:1.5.1:runtime
+[INFO]    |  |     +- io.prometheus:prometheus-metrics-tracer-otel:jar:1.5.1:runtime
+[INFO]    |  |     \- io.prometheus:prometheus-metrics-tracer-otel-agent:jar:1.5.1:runtime
+[INFO]    |  +- io.prometheus:prometheus-metrics-instrumentation-jvm:jar:1.5.1:runtime
+[INFO]    |  +- io.prometheus:prometheus-metrics-exposition-formats:jar:1.5.1:runtime
+[INFO]    |  |  \- io.prometheus:prometheus-metrics-exposition-textformats:jar:1.5.1:runtime
+[INFO]    |  +- com.fasterxml.jackson.dataformat:jackson-dataformat-cbor:jar:2.21.5:runtime
+[INFO]    |  +- com.github.jwt-scala:jwt-json-common_2.13:jar:10.0.4:runtime
+[INFO]    |  |  \- com.github.jwt-scala:jwt-core_2.13:jar:10.0.4:runtime
+[INFO]    |  +- org.bitbucket.b_c:jose4j:jar:0.9.6:runtime
+[INFO]    |  +- io.spray:spray-json_2.13:jar:1.3.6:runtime
+[INFO]    |  +- dev.langchain4j:langchain4j-open-ai:jar:1.15.0:runtime
+[INFO]    |  |  +- dev.langchain4j:langchain4j-http-client:jar:1.15.0:runtime
+[INFO]    |  |  +- dev.langchain4j:langchain4j-http-client-jdk:jar:1.15.0:runtime
+[INFO]    |  |  \- com.knuddels:jtokkit:jar:1.1.0:runtime
+[INFO]    |  +- dev.langchain4j:langchain4j-anthropic:jar:1.15.0:runtime
+[INFO]    |  +- dev.langchain4j:langchain4j-google-ai-gemini:jar:1.15.0:runtime
+[INFO]    |  +- dev.langchain4j:langchain4j-local-ai:jar:1.15.0-beta25:runtime
+[INFO]    |  +- dev.langchain4j:langchain4j-ollama:jar:1.15.0:runtime
+[INFO]    |  +- dev.langchain4j:langchain4j-mistral-ai:jar:1.15.0:runtime
+[INFO]    |  +- dev.langchain4j:langchain4j-bedrock:jar:1.15.0:runtime
+[INFO]    |  |  \- software.amazon.awssdk:bedrockruntime:jar:2.41.34:runtime
+[INFO]    |  |     +- software.amazon.awssdk:protocol-core:jar:2.41.34:runtime
+[INFO]    |  |     +- software.amazon.awssdk:aws-json-protocol:jar:2.41.34:runtime
+[INFO]    |  |     |  \- software.amazon.awssdk:third-party-jackson-core:jar:2.41.34:runtime
+[INFO]    |  |     +- software.amazon.awssdk:http-auth-aws:jar:2.41.34:runtime
+[INFO]    |  |     |  \- software.amazon.awssdk:checksums:jar:2.41.34:runtime
+[INFO]    |  |     +- software.amazon.awssdk:sdk-core:jar:2.41.34:runtime
+[INFO]    |  |     |  \- software.amazon.awssdk:retries:jar:2.41.34:runtime
+[INFO]    |  |     +- software.amazon.awssdk:http-auth-spi:jar:2.41.34:runtime
+[INFO]    |  |     +- software.amazon.awssdk:http-auth:jar:2.41.34:runtime
+[INFO]    |  |     +- software.amazon.awssdk:identity-spi:jar:2.41.34:runtime
+[INFO]    |  |     +- software.amazon.awssdk:http-client-spi:jar:2.41.34:runtime
+[INFO]    |  |     +- software.amazon.awssdk:regions:jar:2.41.34:runtime
+[INFO]    |  |     +- software.amazon.awssdk:annotations:jar:2.41.34:runtime
+[INFO]    |  |     +- software.amazon.awssdk:utils:jar:2.41.34:runtime
+[INFO]    |  |     +- software.amazon.awssdk:aws-core:jar:2.41.34:runtime
+[INFO]    |  |     |  \- software.amazon.awssdk:utils-lite:jar:2.41.34:runtime
+[INFO]    |  |     +- software.amazon.awssdk:metrics-spi:jar:2.41.34:runtime
+[INFO]    |  |     +- software.amazon.awssdk:json-utils:jar:2.41.34:runtime
+[INFO]    |  |     +- software.amazon.awssdk:endpoints-spi:jar:2.41.34:runtime
+[INFO]    |  |     +- software.amazon.awssdk:retries-spi:jar:2.41.34:runtime
+[INFO]    |  |     +- software.amazon.awssdk:apache-client:jar:2.41.34:runtime
+[INFO]    |  |     \- software.amazon.awssdk:netty-nio-client:jar:2.41.34:runtime
+[INFO]    |  +- dev.langchain4j:langchain4j-azure-open-ai:jar:1.15.0:runtime
+[INFO]    |  |  \- com.azure:azure-ai-openai:jar:1.0.0-beta.16:runtime
+[INFO]    |  +- com.google.genai:google-genai:jar:1.45.0:runtime
+[INFO]    |  |  +- org.java-websocket:Java-WebSocket:jar:1.6.0:runtime
+[INFO]    |  |  \- com.squareup.okhttp3:okhttp:jar:4.12.0:runtime
+[INFO]    |  |     \- com.squareup.okio:okio:jar:3.6.0:runtime
+[INFO]    |  |        \- com.squareup.okio:okio-jvm:jar:3.6.0:runtime
+[INFO]    |  |           \- org.jetbrains.kotlin:kotlin-stdlib-common:jar:1.9.10:runtime
+[INFO]    |  +- org.slf4j:jcl-over-slf4j:jar:2.0.17:runtime
+[INFO]    |  +- org.jetbrains.kotlin:kotlin-stdlib:jar:2.3.20:runtime
+[INFO]    |  |  \- org.jetbrains:annotations:jar:13.0:runtime
+[INFO]    |  +- org.jetbrains.kotlin:kotlin-stdlib-jdk7:jar:2.3.20:runtime
+[INFO]    |  +- org.jetbrains.kotlin:kotlin-stdlib-jdk8:jar:2.3.20:runtime
+[INFO]    |  +- dev.langchain4j:langchain4j-embeddings-all-minilm-l6-v2-q:jar:1.15.0-beta25:runtime
+[INFO]    |  |  \- dev.langchain4j:langchain4j-embeddings:jar:1.15.0-beta25:runtime
+[INFO]    |  |     +- com.microsoft.onnxruntime:onnxruntime:jar:1.20.0:runtime
+[INFO]    |  |     +- ai.djl:api:jar:0.36.0:runtime
+[INFO]    |  |     |  \- org.apache.commons:commons-compress:jar:1.27.1:runtime
+[INFO]    |  |     |     \- commons-io:commons-io:jar:2.16.1:runtime
+[INFO]    |  |     \- ai.djl.huggingface:tokenizers:jar:0.36.0:runtime
+[INFO]    |  +- com.lightbend.akka:akka-stream-alpakka-s3_2.13:jar:10.0.4:runtime
+[INFO]    |  |  \- software.amazon.awssdk:auth:jar:2.36.3:runtime
+[INFO]    |  |     +- software.amazon.awssdk:profiles:jar:2.36.3:runtime
+[INFO]    |  |     +- software.amazon.awssdk:http-auth-aws-eventstream:jar:2.36.3:runtime
+[INFO]    |  |     +- software.amazon.awssdk:checksums-spi:jar:2.36.3:runtime
+[INFO]    |  |     \- software.amazon.eventstream:eventstream:jar:1.0.1:runtime
+[INFO]    |  +- com.lightbend.akka:akka-stream-alpakka-google-cloud-storage_2.13:jar:10.0.4:runtime
+[INFO]    |  |  \- com.lightbend.akka:akka-stream-alpakka-google-common_2.13:jar:10.0.4:runtime
+[INFO]    |  +- com.lightbend.akka:akka-stream-alpakka-azure-storage_2.13:jar:10.0.4:runtime
+[INFO]    |  |  \- com.azure:azure-core:jar:1.55.3:runtime
+[INFO]    |  +- com.azure:azure-identity:jar:1.18.4:runtime
+[INFO]    |  |  +- com.azure:azure-core-http-netty:jar:1.16.5:runtime
+[INFO]    |  |  |  +- io.netty:netty-codec-http2:jar:4.1.135.Final:runtime
+[INFO]    |  |  |  +- io.netty:netty-transport-native-kqueue:jar:osx-x86_64:4.1.135.Final:runtime
+[INFO]    |  |  |  |  \- io.netty:netty-transport-classes-kqueue:jar:4.1.135.Final:runtime
+[INFO]    |  |  |  +- io.netty:netty-tcnative-boringssl-static:jar:2.0.78.Final:runtime
+[INFO]    |  |  |  |  +- io.netty:netty-tcnative-classes:jar:2.0.78.Final:runtime
+[INFO]    |  |  |  |  +- io.netty:netty-tcnative-boringssl-static:jar:linux-x86_64:2.0.78.Final:runtime
+[INFO]    |  |  |  |  +- io.netty:netty-tcnative-boringssl-static:jar:linux-aarch_64:2.0.78.Final:runtime
+[INFO]    |  |  |  |  +- io.netty:netty-tcnative-boringssl-static:jar:osx-x86_64:2.0.78.Final:runtime
+[INFO]    |  |  |  |  +- io.netty:netty-tcnative-boringssl-static:jar:osx-aarch_64:2.0.78.Final:runtime
+[INFO]    |  |  |  |  \- io.netty:netty-tcnative-boringssl-static:jar:windows-x86_64:2.0.78.Final:runtime
+[INFO]    |  |  |  \- io.projectreactor.netty:reactor-netty-http:jar:1.2.18:runtime
+[INFO]    |  |  +- com.azure:azure-json:jar:1.5.1:runtime
+[INFO]    |  |  +- com.microsoft.azure:msal4j:jar:1.23.1:runtime
+[INFO]    |  |  +- com.microsoft.azure:msal4j-persistence-extension:jar:1.3.0:runtime
+[INFO]    |  |  |  \- net.java.dev.jna:jna:jar:5.13.0:runtime
+[INFO]    |  |  \- net.java.dev.jna:jna-platform:jar:5.17.0:runtime
+[INFO]    |  +- com.typesafe.akka:akka-http-xml_2.13:jar:10.7.4:runtime
+[INFO]    |  |  \- org.scala-lang.modules:scala-xml_2.13:jar:2.4.0:runtime
+[INFO]    |  +- io.opentelemetry:opentelemetry-exporter-otlp:jar:1.64.0:runtime
+[INFO]    |  |  +- io.opentelemetry:opentelemetry-exporter-otlp-common:jar:1.64.0:runtime
+[INFO]    |  |  |  \- io.opentelemetry:opentelemetry-exporter-common:jar:1.64.0:runtime
+[INFO]    |  |  \- io.opentelemetry:opentelemetry-exporter-sender-okhttp:jar:1.64.0:runtime
+[INFO]    |  |     \- com.squareup.okhttp3:okhttp-jvm:jar:5.4.0:runtime
+[INFO]    |  +- io.opentelemetry.semconv:opentelemetry-semconv-incubating:jar:1.39.0-alpha:runtime
+[INFO]    |  +- io.opentelemetry.instrumentation:opentelemetry-runtime-telemetry-java17:jar:2.27.0-alpha:runtime
+[INFO]    |  |  +- io.opentelemetry.instrumentation:opentelemetry-instrumentation-api:jar:2.27.0:runtime
+[INFO]    |  |  |  \- io.opentelemetry:opentelemetry-api-incubator:jar:1.61.0-alpha:runtime
+[INFO]    |  |  +- io.opentelemetry.instrumentation:opentelemetry-instrumentation-api-incubator:jar:2.27.0-alpha:runtime
+[INFO]    |  |  \- io.opentelemetry.instrumentation:opentelemetry-runtime-telemetry:jar:2.27.0-alpha:runtime
+[INFO]    |  \- com.arize:openinference-semantic-conventions:jar:0.1.11:runtime
+[INFO]    +- com.h2database:h2:jar:2.2.224:runtime
+[INFO]    \- io.r2dbc:r2dbc-h2:jar:1.0.0.RELEASE:runtime
+[INFO]       \- io.r2dbc:r2dbc-spi:jar:1.0.0.RELEASE:runtime
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  1.553 s
+[INFO] Finished at: 2026-09-23T07:41:26+10:00
+[INFO] ------------------------------------------------------------------------

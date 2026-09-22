@@ -5,7 +5,9 @@ commands to a sharded EventSourcedEntity can leave one message buffered in a sha
 never gets a shard home, and stopping the runtime then waits about nine seconds for it. Sending
 that burst from `ServiceSetup.onStartup()` makes the stall common rather than rare, because
 `start()` does not wait for the hook and the commands are still in flight when the caller stops
-the runtime. Related upstream issues: akka-core#33001 and lightbend/akka-runtime#5719.
+the runtime. Related upstream issues:
+[akka-core#33001](https://github.com/akka/akka-core/issues/33001) and
+[lightbend/akka-runtime#5719](https://github.com/lightbend/akka-runtime/issues/5719).
 
 The stall is only visible against Akka jars carrying the fixes listed under "Observed on a patched
 jarset". On the released jars an ordinary stop() takes about a second, which hides it. A further
@@ -109,9 +111,13 @@ separate the arms.
 
 ## Observed on a patched jarset
 
-The same test against a local build carrying akka-core #32997, #32998 and #33000, akka-projection
-#1457 and akka-runtime #5718, resolved as akka-runtime 1.6.15, akka-cluster 2.10.20 and
-akka-projection 1.6.20. Two runs of all three arms:
+The same test against a local build carrying akka-core
+[#32997](https://github.com/akka/akka-core/pull/32997),
+[#32998](https://github.com/akka/akka-core/pull/32998) and
+[#33000](https://github.com/akka/akka-core/pull/33000), akka-projection
+[#1457](https://github.com/akka/akka-projection/pull/1457) and akka-runtime
+[#5718](https://github.com/lightbend/akka-runtime/pull/5718), resolved as akka-runtime 1.6.15,
+akka-cluster 2.10.20 and akka-projection 1.6.20. Two runs of all three arms:
 
 ```
 [baseline, no burst]
@@ -140,19 +146,22 @@ throughout:
 
 | akka-core patches carried | akka-projection / akka-runtime | Runs × cycles | Stalled cycles | Ordinary stop() |
 |---|---|---|---|---|
-| #32997 + #32998 | released | 3 × 15 = 45 | 0 | ~15-20ms |
-| #32997 + #32998 + #33000 | released | 4 × 15 = 60 | 4 | ~1.25s |
-| #33000 alone | released | 4 × 15 = 60 | 3 | ~2.2-2.3s |
+| [#32997](https://github.com/akka/akka-core/pull/32997) + [#32998](https://github.com/akka/akka-core/pull/32998) | released | 3 × 15 = 45 | 0 | ~15-20ms |
+| [#32997](https://github.com/akka/akka-core/pull/32997) + [#32998](https://github.com/akka/akka-core/pull/32998) + [#33000](https://github.com/akka/akka-core/pull/33000) | released | 4 × 15 = 60 | 4 | ~1.25s |
+| [#33000](https://github.com/akka/akka-core/pull/33000) alone | released | 4 × 15 = 60 | 3 | ~2.2-2.3s |
 
-**#33000 ("retry singleton identification from proxy with backoff") is the whole requirement.**
-Alone, with neither of the other two akka-core patches and neither of the non-core ones, it
-reproduces the same 9.0-10.0-second stall at the same rate as every combination that includes it,
-roughly one cycle in 15 to 20. #32997 and #32998 only change how fast an ordinary, non-stalled
-stop() completes: with them and without #33000, the whole eight-command burst finishes inside
-onStartup() in about 180 milliseconds, before start() returns, so there is nothing left in flight
-for a stop() to race against, and 45 cycles produced no stall at all. akka-projection#1457 and
-akka-runtime#5718 were never in any of these three builds and the stall reproduces without them just
-as it does with them.
+**[#33000](https://github.com/akka/akka-core/pull/33000) ("retry singleton identification from
+proxy with backoff") is the whole requirement.** Alone, with neither of the other two akka-core
+patches and neither of the non-core ones, it reproduces the same 9.0-10.0-second stall at the same
+rate as every combination that includes it, roughly one cycle in 15 to 20.
+[#32997](https://github.com/akka/akka-core/pull/32997) and
+[#32998](https://github.com/akka/akka-core/pull/32998) only change how fast an ordinary,
+non-stalled stop() completes: with them and without [#33000](https://github.com/akka/akka-core/pull/33000), the whole eight-command burst finishes
+inside onStartup() in about 180 milliseconds, before start() returns, so there is nothing left in
+flight for a stop() to race against, and 45 cycles produced no stall at all.
+[akka-projection#1457](https://github.com/akka/akka-projection/pull/1457) and
+[akka-runtime#5718](https://github.com/lightbend/akka-runtime/pull/5718) were never in any of these
+three builds and the stall reproduces without them just as it does with them.
 
 ## What the stall is
 

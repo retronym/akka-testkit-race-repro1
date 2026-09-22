@@ -1,0 +1,94 @@
+OpenJDK 64-Bit Server VM warning: Option AlwaysActAsServerClassMachine was deprecated in version 26.0 and will likely be removed in a future release.
+OpenJDK 64-Bit Server VM warning: Option AlwaysActAsServerClassMachine was deprecated in version 26.0 and will likely be removed in a future release.
+[info] welcome to sbt 1.11.2 (Eclipse Adoptium Java 26)
+[info] loading global plugins from /Users/jz/code/worktrees/.mvn/sbt-global/plugins
+[info] loading settings for project akka-core-build from plugins.sbt...
+[info] loading project definition from /Users/jz/code/akka-core/project
+[info] loading settings for project akka from build.sbt...
+[info] resolving key references (46427 settings) ...
+[info] 
+[info] 
+[info]                         .~!77!^                            :::          :::
+[info]                      .^!???????~                          .5GP:        .5GP:
+[info]                    :~???????????!              ...        .PGP:      . .5GP:      .     ...
+[info]                 .~7??????????????!          ~J5PPP5J!Y5Y. .5GP:  .?557..5GP:  .?557..!J5PPP5?!55J
+[info]              .^!??????????????????7.      :5GGY!~~!JPGGP. .5GP:.7PGY^  .5GP:.7PGY^ ^5GGJ!~~!YGGG5
+[info]            :~7?????????????????????7.     YGG!      ^PGP. .5GP?PG5^    .5GP?PG5^  .PGP^      ~GGY
+[info]         .^7?????????????JJYY55555YYJ?.   .5GG^      .PGP. .5GGG5GP7.   .5GGG5GP7. :PGP:      :PGY
+[info]       :!????????????JY5PPGGGGGGGGGGGP5^   ~PGP7:..:!5GGP: .PGG~ ~5BP!  .5GG~ ~5BP! !GG5!:..:7PGG5.
+[info]    .~7??????????JY5PGGGGGGGGGGGGGGGGGGP^   :?5GGPPPPJJPGG7 5GP:  .7PGY^.5GP:   7PGY^^JPGGPPPP?JPGP!
+[info]   :??????????JYPGGGGPPPPPGGGGGGGGGGGGGGJ     .:^^^:.  :^^: :::     .::: :::     .:::  .:^^^:.  :^^.
+[info]   ^????????7???7~~^::::::^^~!?Y5GGGGGGG7
+[info]    ^!7??7~:.                   .^7YPP57
+[info]      ...                           .:.
+[info]                                                                                                       
+[info]  2.10.20+3-749f4324-SNAPSHOT
+[info] 
+[info] 
+[info]  Useful sbt tasks:
+[info]  > testOnly *.AnySpec         Only run a selected test
+[info]  > verifyCodeStyle            Verify code style
+[info]  > applyCodeStyle             Apply code style
+[info]  > mimaReportBinaryIssues     Check binary issues
+[info]  > validatePullRequest        Validate pull request
+[info]  > akka-docs/paradox          Build documentation
+[info]  > akka-docs/paradoxBrowse    Browse the generated documentation
+[info] 
+[info]  Contributing guide: https://github.com/akka/akka-core/blob/main/CONTRIBUTING.md
+[info]  tips: prefix commands with + to run against cross Scala versions.
+[info] 
+[info] Defining Global / version, ThisBuild / version and 1 others.
+[info] The new values will be used by Compile / doc / scalacOptions, Compile / packageBin / packageOptions and 680 others.
+[info] 	Run `last` for details.
+[info] Reapplying settings...
+[info] 
+[info] 
+[info]                         .~!77!^                            :::          :::
+[info]                      .^!???????~                          .5GP:        .5GP:
+[info]                    :~???????????!              ...        .PGP:      . .5GP:      .     ...
+[info]                 .~7??????????????!          ~J5PPP5J!Y5Y. .5GP:  .?557..5GP:  .?557..!J5PPP5?!55J
+[info]              .^!??????????????????7.      :5GGY!~~!JPGGP. .5GP:.7PGY^  .5GP:.7PGY^ ^5GGJ!~~!YGGG5
+[info]            :~7?????????????????????7.     YGG!      ^PGP. .5GP?PG5^    .5GP?PG5^  .PGP^      ~GGY
+[info]         .^7?????????????JJYY55555YYJ?.   .5GG^      .PGP. .5GGG5GP7.   .5GGG5GP7. :PGP:      :PGY
+[info]       :!????????????JY5PPGGGGGGGGGGGP5^   ~PGP7:..:!5GGP: .PGG~ ~5BP!  .5GG~ ~5BP! !GG5!:..:7PGG5.
+[info]    .~7??????????JY5PGGGGGGGGGGGGGGGGGGP^   :?5GGPPPPJJPGG7 5GP:  .7PGY^.5GP:   7PGY^^JPGGPPPP?JPGP!
+[info]   :??????????JYPGGGGPPPPPGGGGGGGGGGGGGGJ     .:^^^:.  :^^: :::     .::: :::     .:::  .:^^^:.  :^^.
+[info]   ^????????7???7~~^::::::^^~!?Y5GGGGGGG7
+[info]    ^!7??7~:.                   .^7YPP57
+[info]      ...                           .:.
+[info]                                                                                                       
+[info]  2.10.20
+[info] 
+[info] 
+[info]  Useful sbt tasks:
+[info]  > testOnly *.AnySpec         Only run a selected test
+[info]  > verifyCodeStyle            Verify code style
+[info]  > applyCodeStyle             Apply code style
+[info]  > mimaReportBinaryIssues     Check binary issues
+[info]  > validatePullRequest        Validate pull request
+[info]  > akka-docs/paradox          Build documentation
+[info]  > akka-docs/paradoxBrowse    Browse the generated documentation
+[info] 
+[info]  Contributing guide: https://github.com/akka/akka-core/blob/main/CONTRIBUTING.md
+[info]  tips: prefix commands with + to run against cross Scala versions.
+[info] 
+[info] Assembly jar up to date: /private/tmp/claude-501/-Users-jz-code-worktrees-nexus-review-feedback-592-06d0be/a5f122e1-47af-4243-ba15-d0f60b2cee93/scratchpad/akka-core/akka-protobuf-v3/target/scala-2.13/akka-protobuf-v3-assembly-2.10.20.jar
+[info] Wrote /Users/jz/code/akka-core/akka-cluster/target/scala-2.13/akka-cluster_2.13-2.10.20.pom
+[info] 	published akka-cluster_2.13 to file:/Users/jz/code/akka-testkit-race-repro/.mvn-bisect/core-32997-32998-33000/com/typesafe/akka/akka-cluster_2.13/2.10.20/akka-cluster_2.13-2.10.20.pom
+[info] 	published akka-cluster_2.13 to file:/Users/jz/code/akka-testkit-race-repro/.mvn-bisect/core-32997-32998-33000/com/typesafe/akka/akka-cluster_2.13/2.10.20/akka-cluster_2.13-2.10.20.jar
+[info] 	published akka-cluster_2.13 to file:/Users/jz/code/akka-testkit-race-repro/.mvn-bisect/core-32997-32998-33000/com/typesafe/akka/akka-cluster_2.13/2.10.20/akka-cluster_2.13-2.10.20.buildinfo
+[info] 	published akka-cluster_2.13 to file:/Users/jz/code/akka-testkit-race-repro/.mvn-bisect/core-32997-32998-33000/com/typesafe/akka/akka-cluster_2.13/2.10.20/akka-cluster_2.13-2.10.20-javadoc.jar
+[info] 	published akka-cluster_2.13 to file:/Users/jz/code/akka-testkit-race-repro/.mvn-bisect/core-32997-32998-33000/com/typesafe/akka/akka-cluster_2.13/2.10.20/akka-cluster_2.13-2.10.20-sources.jar
+[success] Total time: 2 s, completed 23 Sept 2026, 7:41:14 am
+[info] Assembly jar up to date: /private/tmp/claude-501/-Users-jz-code-worktrees-nexus-review-feedback-592-06d0be/a5f122e1-47af-4243-ba15-d0f60b2cee93/scratchpad/akka-core/akka-protobuf-v3/target/scala-2.13/akka-protobuf-v3-assembly-2.10.20.jar
+[info] Wrote /Users/jz/code/akka-core/akka-cluster-tools/target/scala-2.13/akka-cluster-tools_2.13-2.10.20.pom
+[info] Main Scala API documentation to /Users/jz/code/akka-core/akka-cluster-tools/target/scala-2.13/api...
+[info] Main Scala API documentation successful.
+[info] compiling 1 Scala source to /Users/jz/code/akka-core/akka-cluster-tools/target/scala-2.13/classes ...
+[info] done compiling
+[info] 	published akka-cluster-tools_2.13 to file:/Users/jz/code/akka-testkit-race-repro/.mvn-bisect/core-32997-32998-33000/com/typesafe/akka/akka-cluster-tools_2.13/2.10.20/akka-cluster-tools_2.13-2.10.20-sources.jar
+[info] 	published akka-cluster-tools_2.13 to file:/Users/jz/code/akka-testkit-race-repro/.mvn-bisect/core-32997-32998-33000/com/typesafe/akka/akka-cluster-tools_2.13/2.10.20/akka-cluster-tools_2.13-2.10.20.jar
+[info] 	published akka-cluster-tools_2.13 to file:/Users/jz/code/akka-testkit-race-repro/.mvn-bisect/core-32997-32998-33000/com/typesafe/akka/akka-cluster-tools_2.13/2.10.20/akka-cluster-tools_2.13-2.10.20-javadoc.jar
+[info] 	published akka-cluster-tools_2.13 to file:/Users/jz/code/akka-testkit-race-repro/.mvn-bisect/core-32997-32998-33000/com/typesafe/akka/akka-cluster-tools_2.13/2.10.20/akka-cluster-tools_2.13-2.10.20.pom
+[info] 	published akka-cluster-tools_2.13 to file:/Users/jz/code/akka-testkit-race-repro/.mvn-bisect/core-32997-32998-33000/com/typesafe/akka/akka-cluster-tools_2.13/2.10.20/akka-cluster-tools_2.13-2.10.20.buildinfo
+[success] Total time: 5 s, completed 23 Sept 2026, 7:41:20 am
