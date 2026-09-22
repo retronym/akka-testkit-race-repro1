@@ -15,7 +15,9 @@ change to `ShardRegion`, built on top of those, removes the stall; see the last 
 
 The project carries no business logic. It holds one bare entity, three projections over it, a
 `ServiceSetup` whose startup hook sends a small burst of commands to that entity, and one test that
-cycles the TestKit runtime and prints how long each start and each stop took.
+cycles the TestKit runtime and prints how long each start and each stop took. "The same gap, direct
+against akka-core" below reproduces it a second way, with `ClusterSharding` used directly and no
+Akka SDK involved at all.
 
 ## Components
 
@@ -379,6 +381,31 @@ satisfied exactly as designed, on every cycle. `build-core-combo.sh` publishes `
 alongside `akka-cluster` and `akka-cluster-tools`; its own comment says to check a built jar for a
 marker string from the patch, such as `dropShardBuffers`, before trusting any "plus the fix" result,
 which is how a jar that silently lacked the fix would be caught.
+
+## The same gap, direct against akka-core
+
+Everything above goes through the Akka SDK: `TestKit`, `ServiceSetup`, an `EventSourcedEntity`.
+The patch also carries `SingleNodeGracefulShutdownSpec.scala`, an `akka.testkit.AkkaSpec` inside
+akka-core's own `akka-cluster-sharding` test suite, using `ClusterSharding` directly with no SDK
+layer at all. A copy for reading without applying the patch is at
+[`akka-core-only-repro/SingleNodeGracefulShutdownSpec.scala`](akka-core-only-repro/SingleNodeGracefulShutdownSpec.scala).
+
+It starts a single-node cluster, starts sharding with remember-entities on, sends one message to
+each of 14 shards to start their entities, then starts a background thread sending to all 14 shards
+every 5 milliseconds so traffic is still arriving when shutdown begins, runs
+`CoordinatedShutdown(system).run(...)`, and asserts the whole thing completes in under 5 seconds.
+
+Run from an akka-core checkout at `v2.10.20`:
+
+```bash
+sbt 'akka-cluster-sharding/testOnly akka.cluster.sharding.SingleNodeGracefulShutdownSpec'
+```
+
+Without the `ShardRegion.scala` half of the patch, only the spec file added (cherry-picked onto
+`v2.10.20` plus `#32997`/`#32998`/`#33000`, the same base as "Which patch the stall needs" above):
+the assertion fails, `CoordinatedShutdown took 9052ms`. With the full patch applied: `CoordinatedShutdown
+took 35ms`, test passes. Same failure mode, same nine-second signature, with `ClusterSharding` used
+directly and nothing from the Akka SDK anywhere in the picture.
 
 **One layer above, the service side deserves its own question.** `start()` returns while
 `onStartup()` is still issuing commands, so a caller that stops the runtime promptly stops it with
