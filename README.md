@@ -138,31 +138,41 @@ region owns no shards, so nothing will ever deliver that message, and graceful s
 whole timeout before giving up. The region is the runtime's own `_timer` region, not the region of
 the entity the test drives.
 
-## What the arms show
+## What the runs support
 
-Run each arm on its own to keep one arm's cycles from warming up the next:
+Every sample below comes from `./harness.sh` against the patched jarset, one arm per JVM. A stall
+is a cycle whose `stop()` exceeded nine seconds; each one is accompanied by exactly one of the
+warnings above, and no run produced that warning without a stall.
 
-```bash
-mvn test -Dtest='BootstrapWorkTimingTest#withBurstFromOnStartup' ...
-```
+| Arm | Runs | Cycles | Stalled cycles |
+|---|---|---|---|
+| burst from `onStartup()` | 6 | 90 | 7, in 5 of the 6 runs |
+| burst after `start()` returns | 7 | 105 | 1, in 1 of the 7 runs |
+| baseline, no burst | 6 | 90 | 0 |
 
-Run that way, on the patched jarset:
+The claim those numbers support is narrower than "onStartup is required":
 
-```
-[burst from onStartup()]
-stop(): [9049, 222, 1256, 1266, 1243, 1246, 1248, 237, 217, 1247, 1236, 1246, 1239, 1237, 1250]
+- **The burst is necessary.** No run that sent no commands stalled, in 90 cycles.
+- **Sending the burst from `onStartup()` makes the stall common rather than rare.** It appeared in
+  5 of 6 runs there, against 1 of 7 when the same burst went out after `start()` had returned.
+  Issuing the work after the cluster is up reduces the stall, it does not remove it.
+- **`onStartup()` also raises the ordinary stop() cost.** With the burst there, stop() alternates
+  between about 230 milliseconds and about 1.25 seconds. With the burst after start, every
+  unstalled cycle is between 6 and 132 milliseconds.
 
-[baseline, no burst]
-stop(): [141, 245, 1265, 1254, 225, 236, 1238, 247, 1238, 217, 227, 1258, 1258, 238, 1237]
+The one stall in the after-start arm named a different region, `_timer`, where every stall in the
+`onStartup()` arm named `passivation-race-entity`. One sample is not enough to call that a
+distinction.
 
-[burst after start() returns]
-stop(): [9051, 15, 14, 14, 6, 9, 11, 15, 9, 9, 14, 13, 12, 16, 9]
-```
+The shard home lookups are not the signal. At debug level a run logs between 45 and 74 of
+`Requesting shard home for`, in stalled and unstalled runs alike. Read the stop() distribution and
+the graceful shutdown warning instead.
 
-Two things separate here:
+Debug logging is itself a timing change, so both levels were sampled. The table mixes them: 2 runs
+per arm at debug, 4 at warn, and the arms separate the same way at either level.
 
-- The stall needs the burst, and it does not need `onStartup()`. Both burst arms stall once, and
-  the arm that sends no commands at all never does. The graceful shutdown warning appears exactly
-  once per JVM fork in every run that sends a burst, and never in a run that does not.
-- Sending the burst from `onStartup()` does raise the ordinary stop() cost, from about 8
-  milliseconds to a floor that alternates between about 220 milliseconds and about 1.25 seconds.
+## Logging
+
+The runtime's dev-mode logback config sets the whole `akka` logger to WARN. This project raises
+sharding, singleton and coordinated shutdown to DEBUG through `include-dev-loggers.xml`, which that
+config includes last. `./harness.sh --quiet` puts them back to WARN for a run.

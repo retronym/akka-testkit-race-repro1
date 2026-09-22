@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The runtime's dev-mode logback config sets the whole `akka` logger to WARN, and includes this
+     file last so a service can raise what it needs. Sharding and coordinated shutdown are what
+     this reproduction reads: the shard home lookups on the way up, and which region the stalled
+     cycle reports at the end.
+
+     Debug logging is itself a timing change. The level is a property so a run can be repeated
+     with it lowered, which is what ./harness.sh --quiet does. -->
+<included>
+    <logger name="akka.cluster.sharding" level="${repro.akka.log.level:-DEBUG}"/>
+    <logger name="akka.cluster.singleton" level="${repro.akka.log.level:-DEBUG}"/>
+    <logger name="akka.actor.CoordinatedShutdown" level="${repro.akka.log.level:-DEBUG}"/>
+    <!-- Always on: the line that names the stalled cycle's region is a WARN. -->
+    <logger name="akka.cluster.sharding.ShardRegion" level="INFO"/>
+    <logger name="repro" level="DEBUG"/>
+</included>
