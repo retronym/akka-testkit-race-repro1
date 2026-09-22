@@ -1,0 +1,313 @@
+[INFO] Scanning for projects...
+[INFO] ------------------------------------------------------------------------
+[INFO] Detecting the operating system and CPU architecture
+[INFO] ------------------------------------------------------------------------
+[INFO] os.detected.name: osx
+[INFO] os.detected.arch: aarch_64
+[INFO] os.detected.bitness: 64
+[INFO] os.detected.version: 27.0
+[INFO] os.detected.version.major: 27
+[INFO] os.detected.version.minor: 0
+[INFO] os.detected.classifier: osx-aarch_64
+[INFO] 
+[INFO] ---------------< io.akka.repro:akka-testkit-race-repro >----------------
+[INFO] Building akka-testkit-race-repro 0.1.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- enforcer:3.5.0:enforce (enforce-build-rules) @ akka-testkit-race-repro ---
+[INFO] No dependency conflicts with Akka runtime detected.
+[INFO] Rule 0: akka.javasdk.enforcer.AkkaRuntimeDependencyRule(akkaRuntimeDependencyCheck) passed
+[INFO] Rule 1: org.apache.maven.enforcer.rules.version.RequireMavenVersion passed
+[INFO] Rule 2: org.apache.maven.enforcer.rules.version.RequireJavaVersion passed
+[INFO] 
+[INFO] --- antrun:3.1.0:run (clean-on-missing-descriptor) @ akka-testkit-race-repro ---
+[INFO] Executing tasks
+[INFO] Executed tasks
+[INFO] 
+[INFO] --- build-helper:3.2.0:add-source (add-java-source) @ akka-testkit-race-repro ---
+[INFO] Source directory: /Users/jz/code/akka-testkit-race-repro/target/generated-sources/akka-grpc-java added.
+[INFO] 
+[INFO] --- resources:3.4.0:resources (default-resources) @ akka-testkit-race-repro ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.13.0:compile (default-compile) @ akka-testkit-race-repro ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- build-helper:3.2.0:add-test-source (add-integration-test-source) @ akka-testkit-race-repro ---
+[INFO] Test Source directory: /Users/jz/code/akka-testkit-race-repro/src/it/java added.
+[INFO] 
+[INFO] --- build-helper:3.2.0:add-test-resource (add-integration-test-resource) @ akka-testkit-race-repro ---
+[INFO] 
+[INFO] --- resources:3.4.0:testResources (default-testResources) @ akka-testkit-race-repro ---
+[INFO] Copying 2 resources from src/test/resources to target/test-classes
+[INFO] skip non existing resourceDirectory /Users/jz/code/akka-testkit-race-repro/src/it/resources
+[INFO] 
+[INFO] --- compiler:3.13.0:testCompile (default-testCompile) @ akka-testkit-race-repro ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:2.22.2:test (default-test) @ akka-testkit-race-repro ---
+[WARNING] The system property akka.javasdk.dev-mode.project-artifact-id is configured twice! The property appears in <argLine/> and any of <systemPropertyVariables/>, <systemProperties/> or user property.
+[WARNING] The system property logback.configurationFile is configured twice! The property appears in <argLine/> and any of <systemPropertyVariables/>, <systemProperties/> or user property.
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running repro.BootstrapWorkTimingTest
+08:32:38.223 INFO  akka.runtime.AkkaRuntimeMain - Starting Akka Runtime version [1.6.15]
+08:32:38.479 INFO  akka.javasdk.impl.ComponentLocator$ - Looking for component descriptors matching pattern [META-INF/akka-javasdk-components_*.conf]
+08:32:38.551 INFO  akka.javasdk.testkit.TestKit - Eventing TestKit booting up on port: 65162
+08:32:38.729 INFO  akka.javasdk.testkit.TestKit - Checking runtime status
+08:32:38.819 INFO  akka.cluster.sharding.ShardRegion - passivation-race-entity: Automatic entity passivation: composite strategy with limit of [10000] active entities, admission window (least recently used entities) with proportions [initial = 0.01, min = 0.01, max = 1.0] adapting with hill-climbing optimizer [adjust multiplier = 10.0, initial step = 0.0625, restart threshold = 0.05, step decay = 0.98], admit using frequency sketch [width multiplier = 4, reset multiplier = 10.0, depth = 4, counter bits = 4], main (least recently used entities (segmented with [2] levels with proportions of [0.20, 0.80]))
+08:32:38.901 INFO  akka.runtime.DiscoveryManager - Service components: EventSourcedEntity: [1], Consumer: [2], View: [1]
+08:32:38.988 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: Automatic entity passivation: disabled
+08:32:38.991 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: Automatic entity passivation: disabled
+08:32:38.994 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: Automatic entity passivation: disabled
+08:32:39.051 INFO  akka.runtime.DiscoveryManager - Akka Runtime started at 127.0.0.1:65161
+08:32:39.052 INFO  repro.Bootstrap - onStartup burst of 8 starting
+08:32:39.221 INFO  akka.javasdk.testkit.TestKit - Runtime started
+08:32:39.232 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: DIAG tryComplete shardBuffers=[1] isOnlyMember=[true] selfUniqueAddress=[UniqueAddress(akka://akka-runtime@127.0.0.1:65163,1038408693945601507)] members=[UniqueAddress(akka://akka-runtime@127.0.0.1:65163,1038408693945601507)/Up]
+08:32:39.232 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: DIAG tryComplete shardBuffers=[1] isOnlyMember=[true] selfUniqueAddress=[UniqueAddress(akka://akka-runtime@127.0.0.1:65163,1038408693945601507)] members=[UniqueAddress(akka://akka-runtime@127.0.0.1:65163,1038408693945601507)/Up]
+08:32:39.232 WARN  akka.cluster.sharding.ShardRegion - _timer: DIAG tryComplete shardBuffers=[1] isOnlyMember=[true] selfUniqueAddress=[UniqueAddress(akka://akka-runtime@127.0.0.1:65163,1038408693945601507)] members=[UniqueAddress(akka://akka-runtime@127.0.0.1:65163,1038408693945601507)/Up]
+08:32:39.232 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: DIAG tryComplete shardBuffers=[1] isOnlyMember=[true] selfUniqueAddress=[UniqueAddress(akka://akka-runtime@127.0.0.1:65163,1038408693945601507)] members=[UniqueAddress(akka://akka-runtime@127.0.0.1:65163,1038408693945601507)/Up]
+08:32:39.232 INFO  repro.Bootstrap - onStartup burst of 8 done
+08:32:40.398 INFO  akka.runtime.AkkaRuntimeMain - Starting Akka Runtime version [1.6.15]
+08:32:40.418 INFO  akka.javasdk.impl.ComponentLocator$ - Looking for component descriptors matching pattern [META-INF/akka-javasdk-components_*.conf]
+08:32:40.430 INFO  akka.javasdk.testkit.TestKit - Eventing TestKit booting up on port: 65168
+08:32:40.436 INFO  akka.javasdk.testkit.TestKit - Checking runtime status
+08:32:40.500 INFO  akka.cluster.sharding.ShardRegion - passivation-race-entity: Automatic entity passivation: composite strategy with limit of [10000] active entities, admission window (least recently used entities) with proportions [initial = 0.01, min = 0.01, max = 1.0] adapting with hill-climbing optimizer [adjust multiplier = 10.0, initial step = 0.0625, restart threshold = 0.05, step decay = 0.98], admit using frequency sketch [width multiplier = 4, reset multiplier = 10.0, depth = 4, counter bits = 4], main (least recently used entities (segmented with [2] levels with proportions of [0.20, 0.80]))
+08:32:40.505 INFO  akka.runtime.DiscoveryManager - Service components: EventSourcedEntity: [1], Consumer: [2], View: [1]
+08:32:40.508 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: Automatic entity passivation: disabled
+08:32:40.509 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: Automatic entity passivation: disabled
+08:32:40.511 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: Automatic entity passivation: disabled
+08:32:40.514 INFO  akka.runtime.DiscoveryManager - Akka Runtime started at 127.0.0.1:65167
+08:32:40.514 INFO  repro.Bootstrap - onStartup burst of 8 starting
+08:32:40.561 INFO  akka.javasdk.testkit.TestKit - Runtime started
+08:32:40.562 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: DIAG tryComplete shardBuffers=[1] isOnlyMember=[true] selfUniqueAddress=[UniqueAddress(akka://akka-runtime@127.0.0.1:65169,4833129207933496561)] members=[UniqueAddress(akka://akka-runtime@127.0.0.1:65169,4833129207933496561)/Up]
+08:32:40.562 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: DIAG tryComplete shardBuffers=[1] isOnlyMember=[true] selfUniqueAddress=[UniqueAddress(akka://akka-runtime@127.0.0.1:65169,4833129207933496561)] members=[UniqueAddress(akka://akka-runtime@127.0.0.1:65169,4833129207933496561)/Up]
+08:32:40.562 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: DIAG tryComplete shardBuffers=[1] isOnlyMember=[true] selfUniqueAddress=[UniqueAddress(akka://akka-runtime@127.0.0.1:65169,4833129207933496561)] members=[UniqueAddress(akka://akka-runtime@127.0.0.1:65169,4833129207933496561)/Up]
+08:32:40.562 WARN  akka.cluster.sharding.ShardRegion - passivation-race-entity: DIAG tryComplete shardBuffers=[1] isOnlyMember=[true] selfUniqueAddress=[UniqueAddress(akka://akka-runtime@127.0.0.1:65169,4833129207933496561)] members=[UniqueAddress(akka://akka-runtime@127.0.0.1:65169,4833129207933496561)/Up]
+08:32:41.680 INFO  akka.runtime.AkkaRuntimeMain - Starting Akka Runtime version [1.6.15]
+08:32:41.697 INFO  akka.javasdk.impl.ComponentLocator$ - Looking for component descriptors matching pattern [META-INF/akka-javasdk-components_*.conf]
+08:32:41.710 INFO  akka.javasdk.testkit.TestKit - Eventing TestKit booting up on port: 65173
+08:32:41.717 INFO  akka.javasdk.testkit.TestKit - Checking runtime status
+08:32:41.776 INFO  akka.cluster.sharding.ShardRegion - passivation-race-entity: Automatic entity passivation: composite strategy with limit of [10000] active entities, admission window (least recently used entities) with proportions [initial = 0.01, min = 0.01, max = 1.0] adapting with hill-climbing optimizer [adjust multiplier = 10.0, initial step = 0.0625, restart threshold = 0.05, step decay = 0.98], admit using frequency sketch [width multiplier = 4, reset multiplier = 10.0, depth = 4, counter bits = 4], main (least recently used entities (segmented with [2] levels with proportions of [0.20, 0.80]))
+08:32:41.781 INFO  akka.runtime.DiscoveryManager - Service components: EventSourcedEntity: [1], Consumer: [2], View: [1]
+08:32:41.786 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: Automatic entity passivation: disabled
+08:32:41.790 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: Automatic entity passivation: disabled
+08:32:41.791 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: Automatic entity passivation: disabled
+08:32:41.793 INFO  akka.runtime.DiscoveryManager - Akka Runtime started at 127.0.0.1:65172
+08:32:41.794 INFO  repro.Bootstrap - onStartup burst of 8 starting
+08:32:41.840 INFO  akka.javasdk.testkit.TestKit - Runtime started
+08:32:41.841 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: DIAG tryComplete shardBuffers=[1] isOnlyMember=[true] selfUniqueAddress=[UniqueAddress(akka://akka-runtime@127.0.0.1:65174,-8055797715969660432)] members=[UniqueAddress(akka://akka-runtime@127.0.0.1:65174,-8055797715969660432)/Up]
+08:32:41.841 WARN  akka.cluster.sharding.ShardRegion - passivation-race-entity: DIAG tryComplete shardBuffers=[1] isOnlyMember=[true] selfUniqueAddress=[UniqueAddress(akka://akka-runtime@127.0.0.1:65174,-8055797715969660432)] members=[UniqueAddress(akka://akka-runtime@127.0.0.1:65174,-8055797715969660432)/Up]
+08:32:41.841 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: DIAG tryComplete shardBuffers=[1] isOnlyMember=[true] selfUniqueAddress=[UniqueAddress(akka://akka-runtime@127.0.0.1:65174,-8055797715969660432)] members=[UniqueAddress(akka://akka-runtime@127.0.0.1:65174,-8055797715969660432)/Up]
+08:32:41.841 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: DIAG tryComplete shardBuffers=[1] isOnlyMember=[true] selfUniqueAddress=[UniqueAddress(akka://akka-runtime@127.0.0.1:65174,-8055797715969660432)] members=[UniqueAddress(akka://akka-runtime@127.0.0.1:65174,-8055797715969660432)/Up]
+08:32:42.932 INFO  akka.runtime.AkkaRuntimeMain - Starting Akka Runtime version [1.6.15]
+08:32:42.943 INFO  akka.javasdk.impl.ComponentLocator$ - Looking for component descriptors matching pattern [META-INF/akka-javasdk-components_*.conf]
+08:32:42.960 INFO  akka.javasdk.testkit.TestKit - Eventing TestKit booting up on port: 65178
+08:32:42.965 INFO  akka.javasdk.testkit.TestKit - Checking runtime status
+08:32:43.035 INFO  akka.cluster.sharding.ShardRegion - passivation-race-entity: Automatic entity passivation: composite strategy with limit of [10000] active entities, admission window (least recently used entities) with proportions [initial = 0.01, min = 0.01, max = 1.0] adapting with hill-climbing optimizer [adjust multiplier = 10.0, initial step = 0.0625, restart threshold = 0.05, step decay = 0.98], admit using frequency sketch [width multiplier = 4, reset multiplier = 10.0, depth = 4, counter bits = 4], main (least recently used entities (segmented with [2] levels with proportions of [0.20, 0.80]))
+08:32:43.039 INFO  akka.runtime.DiscoveryManager - Service components: EventSourcedEntity: [1], Consumer: [2], View: [1]
+08:32:43.041 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: Automatic entity passivation: disabled
+08:32:43.041 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: Automatic entity passivation: disabled
+08:32:43.042 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: Automatic entity passivation: disabled
+08:32:43.044 INFO  akka.runtime.DiscoveryManager - Akka Runtime started at 127.0.0.1:65177
+08:32:43.045 INFO  repro.Bootstrap - onStartup burst of 8 starting
+08:32:43.085 INFO  akka.javasdk.testkit.TestKit - Runtime started
+08:32:43.087 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: DIAG tryComplete shardBuffers=[1] isOnlyMember=[true] selfUniqueAddress=[UniqueAddress(akka://akka-runtime@127.0.0.1:65179,-4000658283291891311)] members=[UniqueAddress(akka://akka-runtime@127.0.0.1:65179,-4000658283291891311)/Up]
+08:32:43.087 WARN  akka.cluster.sharding.ShardRegion - passivation-race-entity: DIAG tryComplete shardBuffers=[1] isOnlyMember=[true] selfUniqueAddress=[UniqueAddress(akka://akka-runtime@127.0.0.1:65179,-4000658283291891311)] members=[UniqueAddress(akka://akka-runtime@127.0.0.1:65179,-4000658283291891311)/Up]
+08:32:43.087 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: DIAG tryComplete shardBuffers=[1] isOnlyMember=[true] selfUniqueAddress=[UniqueAddress(akka://akka-runtime@127.0.0.1:65179,-4000658283291891311)] members=[UniqueAddress(akka://akka-runtime@127.0.0.1:65179,-4000658283291891311)/Up]
+08:32:43.087 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: DIAG tryComplete shardBuffers=[1] isOnlyMember=[true] selfUniqueAddress=[UniqueAddress(akka://akka-runtime@127.0.0.1:65179,-4000658283291891311)] members=[UniqueAddress(akka://akka-runtime@127.0.0.1:65179,-4000658283291891311)/Up]
+08:32:44.162 INFO  akka.runtime.AkkaRuntimeMain - Starting Akka Runtime version [1.6.15]
+08:32:44.171 INFO  akka.javasdk.impl.ComponentLocator$ - Looking for component descriptors matching pattern [META-INF/akka-javasdk-components_*.conf]
+08:32:44.179 INFO  akka.javasdk.testkit.TestKit - Eventing TestKit booting up on port: 65183
+08:32:44.182 INFO  akka.javasdk.testkit.TestKit - Checking runtime status
+08:32:44.253 INFO  akka.cluster.sharding.ShardRegion - passivation-race-entity: Automatic entity passivation: composite strategy with limit of [10000] active entities, admission window (least recently used entities) with proportions [initial = 0.01, min = 0.01, max = 1.0] adapting with hill-climbing optimizer [adjust multiplier = 10.0, initial step = 0.0625, restart threshold = 0.05, step decay = 0.98], admit using frequency sketch [width multiplier = 4, reset multiplier = 10.0, depth = 4, counter bits = 4], main (least recently used entities (segmented with [2] levels with proportions of [0.20, 0.80]))
+08:32:44.256 INFO  akka.runtime.DiscoveryManager - Service components: EventSourcedEntity: [1], Consumer: [2], View: [1]
+08:32:44.258 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: Automatic entity passivation: disabled
+08:32:44.259 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: Automatic entity passivation: disabled
+08:32:44.259 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: Automatic entity passivation: disabled
+08:32:44.261 INFO  akka.runtime.DiscoveryManager - Akka Runtime started at 127.0.0.1:65182
+08:32:44.262 INFO  repro.Bootstrap - onStartup burst of 8 starting
+08:32:44.303 INFO  akka.javasdk.testkit.TestKit - Runtime started
+08:32:44.304 WARN  akka.cluster.sharding.ShardRegion - passivation-race-entity: DIAG tryComplete shardBuffers=[1] isOnlyMember=[true] selfUniqueAddress=[UniqueAddress(akka://akka-runtime@127.0.0.1:65184,-5221232957728875922)] members=[UniqueAddress(akka://akka-runtime@127.0.0.1:65184,-5221232957728875922)/Up]
+08:32:44.304 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: DIAG tryComplete shardBuffers=[1] isOnlyMember=[true] selfUniqueAddress=[UniqueAddress(akka://akka-runtime@127.0.0.1:65184,-5221232957728875922)] members=[UniqueAddress(akka://akka-runtime@127.0.0.1:65184,-5221232957728875922)/Up]
+08:32:44.304 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: DIAG tryComplete shardBuffers=[1] isOnlyMember=[true] selfUniqueAddress=[UniqueAddress(akka://akka-runtime@127.0.0.1:65184,-5221232957728875922)] members=[UniqueAddress(akka://akka-runtime@127.0.0.1:65184,-5221232957728875922)/Up]
+08:32:44.304 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: DIAG tryComplete shardBuffers=[1] isOnlyMember=[true] selfUniqueAddress=[UniqueAddress(akka://akka-runtime@127.0.0.1:65184,-5221232957728875922)] members=[UniqueAddress(akka://akka-runtime@127.0.0.1:65184,-5221232957728875922)/Up]
+08:32:45.389 INFO  akka.runtime.AkkaRuntimeMain - Starting Akka Runtime version [1.6.15]
+08:32:45.399 INFO  akka.javasdk.impl.ComponentLocator$ - Looking for component descriptors matching pattern [META-INF/akka-javasdk-components_*.conf]
+08:32:45.406 INFO  akka.javasdk.testkit.TestKit - Eventing TestKit booting up on port: 65188
+08:32:45.410 INFO  akka.javasdk.testkit.TestKit - Checking runtime status
+08:32:45.474 INFO  akka.cluster.sharding.ShardRegion - passivation-race-entity: Automatic entity passivation: composite strategy with limit of [10000] active entities, admission window (least recently used entities) with proportions [initial = 0.01, min = 0.01, max = 1.0] adapting with hill-climbing optimizer [adjust multiplier = 10.0, initial step = 0.0625, restart threshold = 0.05, step decay = 0.98], admit using frequency sketch [width multiplier = 4, reset multiplier = 10.0, depth = 4, counter bits = 4], main (least recently used entities (segmented with [2] levels with proportions of [0.20, 0.80]))
+08:32:45.477 INFO  akka.runtime.DiscoveryManager - Service components: EventSourcedEntity: [1], Consumer: [2], View: [1]
+08:32:45.479 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: Automatic entity passivation: disabled
+08:32:45.479 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: Automatic entity passivation: disabled
+08:32:45.480 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: Automatic entity passivation: disabled
+08:32:45.482 INFO  akka.runtime.DiscoveryManager - Akka Runtime started at 127.0.0.1:65187
+08:32:45.482 INFO  repro.Bootstrap - onStartup burst of 8 starting
+08:32:45.533 INFO  akka.javasdk.testkit.TestKit - Runtime started
+08:32:45.534 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: DIAG tryComplete shardBuffers=[1] isOnlyMember=[true] selfUniqueAddress=[UniqueAddress(akka://akka-runtime@127.0.0.1:65189,-8574376933630034983)] members=[UniqueAddress(akka://akka-runtime@127.0.0.1:65189,-8574376933630034983)/Up]
+08:32:45.534 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: DIAG tryComplete shardBuffers=[1] isOnlyMember=[true] selfUniqueAddress=[UniqueAddress(akka://akka-runtime@127.0.0.1:65189,-8574376933630034983)] members=[UniqueAddress(akka://akka-runtime@127.0.0.1:65189,-8574376933630034983)/Up]
+08:32:45.534 WARN  akka.cluster.sharding.ShardRegion - passivation-race-entity: DIAG tryComplete shardBuffers=[1] isOnlyMember=[true] selfUniqueAddress=[UniqueAddress(akka://akka-runtime@127.0.0.1:65189,-8574376933630034983)] members=[UniqueAddress(akka://akka-runtime@127.0.0.1:65189,-8574376933630034983)/Up]
+08:32:45.534 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: DIAG tryComplete shardBuffers=[1] isOnlyMember=[true] selfUniqueAddress=[UniqueAddress(akka://akka-runtime@127.0.0.1:65189,-8574376933630034983)] members=[UniqueAddress(akka://akka-runtime@127.0.0.1:65189,-8574376933630034983)/Up]
+08:32:46.620 INFO  akka.runtime.AkkaRuntimeMain - Starting Akka Runtime version [1.6.15]
+08:32:46.630 INFO  akka.javasdk.impl.ComponentLocator$ - Looking for component descriptors matching pattern [META-INF/akka-javasdk-components_*.conf]
+08:32:46.637 INFO  akka.javasdk.testkit.TestKit - Eventing TestKit booting up on port: 65193
+08:32:46.641 INFO  akka.javasdk.testkit.TestKit - Checking runtime status
+08:32:46.705 INFO  akka.cluster.sharding.ShardRegion - passivation-race-entity: Automatic entity passivation: composite strategy with limit of [10000] active entities, admission window (least recently used entities) with proportions [initial = 0.01, min = 0.01, max = 1.0] adapting with hill-climbing optimizer [adjust multiplier = 10.0, initial step = 0.0625, restart threshold = 0.05, step decay = 0.98], admit using frequency sketch [width multiplier = 4, reset multiplier = 10.0, depth = 4, counter bits = 4], main (least recently used entities (segmented with [2] levels with proportions of [0.20, 0.80]))
+08:32:46.709 INFO  akka.runtime.DiscoveryManager - Service components: EventSourcedEntity: [1], Consumer: [2], View: [1]
+08:32:46.710 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: Automatic entity passivation: disabled
+08:32:46.711 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: Automatic entity passivation: disabled
+08:32:46.713 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: Automatic entity passivation: disabled
+08:32:46.715 INFO  akka.runtime.DiscoveryManager - Akka Runtime started at 127.0.0.1:65192
+08:32:46.716 INFO  repro.Bootstrap - onStartup burst of 8 starting
+08:32:46.766 INFO  akka.javasdk.testkit.TestKit - Runtime started
+08:32:46.767 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: DIAG tryComplete shardBuffers=[1] isOnlyMember=[true] selfUniqueAddress=[UniqueAddress(akka://akka-runtime@127.0.0.1:65194,7731187794877812824)] members=[UniqueAddress(akka://akka-runtime@127.0.0.1:65194,7731187794877812824)/Up]
+08:32:46.767 WARN  akka.cluster.sharding.ShardRegion - passivation-race-entity: DIAG tryComplete shardBuffers=[1] isOnlyMember=[true] selfUniqueAddress=[UniqueAddress(akka://akka-runtime@127.0.0.1:65194,7731187794877812824)] members=[UniqueAddress(akka://akka-runtime@127.0.0.1:65194,7731187794877812824)/Up]
+08:32:46.767 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: DIAG tryComplete shardBuffers=[1] isOnlyMember=[true] selfUniqueAddress=[UniqueAddress(akka://akka-runtime@127.0.0.1:65194,7731187794877812824)] members=[UniqueAddress(akka://akka-runtime@127.0.0.1:65194,7731187794877812824)/Up]
+08:32:46.767 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: DIAG tryComplete shardBuffers=[1] isOnlyMember=[true] selfUniqueAddress=[UniqueAddress(akka://akka-runtime@127.0.0.1:65194,7731187794877812824)] members=[UniqueAddress(akka://akka-runtime@127.0.0.1:65194,7731187794877812824)/Up]
+08:32:47.852 INFO  akka.runtime.AkkaRuntimeMain - Starting Akka Runtime version [1.6.15]
+08:32:47.862 INFO  akka.javasdk.impl.ComponentLocator$ - Looking for component descriptors matching pattern [META-INF/akka-javasdk-components_*.conf]
+08:32:47.870 INFO  akka.javasdk.testkit.TestKit - Eventing TestKit booting up on port: 65198
+08:32:47.873 INFO  akka.javasdk.testkit.TestKit - Checking runtime status
+08:32:47.943 INFO  akka.cluster.sharding.ShardRegion - passivation-race-entity: Automatic entity passivation: composite strategy with limit of [10000] active entities, admission window (least recently used entities) with proportions [initial = 0.01, min = 0.01, max = 1.0] adapting with hill-climbing optimizer [adjust multiplier = 10.0, initial step = 0.0625, restart threshold = 0.05, step decay = 0.98], admit using frequency sketch [width multiplier = 4, reset multiplier = 10.0, depth = 4, counter bits = 4], main (least recently used entities (segmented with [2] levels with proportions of [0.20, 0.80]))
+08:32:47.946 INFO  akka.runtime.DiscoveryManager - Service components: EventSourcedEntity: [1], Consumer: [2], View: [1]
+08:32:47.947 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: Automatic entity passivation: disabled
+08:32:47.948 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: Automatic entity passivation: disabled
+08:32:47.949 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: Automatic entity passivation: disabled
+08:32:47.950 INFO  akka.runtime.DiscoveryManager - Akka Runtime started at 127.0.0.1:65197
+08:32:47.951 INFO  repro.Bootstrap - onStartup burst of 8 starting
+08:32:47.999 INFO  akka.javasdk.testkit.TestKit - Runtime started
+08:32:48.003 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: DIAG tryComplete shardBuffers=[1] isOnlyMember=[true] selfUniqueAddress=[UniqueAddress(akka://akka-runtime@127.0.0.1:65199,6390046834345178117)] members=[UniqueAddress(akka://akka-runtime@127.0.0.1:65199,6390046834345178117)/Up]
+08:32:48.004 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: DIAG tryComplete shardBuffers=[1] isOnlyMember=[true] selfUniqueAddress=[UniqueAddress(akka://akka-runtime@127.0.0.1:65199,6390046834345178117)] members=[UniqueAddress(akka://akka-runtime@127.0.0.1:65199,6390046834345178117)/Up]
+08:32:48.004 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: DIAG tryComplete shardBuffers=[1] isOnlyMember=[true] selfUniqueAddress=[UniqueAddress(akka://akka-runtime@127.0.0.1:65199,6390046834345178117)] members=[UniqueAddress(akka://akka-runtime@127.0.0.1:65199,6390046834345178117)/Up]
+08:32:48.004 WARN  akka.cluster.sharding.ShardRegion - passivation-race-entity: DIAG tryComplete shardBuffers=[1] isOnlyMember=[true] selfUniqueAddress=[UniqueAddress(akka://akka-runtime@127.0.0.1:65199,6390046834345178117)] members=[UniqueAddress(akka://akka-runtime@127.0.0.1:65199,6390046834345178117)/Up]
+08:32:49.092 INFO  akka.runtime.AkkaRuntimeMain - Starting Akka Runtime version [1.6.15]
+08:32:49.102 INFO  akka.javasdk.impl.ComponentLocator$ - Looking for component descriptors matching pattern [META-INF/akka-javasdk-components_*.conf]
+08:32:49.109 INFO  akka.javasdk.testkit.TestKit - Eventing TestKit booting up on port: 65203
+08:32:49.113 INFO  akka.javasdk.testkit.TestKit - Checking runtime status
+08:32:49.181 INFO  akka.cluster.sharding.ShardRegion - passivation-race-entity: Automatic entity passivation: composite strategy with limit of [10000] active entities, admission window (least recently used entities) with proportions [initial = 0.01, min = 0.01, max = 1.0] adapting with hill-climbing optimizer [adjust multiplier = 10.0, initial step = 0.0625, restart threshold = 0.05, step decay = 0.98], admit using frequency sketch [width multiplier = 4, reset multiplier = 10.0, depth = 4, counter bits = 4], main (least recently used entities (segmented with [2] levels with proportions of [0.20, 0.80]))
+08:32:49.184 INFO  akka.runtime.DiscoveryManager - Service components: EventSourcedEntity: [1], Consumer: [2], View: [1]
+08:32:49.185 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: Automatic entity passivation: disabled
+08:32:49.186 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: Automatic entity passivation: disabled
+08:32:49.187 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: Automatic entity passivation: disabled
+08:32:49.189 INFO  akka.runtime.DiscoveryManager - Akka Runtime started at 127.0.0.1:65202
+08:32:49.189 INFO  repro.Bootstrap - onStartup burst of 8 starting
+08:32:49.230 INFO  akka.javasdk.testkit.TestKit - Runtime started
+08:32:49.231 WARN  akka.cluster.sharding.ShardRegion - passivation-race-entity: DIAG tryComplete shardBuffers=[1] isOnlyMember=[true] selfUniqueAddress=[UniqueAddress(akka://akka-runtime@127.0.0.1:65204,3933226064684036708)] members=[UniqueAddress(akka://akka-runtime@127.0.0.1:65204,3933226064684036708)/Up]
+08:32:49.231 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: DIAG tryComplete shardBuffers=[1] isOnlyMember=[true] selfUniqueAddress=[UniqueAddress(akka://akka-runtime@127.0.0.1:65204,3933226064684036708)] members=[UniqueAddress(akka://akka-runtime@127.0.0.1:65204,3933226064684036708)/Up]
+08:32:49.231 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: DIAG tryComplete shardBuffers=[1] isOnlyMember=[true] selfUniqueAddress=[UniqueAddress(akka://akka-runtime@127.0.0.1:65204,3933226064684036708)] members=[UniqueAddress(akka://akka-runtime@127.0.0.1:65204,3933226064684036708)/Up]
+08:32:49.231 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: DIAG tryComplete shardBuffers=[1] isOnlyMember=[true] selfUniqueAddress=[UniqueAddress(akka://akka-runtime@127.0.0.1:65204,3933226064684036708)] members=[UniqueAddress(akka://akka-runtime@127.0.0.1:65204,3933226064684036708)/Up]
+08:32:50.307 INFO  akka.runtime.AkkaRuntimeMain - Starting Akka Runtime version [1.6.15]
+08:32:50.319 INFO  akka.javasdk.impl.ComponentLocator$ - Looking for component descriptors matching pattern [META-INF/akka-javasdk-components_*.conf]
+08:32:50.327 INFO  akka.javasdk.testkit.TestKit - Eventing TestKit booting up on port: 65208
+08:32:50.333 INFO  akka.javasdk.testkit.TestKit - Checking runtime status
+08:32:50.398 INFO  akka.cluster.sharding.ShardRegion - passivation-race-entity: Automatic entity passivation: composite strategy with limit of [10000] active entities, admission window (least recently used entities) with proportions [initial = 0.01, min = 0.01, max = 1.0] adapting with hill-climbing optimizer [adjust multiplier = 10.0, initial step = 0.0625, restart threshold = 0.05, step decay = 0.98], admit using frequency sketch [width multiplier = 4, reset multiplier = 10.0, depth = 4, counter bits = 4], main (least recently used entities (segmented with [2] levels with proportions of [0.20, 0.80]))
+08:32:50.402 INFO  akka.runtime.DiscoveryManager - Service components: EventSourcedEntity: [1], Consumer: [2], View: [1]
+08:32:50.404 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: Automatic entity passivation: disabled
+08:32:50.405 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: Automatic entity passivation: disabled
+08:32:50.406 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: Automatic entity passivation: disabled
+08:32:50.406 INFO  akka.runtime.DiscoveryManager - Akka Runtime started at 127.0.0.1:65207
+08:32:50.406 INFO  akka.runtime.DiscoveryManager - Eventing initialized
+08:32:50.406 INFO  repro.Bootstrap - onStartup burst of 8 starting
+08:32:50.454 INFO  akka.javasdk.testkit.TestKit - Runtime started
+08:32:50.456 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: DIAG tryComplete shardBuffers=[1] isOnlyMember=[true] selfUniqueAddress=[UniqueAddress(akka://akka-runtime@127.0.0.1:65209,1123508104527795683)] members=[UniqueAddress(akka://akka-runtime@127.0.0.1:65209,1123508104527795683)/Up]
+08:32:50.456 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: DIAG tryComplete shardBuffers=[1] isOnlyMember=[true] selfUniqueAddress=[UniqueAddress(akka://akka-runtime@127.0.0.1:65209,1123508104527795683)] members=[UniqueAddress(akka://akka-runtime@127.0.0.1:65209,1123508104527795683)/Up]
+08:32:50.456 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: DIAG tryComplete shardBuffers=[1] isOnlyMember=[true] selfUniqueAddress=[UniqueAddress(akka://akka-runtime@127.0.0.1:65209,1123508104527795683)] members=[UniqueAddress(akka://akka-runtime@127.0.0.1:65209,1123508104527795683)/Up]
+08:32:50.456 WARN  akka.cluster.sharding.ShardRegion - passivation-race-entity: DIAG tryComplete shardBuffers=[1] isOnlyMember=[true] selfUniqueAddress=[UniqueAddress(akka://akka-runtime@127.0.0.1:65209,1123508104527795683)] members=[UniqueAddress(akka://akka-runtime@127.0.0.1:65209,1123508104527795683)/Up]
+08:32:51.537 INFO  akka.runtime.AkkaRuntimeMain - Starting Akka Runtime version [1.6.15]
+08:32:51.551 INFO  akka.javasdk.impl.ComponentLocator$ - Looking for component descriptors matching pattern [META-INF/akka-javasdk-components_*.conf]
+08:32:51.559 INFO  akka.javasdk.testkit.TestKit - Eventing TestKit booting up on port: 65213
+08:32:51.562 INFO  akka.javasdk.testkit.TestKit - Checking runtime status
+08:32:51.629 INFO  akka.cluster.sharding.ShardRegion - passivation-race-entity: Automatic entity passivation: composite strategy with limit of [10000] active entities, admission window (least recently used entities) with proportions [initial = 0.01, min = 0.01, max = 1.0] adapting with hill-climbing optimizer [adjust multiplier = 10.0, initial step = 0.0625, restart threshold = 0.05, step decay = 0.98], admit using frequency sketch [width multiplier = 4, reset multiplier = 10.0, depth = 4, counter bits = 4], main (least recently used entities (segmented with [2] levels with proportions of [0.20, 0.80]))
+08:32:51.631 INFO  akka.runtime.DiscoveryManager - Service components: EventSourcedEntity: [1], Consumer: [2], View: [1]
+08:32:51.632 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: Automatic entity passivation: disabled
+08:32:51.633 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: Automatic entity passivation: disabled
+08:32:51.633 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: Automatic entity passivation: disabled
+08:32:51.634 INFO  akka.runtime.DiscoveryManager - Akka Runtime started at 127.0.0.1:65212
+08:32:51.634 INFO  repro.Bootstrap - onStartup burst of 8 starting
+08:32:51.678 INFO  akka.javasdk.testkit.TestKit - Runtime started
+08:32:51.679 WARN  akka.cluster.sharding.ShardRegion - passivation-race-entity: DIAG tryComplete shardBuffers=[1] isOnlyMember=[true] selfUniqueAddress=[UniqueAddress(akka://akka-runtime@127.0.0.1:65214,-796025398817764450)] members=[UniqueAddress(akka://akka-runtime@127.0.0.1:65214,-796025398817764450)/Up]
+08:32:51.679 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: DIAG tryComplete shardBuffers=[1] isOnlyMember=[true] selfUniqueAddress=[UniqueAddress(akka://akka-runtime@127.0.0.1:65214,-796025398817764450)] members=[UniqueAddress(akka://akka-runtime@127.0.0.1:65214,-796025398817764450)/Up]
+08:32:51.679 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: DIAG tryComplete shardBuffers=[1] isOnlyMember=[true] selfUniqueAddress=[UniqueAddress(akka://akka-runtime@127.0.0.1:65214,-796025398817764450)] members=[UniqueAddress(akka://akka-runtime@127.0.0.1:65214,-796025398817764450)/Up]
+08:32:51.679 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: DIAG tryComplete shardBuffers=[1] isOnlyMember=[true] selfUniqueAddress=[UniqueAddress(akka://akka-runtime@127.0.0.1:65214,-796025398817764450)] members=[UniqueAddress(akka://akka-runtime@127.0.0.1:65214,-796025398817764450)/Up]
+08:32:52.752 INFO  akka.runtime.AkkaRuntimeMain - Starting Akka Runtime version [1.6.15]
+08:32:52.759 INFO  akka.javasdk.impl.ComponentLocator$ - Looking for component descriptors matching pattern [META-INF/akka-javasdk-components_*.conf]
+08:32:52.765 INFO  akka.javasdk.testkit.TestKit - Eventing TestKit booting up on port: 65218
+08:32:52.768 INFO  akka.javasdk.testkit.TestKit - Checking runtime status
+08:32:52.835 INFO  akka.cluster.sharding.ShardRegion - passivation-race-entity: Automatic entity passivation: composite strategy with limit of [10000] active entities, admission window (least recently used entities) with proportions [initial = 0.01, min = 0.01, max = 1.0] adapting with hill-climbing optimizer [adjust multiplier = 10.0, initial step = 0.0625, restart threshold = 0.05, step decay = 0.98], admit using frequency sketch [width multiplier = 4, reset multiplier = 10.0, depth = 4, counter bits = 4], main (least recently used entities (segmented with [2] levels with proportions of [0.20, 0.80]))
+08:32:52.838 INFO  akka.runtime.DiscoveryManager - Service components: EventSourcedEntity: [1], Consumer: [2], View: [1]
+08:32:52.839 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: Automatic entity passivation: disabled
+08:32:52.840 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: Automatic entity passivation: disabled
+08:32:52.841 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: Automatic entity passivation: disabled
+08:32:52.841 INFO  akka.runtime.DiscoveryManager - Akka Runtime started at 127.0.0.1:65217
+08:32:52.841 INFO  repro.Bootstrap - onStartup burst of 8 starting
+08:32:52.886 INFO  akka.javasdk.testkit.TestKit - Runtime started
+08:32:52.887 WARN  akka.cluster.sharding.ShardRegion - passivation-race-entity: DIAG tryComplete shardBuffers=[1] isOnlyMember=[true] selfUniqueAddress=[UniqueAddress(akka://akka-runtime@127.0.0.1:65219,-4800345983923625000)] members=[UniqueAddress(akka://akka-runtime@127.0.0.1:65219,-4800345983923625000)/Up]
+08:32:52.887 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: DIAG tryComplete shardBuffers=[1] isOnlyMember=[true] selfUniqueAddress=[UniqueAddress(akka://akka-runtime@127.0.0.1:65219,-4800345983923625000)] members=[UniqueAddress(akka://akka-runtime@127.0.0.1:65219,-4800345983923625000)/Up]
+08:32:52.887 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: DIAG tryComplete shardBuffers=[1] isOnlyMember=[true] selfUniqueAddress=[UniqueAddress(akka://akka-runtime@127.0.0.1:65219,-4800345983923625000)] members=[UniqueAddress(akka://akka-runtime@127.0.0.1:65219,-4800345983923625000)/Up]
+08:32:52.887 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: DIAG tryComplete shardBuffers=[1] isOnlyMember=[true] selfUniqueAddress=[UniqueAddress(akka://akka-runtime@127.0.0.1:65219,-4800345983923625000)] members=[UniqueAddress(akka://akka-runtime@127.0.0.1:65219,-4800345983923625000)/Up]
+08:32:53.955 INFO  akka.runtime.AkkaRuntimeMain - Starting Akka Runtime version [1.6.15]
+08:32:53.962 INFO  akka.javasdk.impl.ComponentLocator$ - Looking for component descriptors matching pattern [META-INF/akka-javasdk-components_*.conf]
+08:32:53.967 INFO  akka.javasdk.testkit.TestKit - Eventing TestKit booting up on port: 65223
+08:32:53.970 INFO  akka.javasdk.testkit.TestKit - Checking runtime status
+08:32:54.042 INFO  akka.cluster.sharding.ShardRegion - passivation-race-entity: Automatic entity passivation: composite strategy with limit of [10000] active entities, admission window (least recently used entities) with proportions [initial = 0.01, min = 0.01, max = 1.0] adapting with hill-climbing optimizer [adjust multiplier = 10.0, initial step = 0.0625, restart threshold = 0.05, step decay = 0.98], admit using frequency sketch [width multiplier = 4, reset multiplier = 10.0, depth = 4, counter bits = 4], main (least recently used entities (segmented with [2] levels with proportions of [0.20, 0.80]))
+08:32:54.045 INFO  akka.runtime.DiscoveryManager - Service components: EventSourcedEntity: [1], Consumer: [2], View: [1]
+08:32:54.047 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: Automatic entity passivation: disabled
+08:32:54.047 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: Automatic entity passivation: disabled
+08:32:54.048 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: Automatic entity passivation: disabled
+08:32:54.048 INFO  akka.runtime.DiscoveryManager - Akka Runtime started at 127.0.0.1:65222
+08:32:54.049 INFO  repro.Bootstrap - onStartup burst of 8 starting
+08:32:54.092 INFO  akka.javasdk.testkit.TestKit - Runtime started
+08:32:54.093 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: DIAG tryComplete shardBuffers=[1] isOnlyMember=[true] selfUniqueAddress=[UniqueAddress(akka://akka-runtime@127.0.0.1:65224,8260873265328950555)] members=[UniqueAddress(akka://akka-runtime@127.0.0.1:65224,8260873265328950555)/Up]
+08:32:54.093 WARN  akka.cluster.sharding.ShardRegion - passivation-race-entity: DIAG tryComplete shardBuffers=[1] isOnlyMember=[true] selfUniqueAddress=[UniqueAddress(akka://akka-runtime@127.0.0.1:65224,8260873265328950555)] members=[UniqueAddress(akka://akka-runtime@127.0.0.1:65224,8260873265328950555)/Up]
+08:32:54.093 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: DIAG tryComplete shardBuffers=[1] isOnlyMember=[true] selfUniqueAddress=[UniqueAddress(akka://akka-runtime@127.0.0.1:65224,8260873265328950555)] members=[UniqueAddress(akka://akka-runtime@127.0.0.1:65224,8260873265328950555)/Up]
+08:32:54.093 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: DIAG tryComplete shardBuffers=[1] isOnlyMember=[true] selfUniqueAddress=[UniqueAddress(akka://akka-runtime@127.0.0.1:65224,8260873265328950555)] members=[UniqueAddress(akka://akka-runtime@127.0.0.1:65224,8260873265328950555)/Up]
+08:32:55.161 INFO  akka.runtime.AkkaRuntimeMain - Starting Akka Runtime version [1.6.15]
+08:32:55.168 INFO  akka.javasdk.impl.ComponentLocator$ - Looking for component descriptors matching pattern [META-INF/akka-javasdk-components_*.conf]
+08:32:55.174 INFO  akka.javasdk.testkit.TestKit - Eventing TestKit booting up on port: 65228
+08:32:55.176 INFO  akka.javasdk.testkit.TestKit - Checking runtime status
+08:32:55.238 INFO  akka.cluster.sharding.ShardRegion - passivation-race-entity: Automatic entity passivation: composite strategy with limit of [10000] active entities, admission window (least recently used entities) with proportions [initial = 0.01, min = 0.01, max = 1.0] adapting with hill-climbing optimizer [adjust multiplier = 10.0, initial step = 0.0625, restart threshold = 0.05, step decay = 0.98], admit using frequency sketch [width multiplier = 4, reset multiplier = 10.0, depth = 4, counter bits = 4], main (least recently used entities (segmented with [2] levels with proportions of [0.20, 0.80]))
+08:32:55.241 INFO  akka.runtime.DiscoveryManager - Service components: EventSourcedEntity: [1], Consumer: [2], View: [1]
+08:32:55.243 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: Automatic entity passivation: disabled
+08:32:55.243 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: Automatic entity passivation: disabled
+08:32:55.243 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: Automatic entity passivation: disabled
+08:32:55.246 INFO  akka.runtime.DiscoveryManager - Akka Runtime started at 127.0.0.1:65227
+08:32:55.246 INFO  repro.Bootstrap - onStartup burst of 8 starting
+08:32:55.298 INFO  akka.javasdk.testkit.TestKit - Runtime started
+08:32:55.299 WARN  akka.cluster.sharding.ShardRegion - passivation-race-entity: DIAG tryComplete shardBuffers=[1] isOnlyMember=[true] selfUniqueAddress=[UniqueAddress(akka://akka-runtime@127.0.0.1:65229,2917938857018566883)] members=[UniqueAddress(akka://akka-runtime@127.0.0.1:65229,2917938857018566883)/Up]
+08:32:55.299 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: DIAG tryComplete shardBuffers=[1] isOnlyMember=[true] selfUniqueAddress=[UniqueAddress(akka://akka-runtime@127.0.0.1:65229,2917938857018566883)] members=[UniqueAddress(akka://akka-runtime@127.0.0.1:65229,2917938857018566883)/Up]
+08:32:55.299 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: DIAG tryComplete shardBuffers=[1] isOnlyMember=[true] selfUniqueAddress=[UniqueAddress(akka://akka-runtime@127.0.0.1:65229,2917938857018566883)] members=[UniqueAddress(akka://akka-runtime@127.0.0.1:65229,2917938857018566883)/Up]
+08:32:55.299 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: DIAG tryComplete shardBuffers=[1] isOnlyMember=[true] selfUniqueAddress=[UniqueAddress(akka://akka-runtime@127.0.0.1:65229,2917938857018566883)] members=[UniqueAddress(akka://akka-runtime@127.0.0.1:65229,2917938857018566883)/Up]
+08:32:56.375 INFO  akka.runtime.AkkaRuntimeMain - Starting Akka Runtime version [1.6.15]
+08:32:56.381 INFO  akka.javasdk.impl.ComponentLocator$ - Looking for component descriptors matching pattern [META-INF/akka-javasdk-components_*.conf]
+08:32:56.387 INFO  akka.javasdk.testkit.TestKit - Eventing TestKit booting up on port: 65233
+08:32:56.390 INFO  akka.javasdk.testkit.TestKit - Checking runtime status
+08:32:56.463 INFO  akka.cluster.sharding.ShardRegion - passivation-race-entity: Automatic entity passivation: composite strategy with limit of [10000] active entities, admission window (least recently used entities) with proportions [initial = 0.01, min = 0.01, max = 1.0] adapting with hill-climbing optimizer [adjust multiplier = 10.0, initial step = 0.0625, restart threshold = 0.05, step decay = 0.98], admit using frequency sketch [width multiplier = 4, reset multiplier = 10.0, depth = 4, counter bits = 4], main (least recently used entities (segmented with [2] levels with proportions of [0.20, 0.80]))
+08:32:56.466 INFO  akka.runtime.DiscoveryManager - Service components: EventSourcedEntity: [1], Consumer: [2], View: [1]
+08:32:56.467 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: Automatic entity passivation: disabled
+08:32:56.467 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: Automatic entity passivation: disabled
+08:32:56.469 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: Automatic entity passivation: disabled
+08:32:56.470 INFO  akka.runtime.DiscoveryManager - Akka Runtime started at 127.0.0.1:65232
+08:32:56.470 INFO  repro.Bootstrap - onStartup burst of 8 starting
+08:32:56.515 INFO  akka.javasdk.testkit.TestKit - Runtime started
+08:32:56.516 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: DIAG tryComplete shardBuffers=[1] isOnlyMember=[true] selfUniqueAddress=[UniqueAddress(akka://akka-runtime@127.0.0.1:65234,-1359098596488600673)] members=[UniqueAddress(akka://akka-runtime@127.0.0.1:65234,-1359098596488600673)/Up]
+08:32:56.516 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: DIAG tryComplete shardBuffers=[1] isOnlyMember=[true] selfUniqueAddress=[UniqueAddress(akka://akka-runtime@127.0.0.1:65234,-1359098596488600673)] members=[UniqueAddress(akka://akka-runtime@127.0.0.1:65234,-1359098596488600673)/Up]
+08:32:56.516 WARN  akka.cluster.sharding.ShardRegion - passivation-race-entity: DIAG tryComplete shardBuffers=[1] isOnlyMember=[true] selfUniqueAddress=[UniqueAddress(akka://akka-runtime@127.0.0.1:65234,-1359098596488600673)] members=[UniqueAddress(akka://akka-runtime@127.0.0.1:65234,-1359098596488600673)/Up]
+08:32:56.516 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: DIAG tryComplete shardBuffers=[1] isOnlyMember=[true] selfUniqueAddress=[UniqueAddress(akka://akka-runtime@127.0.0.1:65234,-1359098596488600673)] members=[UniqueAddress(akka://akka-runtime@127.0.0.1:65234,-1359098596488600673)/Up]
+=== BootstrapWorkTimingTest [burst from onStartup()]: 15 cycles ===
+start() ms per cycle: [1996, 261, 251, 220, 188, 201, 203, 205, 200, 198, 193, 178, 180, 178, 186]  sum=4838 min=178 max=1996 mean=322
+stop() ms per cycle: [1076, 1026, 1025, 1028, 1027, 1028, 1027, 1029, 1025, 1029, 1028, 1025, 1026, 1030, 1023]  sum=15452 min=1023 max=1076 mean=1030
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 20.438 s - in repro.BootstrapWorkTimingTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  22.648 s
+[INFO] Finished at: 2026-09-23T08:32:57+10:00
+[INFO] ------------------------------------------------------------------------

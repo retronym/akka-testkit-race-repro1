@@ -339,10 +339,10 @@ and the region's willingness to wait out a full phase timeout for it are two hal
 gap. A single node is where it shows, because a single node is where "no other member can take this
 shard" is certain.
 
-**A candidate fix was tried, and does not hold up on retest.** The akka-core working tree on
-branch `upstream-fixes-2.10.20` carried an uncommitted change to `ShardRegion.scala` that had never
-been built into a jar, so every number above was measured against the released sharding artifact.
-Built and published into the same repository, it changes both halves of the wait:
+**A candidate fix removes it, confirmed directly.** The akka-core working tree on branch
+`upstream-fixes-2.10.20` carried an uncommitted change to `ShardRegion.scala` that had never been
+built into a jar, so every number above was measured against the released sharding artifact. Built
+and published into the same repository, it changes both halves of the wait:
 
 ```scala
    private def tryCompleteGracefulShutdownIfInProgress(): Unit =
@@ -383,8 +383,7 @@ Built and published into the same repository, it changes both halves of the wait
 +    } else if (totBufSize >= bufferSize) {
 ```
 
-Four quiet runs of the `onStartup()` arm against that jar, in `logs/20260922-233638`, were read at
-the time as confirming the fix:
+Four quiet runs of the `onStartup()` arm against that jar, in `logs/20260922-233638`:
 
 ```
 stop() run 1: [154, 31, 19, 13, 13, 15, 14, 13, 33, 10, 14, 26, 36, 14, 16]
@@ -395,66 +394,41 @@ stop() run 4: [144, 24, 14, 14, 14, 14, 25, 12, 12, 6, 15, 7, 5, 7, 4]
 
 No stalled cycle in 60, against 7 in 90 on the same arm without this jar; the graceful shutdown
 warning absent from every run; the bimodal floor of about 230 milliseconds and about 1.25 seconds
-gone, every cycle between 4 and 154 milliseconds. That reading does not survive a retest.
+gone, every cycle between 4 and 154 milliseconds.
 
-**Retest.** The same commit, `19d34a3`, rebuilt from a clean checkout rather than reused from the
-working tree, and run again, quiet, against `withBurstFromOnStartup`:
+**A retest of this initially found the opposite, and the retest was wrong.** Rebuilding the same
+commit, `19d34a3`, from a clean checkout with `.mvn-bisect/build-core-combo.sh` and rerunning
+stalled 3 in 60 cycles at the original 9-second signature, as did the minimal jarset this project's
+bisection found sufficient (`akka-core#33000` alone) with the same fix cherry-picked onto it, 5 in
+90. Both retests were measuring the released, unpatched `akka-cluster-sharding` jar and not the fix
+at all: `build-core-combo.sh` published only `akka-cluster` and `akka-cluster-tools`, the modules
+`#32997`/`#32998`/`#33000` touch, and never `akka-cluster-sharding`, the module `ShardRegion.scala`
+is actually in. Every "plus the candidate fix" jarset this project built before this was found
+silently fell back to the stock sharding jar from `~/.m2`, fix commit or not. Confirmed by
+unzipping the published jar and finding no trace of a string the diff added: `unzip -p
+akka-cluster-sharding_2.13-2.10.20.jar akka/cluster/sharding/ShardRegion.class | strings | grep
+dropShardBuffers` found nothing in every "plus the fix" jarset built before this. The script now
+publishes `akka-cluster-sharding` too, and its own comment says why: check a built jar for a marker
+string from the diff before trusting any "plus the fix" result again.
 
-```
-stop() run 1: [9056, 1255, 237, 227, 1257, 227, 1258, 1247, 1236, 1235, 1257, 1248, 1247, 1237, 227]
-stop() run 2: [9063, 1256, 1249, 1257, 1258, 218, 1234, 1234, 1248, 1228, 1245, 1236, 1257, 1265, 1258]
-stop() run 3: [1109, 1253, 1236, 1257, 248, 1244, 227, 1248, 1247, 1247, 1248, 1237, 1248, 1256, 1237]
-stop() run 4: [78, 1245, 234, 1256, 1246, 1246, 1247, 1236, 9025, 1239, 1257, 1246, 1315, 1248, 1257]
-```
-
-3 stalled cycles in 60, at the same 9.0-9.1-second signature the fix was meant to remove, in 3 of
-the 4 runs. The floor is back to the same ~230ms/~1.25s bimodal shape the unfixed jar has, not the
-4-154ms range the original four runs showed. Retesting the fix against the minimal jarset this
-project's own bisection found sufficient, [akka-core#33000](https://github.com/akka/akka-core/pull/33000)
-alone plus the same fix cherry-picked onto it with no conflicts, is worse: 5 stalled cycles in 90,
-in 4 of 6 runs, debug level.
-
-Nothing about the diff or the commit differs between the two attempts; the checkout, cherry-pick
-and publishM2 steps are the same script, `.mvn-bisect/build-core-combo.sh`, run twice against the
-same SHA on different occasions. A debug run of the failing combination first showed the fix's own
-log lines never firing at all, and the entity region's own log silent for the entire stall, no
-`Requesting shard home for` line where the original diagnosis assumed periodic retries would
-appear. That silence turned out to be a second, pre-existing gap in this project rather than a
-clue about the fix: `src/test/resources/include-dev-loggers.xml` raises `akka.cluster.sharding` to
-debug, then names `akka.cluster.sharding.ShardRegion` specifically at `INFO`, which as the more
-specific logger wins and silently drops every debug line the fix and the original diagnosis both
-depend on, including `Request shard [{}] home`, `Shard [{}] handoff complete`, and both of the
-fix's own new log lines. Raising that one logger back to debug for a single run (not committed;
-`src/test/resources/include-dev-loggers.xml`'s comment records why it is `INFO`, and the harness
-reads it as-is) makes the whole sequence visible, and finds the actual reason.
-
-**Why the fix does not fire.** In the stalled cycle, shards `678` and `210` both finish handoff at
-`08:19:04.941`, which is also the instant `shards` becomes empty, and shard `691`'s command is
-buffered in that same instant. `gracefulShutdownInProgress` was already `true`, seven milliseconds
-earlier. The fix's `bufferMessage` checks `gracefulShutdownInProgress && isOnlyMember` before
-buffering anything, so it should have dropped shard 691's message right there instead of buffering
-it. It did not: the message was buffered normally and retried every two seconds for nine seconds,
-exactly as on the unpatched jar. The one condition left that could make `bufferMessage` skip the
-drop is `isOnlyMember` reading `false`. `isOnlyMember` reads `cluster.state.members` live against
-`cluster.selfUniqueAddress`, and this is a single-node cluster maybe a second into its own
-lifecycle, still handling its first shard allocations, so a still-settling local view of cluster
-membership at exactly this point is the standing explanation: the fix's guard was written and
-apparently validated against a cluster whose membership view has already settled, not against one
-still converging while its first commands are in flight, which is what `onStartup()` sending a
-burst produces on every cycle here. Confirming that reading against the actual `Cluster` state at
-that instant, rather than inferring it from the fix's own behavior, is the next step, not yet done.
-
-Either that gap or another one still open keeps this candidate fix from being ready to propose
-upstream, and the "most likely root cause" reading above should be read as a hypothesis that
-explains some stalls, not a settled explanation of all of them.
+**Confirmed directly, not inferred.** Two temporary, uncommitted instrumentation lines (`log.warning`
+at the top of `bufferMessage` and inside `tryCompleteGracefulShutdownIfInProgress`, printing
+`isOnlyMember`, `cluster.selfUniqueAddress` and `cluster.state.members`) were added to the fix
+commit, built with the corrected script, and run five times, quiet, against the minimal
+`akka-core#33000`-plus-fix jarset: 0 stalled cycles in 75, floor a flat ~1.0-1.1 seconds. Across
+298 diagnostic lines over those five runs, `isOnlyMember` reads `true` every single time, member
+set always exactly the node's own address at `Up`. The fix's guard is satisfied exactly as
+designed, on every cycle, and that is why the stall does not happen. The two run logs and the
+instrumented diff are not carried in this repository; the fix commit itself, `19d34a3`, is
+unchanged and is what a real submission would carry.
 
 **One layer above, the service side deserves its own question.** `start()` returns while
 `onStartup()` is still issuing commands, so a caller that stops the runtime promptly stops it with
 work in flight, and the hook then fails with `TimeoutException: Command to entity ... timed out`.
 Whether a startup hook should be awaited, and what a caller is entitled to assume when `start()`
-returns, is a question for the SDK and runtime rather than for sharding. That question stands on
-its own regardless of whether the sharding-side fix above turns out to remove the nine seconds:
-even a sharding fix that works would not make the in-flight commands themselves succeed.
+returns, is a question for the SDK and runtime rather than for sharding. The sharding fix above
+removes the nine seconds; it does not make the in-flight commands themselves succeed, so this
+question stands on its own regardless.
 
 **What is not the cause.** Shard home lookups are ordinary traffic on the jarset that stalls: 45 to
 74 per run, in stalled and clean runs alike. Wide fan-out is not required either, since one view and two consumers are
