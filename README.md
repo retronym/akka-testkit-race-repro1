@@ -3,8 +3,9 @@
 A standalone reproduction of a stall in TestKit runtime shutdown. A service that sends a burst of
 commands to a sharded EventSourcedEntity can leave one message buffered in a shard region that
 never gets a shard home, and stopping the runtime then waits about nine seconds for it. Sending
-that burst from `ServiceSetup.onStartup()`, while the cluster is still forming, makes the stall
-common rather than rare. Related upstream issues: akka-core#33001 and lightbend/akka-runtime#5719.
+that burst from `ServiceSetup.onStartup()` makes the stall common rather than rare, because
+`start()` does not wait for the hook and the commands are still in flight when the caller stops
+the runtime. Related upstream issues: akka-core#33001 and lightbend/akka-runtime#5719.
 
 The stall is only visible against Akka jars carrying the fixes listed under "Observed on a patched
 jarset". On the released jars an ordinary stop() takes about a second, which hides it.
@@ -131,17 +132,66 @@ same cycle in both runs.
 
 ## What the stall is
 
-The stalled cycle carries this line, and it is the only warning in the run:
+The snippets below are from one stalled cycle of `withBurstFromOnStartup`, at debug level, under
+`logs/`. Timestamps are kept so the gaps are readable.
+
+The hook is not awaited. The burst starts, `start()` returns while it is still issuing, and the
+test calls `stop()` about ten milliseconds later:
 
 ```
-akka.cluster.sharding.ShardRegion - _timer: Graceful shutdown of shard region timed out,
-region will be stopped. Remaining shards [], remaining buffered messages [1].
+23:06:42.365 INFO  akka.runtime.DiscoveryManager - Akka Runtime started at 127.0.0.1:53267
+23:06:42.366 INFO  repro.Bootstrap - onStartup burst of 8 starting
+23:06:42.474 INFO  akka.javasdk.testkit.TestKit - Runtime started
+23:06:42.485 DEBUG a.c.sharding.DDataShardCoordinator - passivation-race-entity: Graceful shutdown of region [...] with [1] shards
 ```
 
-A shard region holds one message that was buffered before a shard home was assigned to it. The
-region owns no shards, so nothing will ever deliver that message, and graceful shutdown waits its
-whole timeout before giving up. The region is the runtime's own `_timer` region, not the region of
-the entity the test drives.
+`onStartup burst of 8 done` is logged zero times in the run, against fifteen `starting` lines. No
+cycle ever finishes its burst.
+
+One command had reached a shard. The rest were still in flight when shutdown began, and one of
+them asks for a shard home after the region has already started shutting down:
+
+```
+23:06:42.384 DEBUG a.c.sharding.DDataShardCoordinator - passivation-race-entity: Shard [257] allocated at [...]
+23:06:42.485 INFO  a.c.sharding.DDataShardCoordinator - passivation-race-entity: Starting shutting down shards [257] due to region shutting down or explicit stopping of shards.
+23:06:42.527 DEBUG akka.cluster.sharding.ShardRegion - passivation-race-entity: Request shard [427] home. Coordinator [Some(...)]
+```
+
+Shard 427 is never allocated. The coordinator logs nothing further about it, and the region retries
+every two seconds, holding the one message it cannot deliver:
+
+```
+23:06:44.128 DEBUG akka.cluster.sharding.ShardRegion - passivation-race-entity: Requesting shard home for [427] from coordinator at [...]. [1] buffered messages.
+23:06:46.149 DEBUG akka.cluster.sharding.ShardRegion - passivation-race-entity: Requesting shard home for [427] ... [1] buffered messages.
+23:06:48.169 DEBUG akka.cluster.sharding.ShardRegion - passivation-race-entity: Requesting shard home for [427] ... [1] buffered messages.
+23:06:50.188 DEBUG akka.cluster.sharding.ShardRegion - passivation-race-entity: Requesting shard home for [427] ... [1] buffered messages.
+23:06:51.499 WARN  akka.cluster.sharding.ShardRegion - passivation-race-entity: Graceful shutdown of shard region timed out, region will be stopped. Remaining shards [], remaining buffered messages [1].
+```
+
+That is the stalled cycle: about nine seconds from the shutdown request to the region giving up,
+against about eight milliseconds when nothing is buffered. Shutdown then proceeds normally:
+
+```
+23:06:51.499 DEBUG akka.cluster.sharding.ShardRegion - passivation-race-entity: Region stopped
+23:06:51.500 DEBUG akka.actor.CoordinatedShutdown - Performing phase [cluster-leave] with [1] tasks.
+```
+
+The command that was buffered fails the hook, with the error the service under investigation
+reported:
+
+```
+23:06:55.001 ERROR repro.Bootstrap - onStartup() threw an exception
+java.util.concurrent.TimeoutException: Command to entity [passivation-race-entity] id [d9031920-...] timed out.
+```
+
+So the sequence is: a command arrives for a shard that has no home yet, the region buffers it and
+asks the coordinator, shutdown of that region begins before the answer comes, the answer never
+comes, and graceful shutdown waits out its timeout for a message that cannot be delivered.
+
+`onStartup()` makes this common because `start()` does not wait for the hook. The burst is still
+issuing when the caller believes startup is finished, so a caller that stops the runtime promptly
+stops it with commands in flight. A burst issued after `start()` returns is fully delivered before
+`stop()` is called, which is why that arm rarely stalls.
 
 ## What the runs support
 
