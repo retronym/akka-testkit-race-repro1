@@ -159,6 +159,18 @@ rate as every combination that includes it, roughly one cycle in 15 to 20.
 non-stalled stop() completes: with them and without [#33000](https://github.com/akka/akka-core/pull/33000), the whole eight-command burst finishes
 inside onStartup() in about 180 milliseconds, before start() returns, so there is nothing left in
 flight for a stop() to race against, and 45 cycles produced no stall at all.
+
+This is not a defect in [#33000](https://github.com/akka/akka-core/pull/33000) itself, and none of
+these three patches put the buffered message where it ends up. What
+[#33000](https://github.com/akka/akka-core/pull/33000) changes is timing elsewhere in singleton
+identification, and that shift is enough to make the burst still be in flight when `onStartup()`
+returns and the caller calls `stop()`. Without it, in these builds, the burst always finishes first
+and the race never gets an opening. The bug this exposes is in the region and coordinator, read in
+full under "Where the root cause is likely to be": a `GetShardHome` the coordinator can never answer
+once the only region has asked to shut down, and a region that then waits out a full phase timeout
+for a reply that cannot come. That bug is present with or without [#33000](https://github.com/akka/akka-core/pull/33000). The patch just widens the window this particular repro needs
+to land a command inside it; a service whose own startup work is slower, or whose commands cross the
+network, would not need it at all.
 [akka-projection#1457](https://github.com/akka/akka-projection/pull/1457) and
 [akka-runtime#5718](https://github.com/lightbend/akka-runtime/pull/5718) were never in any of these
 three builds and the stall reproduces without them just as it does with them.
