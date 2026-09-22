@@ -233,3 +233,55 @@ per arm at debug, 4 at warn, and the arms separate the same way at either level.
 The runtime's dev-mode logback config sets the whole `akka` logger to WARN. This project raises
 sharding, singleton and coordinated shutdown to DEBUG through `include-dev-loggers.xml`, which that
 config includes last. `./harness.sh --quiet` puts them back to WARN for a run.
+
+## Where the root cause is likely to be
+
+This is a reading of the evidence above, not a diagnosis anyone has confirmed. Line numbers are
+from akka-core at tag 2.10.20.
+
+**The nine seconds are a known timeout, not a hang.** `ShardRegion.scala:1013` arms
+`GracefulShutdownTimeout` at the `cluster-sharding-shutdown-region` phase timeout minus one second.
+That phase defaults to ten seconds in `akka-actor/src/main/resources/reference.conf`, which gives
+nine, and every stalled cycle measured between 9027 and 9072 milliseconds. Nothing is deadlocked.
+The region is waiting exactly as long as it was told to.
+
+**The coordinator drops the request that the region is waiting for.** In
+`ShardCoordinator.scala:917`, `GetShardHome` for an unknown shard computes
+`(state.regions -- gracefulShutdownInProgress) -- regionTerminationInProgress`, and allocates only
+`if (activeRegions.nonEmpty)`. On one node whose only region has asked to shut down, that set is
+empty, so the branch falls through with no reply, no failure and no log line. This matches the log
+exactly: the region asks for shard 427 four times over eight seconds, and the coordinator says
+nothing about 427 at all. The region cannot tell "not yet" from "never", so it retries until its
+timer fires.
+
+**The region then waits for a message that can never be delivered.**
+`tryCompleteGracefulShutdownIfInProgress` at `ShardRegion.scala:1171` completes the shutdown only
+when `shardBuffers.isEmpty`. One buffered message is enough to hold the whole region open for the
+full nine seconds, and at the end that message is dropped anyway. The wait buys nothing on a single
+node.
+
+That is the most likely root cause: the coordinator's silence on an unanswerable `GetShardHome`
+and the region's willingness to wait out a full phase timeout for it are two halves of the same
+gap. A single node is where it shows, because a single node is where "no other member can take this
+shard" is certain.
+
+**A candidate fix is already written and was not in these jars.** The akka-core working tree on
+branch `upstream-fixes-2.10.20` carries an uncommitted change to `ShardRegion.scala` that guards
+both `bufferMessage` and `tryCompleteGracefulShutdownIfInProgress` with `isOnlyMember`, dropping
+buffered messages at once rather than waiting for a shard home no other member could host, plus a
+new `SingleNodeGracefulShutdownSpec`. The jarset these runs used contains no
+`akka-cluster-sharding` artifact at all, so every number here was measured against the released
+sharding jar. Building that change and rerunning `./harness.sh` is the next experiment, and the
+prediction is specific: the stall disappears from the `onStartup()` arm, and the graceful shutdown
+warning stops appearing.
+
+**One layer above, the service side deserves its own question.** `start()` returns while
+`onStartup()` is still issuing commands, so a caller that stops the runtime promptly stops it with
+work in flight, and the hook then fails with `TimeoutException: Command to entity ... timed out`.
+Whether a startup hook should be awaited, and what a caller is entitled to assume when `start()`
+returns, is a question for the SDK and runtime rather than for sharding. Fixing the sharding side
+removes the nine seconds. It does not make the in-flight commands succeed.
+
+**What is not the cause.** Shard home lookups are ordinary traffic: 45 to 74 per run, in stalled
+and clean runs alike. Wide fan-out is not required either, since one view and two consumers are
+enough. Neither is the entity's own work, which is one event.
