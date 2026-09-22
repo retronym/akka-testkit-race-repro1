@@ -1,8 +1,13 @@
 # akka-testkit-race-repro
 
-A standalone reproduction of a stall seen when an Akka SDK service does sharded
-EventSourcedEntity work synchronously inside `ServiceSetup.onStartup()`, while the cluster and its
-sharding are still forming. Filed upstream as akka-core#33001 and lightbend/akka-runtime#5719.
+A standalone reproduction of a stall in TestKit runtime shutdown. A service that sends a burst of
+commands to a sharded EventSourcedEntity can leave one message buffered in a shard region that
+never gets a shard home, and stopping the runtime then waits about nine seconds for it. Sending
+that burst from `ServiceSetup.onStartup()`, while the cluster is still forming, makes the stall
+common rather than rare. Related upstream issues: akka-core#33001 and lightbend/akka-runtime#5719.
+
+The stall is only visible against Akka jars carrying the fixes listed under "Observed on a patched
+jarset". On the released jars an ordinary stop() takes about a second, which hides it.
 
 The project carries no business logic. It holds one bare entity, three projections over it, a
 `ServiceSetup` whose startup hook sends a small burst of commands to that entity, and one test that
