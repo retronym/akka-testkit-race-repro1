@@ -1,0 +1,380 @@
+[INFO] Scanning for projects...
+[INFO] ------------------------------------------------------------------------
+[INFO] Detecting the operating system and CPU architecture
+[INFO] ------------------------------------------------------------------------
+[INFO] os.detected.name: osx
+[INFO] os.detected.arch: aarch_64
+[INFO] os.detected.bitness: 64
+[INFO] os.detected.version: 27.0
+[INFO] os.detected.version.major: 27
+[INFO] os.detected.version.minor: 0
+[INFO] os.detected.classifier: osx-aarch_64
+[INFO] 
+[INFO] ---------------< io.akka.repro:akka-testkit-race-repro >----------------
+[INFO] Building akka-testkit-race-repro 0.1.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- enforcer:3.5.0:enforce (enforce-build-rules) @ akka-testkit-race-repro ---
+[INFO] No dependency conflicts with Akka runtime detected.
+[INFO] Rule 0: akka.javasdk.enforcer.AkkaRuntimeDependencyRule(akkaRuntimeDependencyCheck) passed
+[INFO] Rule 1: org.apache.maven.enforcer.rules.version.RequireMavenVersion passed
+[INFO] Rule 2: org.apache.maven.enforcer.rules.version.RequireJavaVersion passed
+[INFO] 
+[INFO] --- antrun:3.1.0:run (clean-on-missing-descriptor) @ akka-testkit-race-repro ---
+[INFO] Executing tasks
+[INFO] Executed tasks
+[INFO] 
+[INFO] --- build-helper:3.2.0:add-source (add-java-source) @ akka-testkit-race-repro ---
+[INFO] Source directory: /Users/jz/code/akka-testkit-race-repro/target/generated-sources/akka-grpc-java added.
+[INFO] 
+[INFO] --- resources:3.4.0:resources (default-resources) @ akka-testkit-race-repro ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.13.0:compile (default-compile) @ akka-testkit-race-repro ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- build-helper:3.2.0:add-test-source (add-integration-test-source) @ akka-testkit-race-repro ---
+[INFO] Test Source directory: /Users/jz/code/akka-testkit-race-repro/src/it/java added.
+[INFO] 
+[INFO] --- build-helper:3.2.0:add-test-resource (add-integration-test-resource) @ akka-testkit-race-repro ---
+[INFO] 
+[INFO] --- resources:3.4.0:testResources (default-testResources) @ akka-testkit-race-repro ---
+[INFO] Copying 2 resources from src/test/resources to target/test-classes
+[INFO] skip non existing resourceDirectory /Users/jz/code/akka-testkit-race-repro/src/it/resources
+[INFO] 
+[INFO] --- compiler:3.13.0:testCompile (default-testCompile) @ akka-testkit-race-repro ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:2.22.2:test (default-test) @ akka-testkit-race-repro ---
+[WARNING] The system property akka.javasdk.dev-mode.project-artifact-id is configured twice! The property appears in <argLine/> and any of <systemPropertyVariables/>, <systemProperties/> or user property.
+[WARNING] The system property logback.configurationFile is configured twice! The property appears in <argLine/> and any of <systemPropertyVariables/>, <systemProperties/> or user property.
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running repro.BootstrapWorkTimingTest
+23:13:45,561 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Found logback-core version 1.5.38
+23:13:45,561 |-INFO in ch.qos.logback.classic.util.ContextInitializer@29a5f4e7 - No custom configurators were discovered as a service.
+23:13:45,561 |-INFO in ch.qos.logback.classic.util.ContextInitializer@29a5f4e7 - Trying to configure with ch.qos.logback.classic.util.DefaultJoranConfigurator
+23:13:45,562 |-INFO in ch.qos.logback.classic.util.ContextInitializer@29a5f4e7 - Constructed configurator of type class ch.qos.logback.classic.util.DefaultJoranConfigurator
+23:13:45,563 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Found resource [logback-runtime-dev-mode.xml] at [jar:file:/Users/jz/code/worktrees/nexus/vibrant-swanson-e4f544/.mvn/tier1/io/akka/akka-runtime-dev_2.13/1.6.15/akka-runtime-dev_2.13-1.6.15.jar!/logback-runtime-dev-mode.xml]
+23:13:45,594 |-INFO in ch.qos.logback.classic.model.processor.ConfigurationModelHandlerFull - Scan attribute not set or set to unrecognized value.
+23:13:45,594 |-INFO in ch.qos.logback.core.model.processor.ConversionRuleModelHandler - registering conversion word rewriteLogger with class [akka.runtime.logging.LogbackDevModeRewriteLogger]
+23:13:45,594 |-INFO in ch.qos.logback.core.model.processor.ConversionRuleModelHandler - registering conversion word rewriteMsg with class [akka.runtime.logging.LogbackDevModeRewriteMessage]
+23:13:45,595 |-INFO in ch.qos.logback.core.model.processor.IncludeModelHandler - Including configuration file [file:/Users/jz/code/akka-testkit-race-repro/target/test-classes/include-dev-loggers.xml]
+23:13:45,598 |-ERROR in ch.qos.logback.core.joran.event.SaxEventRecorder@79c97cb - XML_PARSING - Parsing fatal error on line 8 and column 52
+23:13:45,598 |-ERROR in ch.qos.logback.core.joran.event.SaxEventRecorder@79c97cb - org.xml.sax.SAXParseException; lineNumber: 8; columnNumber: 52; The string "--" is not permitted within comments.
+23:13:45,598 |-ERROR in ch.qos.logback.core.model.processor.IncludeModelHandler - Error processing XML data in [include-dev-loggers.xml] ch.qos.logback.core.joran.spi.JoranException: Problem parsing XML document. See previously reported errors.
+	at ch.qos.logback.core.joran.spi.JoranException: Problem parsing XML document. See previously reported errors.
+	at 	at ch.qos.logback.core.joran.event.SaxEventRecorder.recordEvents(SaxEventRecorder.java:99)
+	at 	at ch.qos.logback.core.joran.event.SaxEventRecorder.recordEvents(SaxEventRecorder.java:82)
+	at 	at ch.qos.logback.core.model.processor.IncludeModelHandler.populateSaxEventRecorder(IncludeModelHandler.java:147)
+	at 	at ch.qos.logback.core.model.processor.IncludeModelHandler.buildModelFromIncludedFile(IncludeModelHandler.java:114)
+	at 	at ch.qos.logback.core.model.processor.IncludeModelHandler.handle(IncludeModelHandler.java:67)
+	at 	at ch.qos.logback.core.model.processor.DefaultProcessor.mainTraverse(DefaultProcessor.java:207)
+	at 	at ch.qos.logback.core.model.processor.DefaultProcessor.mainTraverse(DefaultProcessor.java:215)
+	at 	at ch.qos.logback.core.model.processor.DefaultProcessor.process(DefaultProcessor.java:102)
+	at 	at ch.qos.logback.core.joran.GenericXMLConfigurator.processModel(GenericXMLConfigurator.java:239)
+	at 	at ch.qos.logback.core.joran.GenericXMLConfigurator.doConfigure(GenericXMLConfigurator.java:195)
+	at 	at ch.qos.logback.core.joran.GenericXMLConfigurator.doConfigure(GenericXMLConfigurator.java:139)
+	at 	at ch.qos.logback.core.joran.GenericXMLConfigurator.doConfigure(GenericXMLConfigurator.java:76)
+	at 	at ch.qos.logback.classic.util.DefaultJoranConfigurator.configureByResource(DefaultJoranConfigurator.java:82)
+	at 	at ch.qos.logback.classic.util.DefaultJoranConfigurator.configure(DefaultJoranConfigurator.java:49)
+	at 	at ch.qos.logback.classic.util.ContextInitializer.invokeConfigure(ContextInitializer.java:161)
+	at 	at ch.qos.logback.classic.util.ContextInitializer.autoConfig(ContextInitializer.java:109)
+	at 	at ch.qos.logback.classic.util.ContextInitializer.autoConfig(ContextInitializer.java:67)
+	at 	at ch.qos.logback.classic.spi.LogbackServiceProvider.initializeLoggerContext(LogbackServiceProvider.java:65)
+	at 	at ch.qos.logback.classic.spi.LogbackServiceProvider.initialize(LogbackServiceProvider.java:58)
+	at 	at org.slf4j.LoggerFactory.bind(LoggerFactory.java:199)
+	at 	at org.slf4j.LoggerFactory.performInitialization(LoggerFactory.java:186)
+	at 	at org.slf4j.LoggerFactory.getProvider(LoggerFactory.java:496)
+	at 	at org.slf4j.LoggerFactory.getILoggerFactory(LoggerFactory.java:482)
+	at 	at org.slf4j.LoggerFactory.getLogger(LoggerFactory.java:431)
+	at 	at org.slf4j.LoggerFactory.getLogger(LoggerFactory.java:457)
+	at 	at akka.javasdk.testkit.TestKit.<clinit>(TestKit.java:827)
+	at 	at repro.BootstrapWorkTimingTest.cycle(BootstrapWorkTimingTest.java:49)
+	at 	at repro.BootstrapWorkTimingTest.withoutBurstFromOnStartup(BootstrapWorkTimingTest.java:33)
+	at 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at 	at java.base/java.lang.reflect.Method.invoke(Method.java:583)
+	at 	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:767)
+	at 	at org.junit.jupiter.engine.execution.MethodInvocation.proceed(MethodInvocation.java:60)
+	at 	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$ValidatingInvocation.proceed(InvocationInterceptorChain.java:131)
+	at 	at org.junit.jupiter.engine.extension.SameThreadTimeoutInvocation.proceed(SameThreadTimeoutInvocation.java:45)
+	at 	at org.junit.jupiter.engine.extension.TimeoutExtension.intercept(TimeoutExtension.java:156)
+	at 	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestableMethod(TimeoutExtension.java:147)
+	at 	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestMethod(TimeoutExtension.java:86)
+	at 	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker$ReflectiveInterceptorCall.lambda$ofVoidMethod$0(InterceptingExecutableInvoker.java:103)
+	at 	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.lambda$invoke$0(InterceptingExecutableInvoker.java:93)
+	at 	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$InterceptedInvocation.proceed(InvocationInterceptorChain.java:106)
+	at 	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.proceed(InvocationInterceptorChain.java:64)
+	at 	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.chainAndInvoke(InvocationInterceptorChain.java:45)
+	at 	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.invoke(InvocationInterceptorChain.java:37)
+	at 	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:92)
+	at 	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:86)
+	at 	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeTestMethod$8(TestMethodTestDescriptor.java:217)
+	at 	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at 	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeTestMethod(TestMethodTestDescriptor.java:213)
+	at 	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:138)
+	at 	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:68)
+	at 	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:156)
+	at 	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at 	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:146)
+	at 	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at 	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:144)
+	at 	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at 	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:143)
+	at 	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:100)
+	at 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1612)
+	at 	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
+	at 	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:160)
+	at 	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at 	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:146)
+	at 	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at 	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:144)
+	at 	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at 	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:143)
+	at 	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:100)
+	at 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1612)
+	at 	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
+	at 	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:160)
+	at 	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at 	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:146)
+	at 	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at 	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:144)
+	at 	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at 	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:143)
+	at 	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:100)
+	at 	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:35)
+	at 	at org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57)
+	at 	at org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:54)
+	at 	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:220)
+	at 	at org.junit.platform.launcher.core.DefaultLauncher.lambda$execute$6(DefaultLauncher.java:188)
+	at 	at org.junit.platform.launcher.core.DefaultLauncher.withInterceptedStreams(DefaultLauncher.java:202)
+	at 	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:181)
+	at 	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:128)
+	at 	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invokeAllTests(JUnitPlatformProvider.java:150)
+	at 	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invoke(JUnitPlatformProvider.java:124)
+	at 	at org.apache.maven.surefire.booter.ForkedBooter.invokeProviderInSameClassLoader(ForkedBooter.java:384)
+	at 	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:345)
+	at 	at org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:126)
+	at 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:418)
+Caused by: org.xml.sax.SAXParseException: The string "--" is not permitted within comments.
+	at 	at java.xml/com.sun.org.apache.xerces.internal.parsers.AbstractSAXParser.parse(AbstractSAXParser.java:1252)
+	at 	at java.xml/com.sun.org.apache.xerces.internal.jaxp.SAXParserImpl$JAXPSAXParser.parse(SAXParserImpl.java:629)
+	at 	at java.xml/com.sun.org.apache.xerces.internal.jaxp.SAXParserImpl.parse(SAXParserImpl.java:328)
+	at 	at ch.qos.logback.core.joran.event.SaxEventRecorder.recordEvents(SaxEventRecorder.java:92)
+	at 	... 91 common frames omitted
+23:13:45,599 |-INFO in ch.qos.logback.core.model.processor.AppenderModelHandler - Processing appender named [STDOUT]
+23:13:45,599 |-INFO in ch.qos.logback.core.model.processor.AppenderModelHandler - About to instantiate appender of type [ch.qos.logback.core.ConsoleAppender]
+23:13:45,602 |-INFO in ch.qos.logback.core.model.processor.ImplicitModelHandler - Assuming default type [ch.qos.logback.classic.encoder.PatternLayoutEncoder] for [encoder] property
+23:13:45,624 |-INFO in ch.qos.logback.core.ConsoleAppender[STDOUT] - NOTE: Writing to the console can be slow. Try to avoid logging to the 
+23:13:45,624 |-INFO in ch.qos.logback.core.ConsoleAppender[STDOUT] - console in production environments, especially in high volume systems.
+23:13:45,624 |-INFO in ch.qos.logback.core.ConsoleAppender[STDOUT] - See also https://logback.qos.ch/codes.html#slowConsole
+23:13:45,625 |-INFO in ch.qos.logback.classic.model.processor.LoggerModelHandler - Setting level of logger [akka] to WARN
+23:13:45,625 |-INFO in ch.qos.logback.classic.model.processor.LoggerModelHandler - Setting level of logger [kalix] to WARN
+23:13:45,625 |-INFO in ch.qos.logback.classic.model.processor.LoggerModelHandler - Setting level of logger [akka.runtime.AkkaRuntimeMain] to INFO
+23:13:45,625 |-INFO in ch.qos.logback.classic.model.processor.LoggerModelHandler - Setting level of logger [kalix.runtime.DiscoveryManager] to INFO
+23:13:45,625 |-INFO in ch.qos.logback.classic.model.processor.LoggerModelHandler - Setting level of logger [kalix.runtime.http.HttpEndpointMethodDefinition] to INFO
+23:13:45,625 |-INFO in ch.qos.logback.classic.model.processor.LoggerModelHandler - Setting level of logger [kalix.runtime.VersionCheck] to INFO
+23:13:45,625 |-INFO in ch.qos.logback.classic.model.processor.LoggerModelHandler - Setting level of logger [kalix.runtime.AkkaRuntimeConfigLoader] to INFO
+23:13:45,625 |-INFO in ch.qos.logback.classic.model.processor.LoggerModelHandler - Setting level of logger [akka.javasdk] to INFO
+23:13:45,625 |-INFO in ch.qos.logback.classic.model.processor.LoggerModelHandler - Setting level of logger [dev.langchain4j.model.bedrock.AwsLoggingInterceptor] to DEBUG
+23:13:45,625 |-INFO in ch.qos.logback.classic.model.processor.LoggerModelHandler - Setting additivity of logger [dev.langchain4j.model.bedrock.AwsLoggingInterceptor] to false
+23:13:45,625 |-INFO in ch.qos.logback.core.model.processor.AppenderRefModelHandler - Attaching appender named [STDOUT] to Logger[dev.langchain4j.model.bedrock.AwsLoggingInterceptor]
+23:13:45,626 |-INFO in ch.qos.logback.classic.model.processor.RootLoggerModelHandler - Setting level of ROOT logger to INFO
+23:13:45,626 |-INFO in ch.qos.logback.core.model.processor.AppenderRefModelHandler - Attaching appender named [STDOUT] to Logger[ROOT]
+23:13:45,626 |-INFO in ch.qos.logback.core.model.processor.DefaultProcessor@1e4d3ce5 - End of configuration.
+23:13:45,627 |-INFO in ch.qos.logback.classic.util.ContextInitializer@29a5f4e7 - ch.qos.logback.classic.util.DefaultJoranConfigurator.configure() call lasted 64 milliseconds. ExecutionStatus=DO_NOT_INVOKE_NEXT_IF_ANY
+
+23:13:46.486 INFO  akka.runtime.AkkaRuntimeMain - Starting Akka Runtime version [1.6.15]
+23:13:46.700 INFO  akka.javasdk.impl.ComponentLocator$ - Looking for component descriptors matching pattern [META-INF/akka-javasdk-components_*.conf]
+23:13:46.771 INFO  akka.javasdk.testkit.TestKit - Eventing TestKit booting up on port: 54653
+23:13:46.951 INFO  akka.javasdk.testkit.TestKit - Checking runtime status
+23:13:47.113 INFO  akka.runtime.DiscoveryManager - Service components: EventSourcedEntity: [1], Consumer: [2], View: [1]
+23:13:47.249 INFO  akka.runtime.DiscoveryManager - Akka Runtime started at 127.0.0.1:54652
+23:13:47.250 INFO  repro.Bootstrap - onStartup burst disabled
+23:13:47.452 INFO  akka.javasdk.testkit.TestKit - Runtime started
+23:13:47.478 WARN  akka.cluster.sharding.ShardRegion - _timer: Dropping [1] buffered messages to shard [993] during hand off to avoid re-ordering
+23:13:47.813 INFO  akka.runtime.AkkaRuntimeMain - Starting Akka Runtime version [1.6.15]
+23:13:47.835 INFO  akka.javasdk.impl.ComponentLocator$ - Looking for component descriptors matching pattern [META-INF/akka-javasdk-components_*.conf]
+23:13:47.856 INFO  akka.javasdk.testkit.TestKit - Eventing TestKit booting up on port: 54662
+23:13:47.863 INFO  akka.javasdk.testkit.TestKit - Checking runtime status
+23:13:47.940 INFO  akka.runtime.DiscoveryManager - Service components: EventSourcedEntity: [1], Consumer: [2], View: [1]
+23:13:47.947 INFO  akka.runtime.DiscoveryManager - Akka Runtime started at 127.0.0.1:54661
+23:13:47.947 INFO  repro.Bootstrap - onStartup burst disabled
+23:13:47.995 INFO  akka.javasdk.testkit.TestKit - Runtime started
+23:13:48.213 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: Dropping [1] buffered messages to shard [0] during hand off to avoid re-ordering
+23:13:48.213 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: Dropping [1] buffered messages to shard [0] during hand off to avoid re-ordering
+23:13:48.316 INFO  akka.runtime.AkkaRuntimeMain - Starting Akka Runtime version [1.6.15]
+23:13:48.331 INFO  akka.javasdk.impl.ComponentLocator$ - Looking for component descriptors matching pattern [META-INF/akka-javasdk-components_*.conf]
+23:13:48.338 INFO  akka.javasdk.testkit.TestKit - Eventing TestKit booting up on port: 54668
+23:13:48.343 INFO  akka.javasdk.testkit.TestKit - Checking runtime status
+23:13:48.416 INFO  akka.runtime.DiscoveryManager - Service components: EventSourcedEntity: [1], Consumer: [2], View: [1]
+23:13:48.424 INFO  akka.runtime.DiscoveryManager - Akka Runtime started at 127.0.0.1:54667
+23:13:48.424 INFO  repro.Bootstrap - onStartup burst disabled
+23:13:48.470 INFO  akka.javasdk.testkit.TestKit - Runtime started
+23:13:48.690 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: Dropping [1] buffered messages to shard [0] during hand off to avoid re-ordering
+23:13:48.690 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: Dropping [1] buffered messages to shard [0] during hand off to avoid re-ordering
+23:13:49.458 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: [1] of the entities in shard [0] not stopped after [750 milliseconds]. Maybe the handOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled? Waiting additional [250 milliseconds] before stopping the remaining entities.
+23:13:49.708 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: HandOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled by some of the entities in shard [0] after [1 second], stopping the remaining [1] entities.
+23:13:49.807 INFO  akka.runtime.AkkaRuntimeMain - Starting Akka Runtime version [1.6.15]
+23:13:49.904 INFO  akka.javasdk.impl.ComponentLocator$ - Looking for component descriptors matching pattern [META-INF/akka-javasdk-components_*.conf]
+23:13:49.938 INFO  akka.javasdk.testkit.TestKit - Eventing TestKit booting up on port: 54674
+23:13:49.946 INFO  akka.javasdk.testkit.TestKit - Checking runtime status
+23:13:50.013 INFO  akka.runtime.DiscoveryManager - Service components: EventSourcedEntity: [1], Consumer: [2], View: [1]
+23:13:50.017 INFO  akka.runtime.DiscoveryManager - Akka Runtime started at 127.0.0.1:54673
+23:13:50.017 INFO  repro.Bootstrap - onStartup burst disabled
+23:13:50.070 INFO  akka.javasdk.testkit.TestKit - Runtime started
+23:13:51.049 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: [1] of the entities in shard [0] not stopped after [750 milliseconds]. Maybe the handOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled? Waiting additional [250 milliseconds] before stopping the remaining entities.
+23:13:51.049 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: [1] of the entities in shard [0] not stopped after [750 milliseconds]. Maybe the handOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled? Waiting additional [250 milliseconds] before stopping the remaining entities.
+23:13:51.049 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: [1] of the entities in shard [0] not stopped after [750 milliseconds]. Maybe the handOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled? Waiting additional [250 milliseconds] before stopping the remaining entities.
+23:13:51.299 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: HandOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled by some of the entities in shard [0] after [1 second], stopping the remaining [1] entities.
+23:13:51.300 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: HandOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled by some of the entities in shard [0] after [1 second], stopping the remaining [1] entities.
+23:13:51.300 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: HandOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled by some of the entities in shard [0] after [1 second], stopping the remaining [1] entities.
+23:13:51.380 INFO  akka.runtime.AkkaRuntimeMain - Starting Akka Runtime version [1.6.15]
+23:13:51.389 INFO  akka.javasdk.impl.ComponentLocator$ - Looking for component descriptors matching pattern [META-INF/akka-javasdk-components_*.conf]
+23:13:51.398 INFO  akka.javasdk.testkit.TestKit - Eventing TestKit booting up on port: 54683
+23:13:51.402 INFO  akka.javasdk.testkit.TestKit - Checking runtime status
+23:13:51.469 INFO  akka.runtime.DiscoveryManager - Service components: EventSourcedEntity: [1], Consumer: [2], View: [1]
+23:13:51.476 INFO  akka.runtime.DiscoveryManager - Akka Runtime started at 127.0.0.1:54682
+23:13:51.476 INFO  repro.Bootstrap - onStartup burst disabled
+23:13:51.527 INFO  akka.javasdk.testkit.TestKit - Runtime started
+23:13:51.734 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: Dropping [1] buffered messages to shard [0] during hand off to avoid re-ordering
+23:13:51.735 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: Dropping [1] buffered messages to shard [0] during hand off to avoid re-ordering
+23:13:52.503 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: [1] of the entities in shard [0] not stopped after [750 milliseconds]. Maybe the handOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled? Waiting additional [250 milliseconds] before stopping the remaining entities.
+23:13:52.754 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: HandOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled by some of the entities in shard [0] after [1 second], stopping the remaining [1] entities.
+23:13:52.844 INFO  akka.runtime.AkkaRuntimeMain - Starting Akka Runtime version [1.6.15]
+23:13:52.855 INFO  akka.javasdk.impl.ComponentLocator$ - Looking for component descriptors matching pattern [META-INF/akka-javasdk-components_*.conf]
+23:13:52.865 INFO  akka.javasdk.testkit.TestKit - Eventing TestKit booting up on port: 54689
+23:13:52.870 INFO  akka.javasdk.testkit.TestKit - Checking runtime status
+23:13:52.934 INFO  akka.runtime.DiscoveryManager - Service components: EventSourcedEntity: [1], Consumer: [2], View: [1]
+23:13:52.939 INFO  akka.runtime.DiscoveryManager - Akka Runtime started at 127.0.0.1:54688
+23:13:52.939 INFO  repro.Bootstrap - onStartup burst disabled
+23:13:52.989 INFO  akka.javasdk.testkit.TestKit - Runtime started
+23:13:53.200 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: Dropping [1] buffered messages to shard [0] during hand off to avoid re-ordering
+23:13:53.967 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: [1] of the entities in shard [0] not stopped after [750 milliseconds]. Maybe the handOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled? Waiting additional [250 milliseconds] before stopping the remaining entities.
+23:13:54.219 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: HandOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled by some of the entities in shard [0] after [1 second], stopping the remaining [1] entities.
+23:13:54.308 INFO  akka.runtime.AkkaRuntimeMain - Starting Akka Runtime version [1.6.15]
+23:13:54.320 INFO  akka.javasdk.impl.ComponentLocator$ - Looking for component descriptors matching pattern [META-INF/akka-javasdk-components_*.conf]
+23:13:54.349 INFO  akka.javasdk.testkit.TestKit - Eventing TestKit booting up on port: 54694
+23:13:54.372 INFO  akka.javasdk.testkit.TestKit - Checking runtime status
+23:13:54.448 INFO  akka.runtime.DiscoveryManager - Service components: EventSourcedEntity: [1], Consumer: [2], View: [1]
+23:13:54.457 INFO  akka.runtime.DiscoveryManager - Akka Runtime started at 127.0.0.1:54693
+23:13:54.457 INFO  repro.Bootstrap - onStartup burst disabled
+23:13:54.505 INFO  akka.javasdk.testkit.TestKit - Runtime started
+23:13:54.720 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: Dropping [1] buffered messages to shard [0] during hand off to avoid re-ordering
+23:13:54.787 INFO  akka.runtime.AkkaRuntimeMain - Starting Akka Runtime version [1.6.15]
+23:13:54.796 INFO  akka.javasdk.impl.ComponentLocator$ - Looking for component descriptors matching pattern [META-INF/akka-javasdk-components_*.conf]
+23:13:54.803 INFO  akka.javasdk.testkit.TestKit - Eventing TestKit booting up on port: 54700
+23:13:54.806 INFO  akka.javasdk.testkit.TestKit - Checking runtime status
+23:13:54.884 INFO  akka.runtime.DiscoveryManager - Service components: EventSourcedEntity: [1], Consumer: [2], View: [1]
+23:13:54.893 INFO  akka.runtime.DiscoveryManager - Akka Runtime started at 127.0.0.1:54699
+23:13:54.894 INFO  repro.Bootstrap - onStartup burst disabled
+23:13:54.928 INFO  akka.javasdk.testkit.TestKit - Runtime started
+23:13:55.156 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: Dropping [1] buffered messages to shard [0] during hand off to avoid re-ordering
+23:13:55.156 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: Dropping [1] buffered messages to shard [0] during hand off to avoid re-ordering
+23:13:55.925 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: [1] of the entities in shard [0] not stopped after [750 milliseconds]. Maybe the handOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled? Waiting additional [250 milliseconds] before stopping the remaining entities.
+23:13:56.175 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: HandOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled by some of the entities in shard [0] after [1 second], stopping the remaining [1] entities.
+23:13:56.275 INFO  akka.runtime.AkkaRuntimeMain - Starting Akka Runtime version [1.6.15]
+23:13:56.288 INFO  akka.javasdk.impl.ComponentLocator$ - Looking for component descriptors matching pattern [META-INF/akka-javasdk-components_*.conf]
+23:13:56.299 INFO  akka.javasdk.testkit.TestKit - Eventing TestKit booting up on port: 54705
+23:13:56.303 INFO  akka.javasdk.testkit.TestKit - Checking runtime status
+23:13:56.370 INFO  akka.runtime.DiscoveryManager - Service components: EventSourcedEntity: [1], Consumer: [2], View: [1]
+23:13:56.375 INFO  akka.runtime.DiscoveryManager - Akka Runtime started at 127.0.0.1:54704
+23:13:56.375 INFO  repro.Bootstrap - onStartup burst disabled
+23:13:56.433 INFO  akka.javasdk.testkit.TestKit - Runtime started
+23:13:56.633 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: Dropping [1] buffered messages to shard [0] during hand off to avoid re-ordering
+23:13:56.634 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: Dropping [1] buffered messages to shard [0] during hand off to avoid re-ordering
+23:13:57.405 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: [1] of the entities in shard [0] not stopped after [750 milliseconds]. Maybe the handOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled? Waiting additional [250 milliseconds] before stopping the remaining entities.
+23:13:57.654 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: HandOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled by some of the entities in shard [0] after [1 second], stopping the remaining [1] entities.
+23:13:57.724 INFO  akka.runtime.AkkaRuntimeMain - Starting Akka Runtime version [1.6.15]
+23:13:57.732 INFO  akka.javasdk.impl.ComponentLocator$ - Looking for component descriptors matching pattern [META-INF/akka-javasdk-components_*.conf]
+23:13:57.738 INFO  akka.javasdk.testkit.TestKit - Eventing TestKit booting up on port: 54710
+23:13:57.740 INFO  akka.javasdk.testkit.TestKit - Checking runtime status
+23:13:57.816 INFO  akka.runtime.DiscoveryManager - Service components: EventSourcedEntity: [1], Consumer: [2], View: [1]
+23:13:57.820 INFO  akka.runtime.DiscoveryManager - Akka Runtime started at 127.0.0.1:54709
+23:13:57.820 INFO  repro.Bootstrap - onStartup burst disabled
+23:13:57.864 INFO  akka.javasdk.testkit.TestKit - Runtime started
+23:13:58.082 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: Dropping [1] buffered messages to shard [0] during hand off to avoid re-ordering
+23:13:58.083 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: Dropping [1] buffered messages to shard [0] during hand off to avoid re-ordering
+23:13:58.850 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: [1] of the entities in shard [0] not stopped after [750 milliseconds]. Maybe the handOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled? Waiting additional [250 milliseconds] before stopping the remaining entities.
+23:13:59.100 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: HandOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled by some of the entities in shard [0] after [1 second], stopping the remaining [1] entities.
+23:13:59.159 INFO  akka.runtime.AkkaRuntimeMain - Starting Akka Runtime version [1.6.15]
+23:13:59.167 INFO  akka.javasdk.impl.ComponentLocator$ - Looking for component descriptors matching pattern [META-INF/akka-javasdk-components_*.conf]
+23:13:59.172 INFO  akka.javasdk.testkit.TestKit - Eventing TestKit booting up on port: 54716
+23:13:59.176 INFO  akka.javasdk.testkit.TestKit - Checking runtime status
+23:13:59.241 INFO  akka.runtime.DiscoveryManager - Service components: EventSourcedEntity: [1], Consumer: [2], View: [1]
+23:13:59.246 INFO  akka.runtime.DiscoveryManager - Akka Runtime started at 127.0.0.1:54715
+23:13:59.246 INFO  repro.Bootstrap - onStartup burst disabled
+23:13:59.299 INFO  akka.javasdk.testkit.TestKit - Runtime started
+23:13:59.509 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: Dropping [1] buffered messages to shard [0] during hand off to avoid re-ordering
+23:13:59.509 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: Dropping [1] buffered messages to shard [0] during hand off to avoid re-ordering
+23:14:00.276 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: [1] of the entities in shard [0] not stopped after [750 milliseconds]. Maybe the handOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled? Waiting additional [250 milliseconds] before stopping the remaining entities.
+23:14:00.526 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: HandOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled by some of the entities in shard [0] after [1 second], stopping the remaining [1] entities.
+23:14:00.599 INFO  akka.runtime.AkkaRuntimeMain - Starting Akka Runtime version [1.6.15]
+23:14:00.606 INFO  akka.javasdk.impl.ComponentLocator$ - Looking for component descriptors matching pattern [META-INF/akka-javasdk-components_*.conf]
+23:14:00.619 INFO  akka.javasdk.testkit.TestKit - Eventing TestKit booting up on port: 54722
+23:14:00.621 INFO  akka.javasdk.testkit.TestKit - Checking runtime status
+23:14:00.689 INFO  akka.runtime.DiscoveryManager - Service components: EventSourcedEntity: [1], Consumer: [2], View: [1]
+23:14:00.693 INFO  akka.runtime.DiscoveryManager - Akka Runtime started at 127.0.0.1:54721
+23:14:00.694 INFO  repro.Bootstrap - onStartup burst disabled
+23:14:00.738 INFO  akka.javasdk.testkit.TestKit - Runtime started
+23:14:00.955 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: Dropping [1] buffered messages to shard [0] during hand off to avoid re-ordering
+23:14:00.955 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: Dropping [1] buffered messages to shard [0] during hand off to avoid re-ordering
+23:14:00.955 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: Dropping [1] buffered messages to shard [0] during hand off to avoid re-ordering
+23:14:01.006 INFO  akka.runtime.AkkaRuntimeMain - Starting Akka Runtime version [1.6.15]
+23:14:01.012 INFO  akka.javasdk.impl.ComponentLocator$ - Looking for component descriptors matching pattern [META-INF/akka-javasdk-components_*.conf]
+23:14:01.018 INFO  akka.javasdk.testkit.TestKit - Eventing TestKit booting up on port: 54727
+23:14:01.020 INFO  akka.javasdk.testkit.TestKit - Checking runtime status
+23:14:01.085 INFO  akka.runtime.DiscoveryManager - Service components: EventSourcedEntity: [1], Consumer: [2], View: [1]
+23:14:01.088 INFO  akka.runtime.DiscoveryManager - Akka Runtime started at 127.0.0.1:54726
+23:14:01.088 INFO  repro.Bootstrap - onStartup burst disabled
+23:14:01.143 INFO  akka.javasdk.testkit.TestKit - Runtime started
+23:14:01.352 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: Dropping [1] buffered messages to shard [0] during hand off to avoid re-ordering
+23:14:02.120 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: [1] of the entities in shard [0] not stopped after [750 milliseconds]. Maybe the handOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled? Waiting additional [250 milliseconds] before stopping the remaining entities.
+23:14:02.120 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: [1] of the entities in shard [0] not stopped after [750 milliseconds]. Maybe the handOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled? Waiting additional [250 milliseconds] before stopping the remaining entities.
+23:14:02.371 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: HandOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled by some of the entities in shard [0] after [1 second], stopping the remaining [1] entities.
+23:14:02.371 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: HandOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled by some of the entities in shard [0] after [1 second], stopping the remaining [1] entities.
+23:14:02.420 INFO  akka.runtime.AkkaRuntimeMain - Starting Akka Runtime version [1.6.15]
+23:14:02.427 INFO  akka.javasdk.impl.ComponentLocator$ - Looking for component descriptors matching pattern [META-INF/akka-javasdk-components_*.conf]
+23:14:02.432 INFO  akka.javasdk.testkit.TestKit - Eventing TestKit booting up on port: 54732
+23:14:02.436 INFO  akka.javasdk.testkit.TestKit - Checking runtime status
+23:14:02.501 INFO  akka.runtime.DiscoveryManager - Service components: EventSourcedEntity: [1], Consumer: [2], View: [1]
+23:14:02.506 INFO  akka.runtime.DiscoveryManager - Akka Runtime started at 127.0.0.1:54731
+23:14:02.506 INFO  repro.Bootstrap - onStartup burst disabled
+23:14:02.559 INFO  akka.javasdk.testkit.TestKit - Runtime started
+23:14:03.537 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: [1] of the entities in shard [0] not stopped after [750 milliseconds]. Maybe the handOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled? Waiting additional [250 milliseconds] before stopping the remaining entities.
+23:14:03.537 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: [1] of the entities in shard [0] not stopped after [750 milliseconds]. Maybe the handOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled? Waiting additional [250 milliseconds] before stopping the remaining entities.
+23:14:03.537 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: [1] of the entities in shard [0] not stopped after [750 milliseconds]. Maybe the handOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled? Waiting additional [250 milliseconds] before stopping the remaining entities.
+23:14:03.788 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: HandOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled by some of the entities in shard [0] after [1 second], stopping the remaining [1] entities.
+23:14:03.788 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: HandOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled by some of the entities in shard [0] after [1 second], stopping the remaining [1] entities.
+23:14:03.788 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: HandOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled by some of the entities in shard [0] after [1 second], stopping the remaining [1] entities.
+23:14:03.835 INFO  akka.runtime.AkkaRuntimeMain - Starting Akka Runtime version [1.6.15]
+23:14:03.842 INFO  akka.javasdk.impl.ComponentLocator$ - Looking for component descriptors matching pattern [META-INF/akka-javasdk-components_*.conf]
+23:14:03.849 INFO  akka.javasdk.testkit.TestKit - Eventing TestKit booting up on port: 54737
+23:14:03.852 INFO  akka.javasdk.testkit.TestKit - Checking runtime status
+23:14:03.915 INFO  akka.runtime.DiscoveryManager - Service components: EventSourcedEntity: [1], Consumer: [2], View: [1]
+23:14:03.919 INFO  akka.runtime.DiscoveryManager - Akka Runtime started at 127.0.0.1:54736
+23:14:03.919 INFO  repro.Bootstrap - onStartup burst disabled
+23:14:03.973 INFO  akka.javasdk.testkit.TestKit - Runtime started
+23:14:04.183 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: Dropping [1] buffered messages to shard [0] during hand off to avoid re-ordering
+23:14:04.951 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: [1] of the entities in shard [0] not stopped after [750 milliseconds]. Maybe the handOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled? Waiting additional [250 milliseconds] before stopping the remaining entities.
+23:14:04.952 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: [1] of the entities in shard [0] not stopped after [750 milliseconds]. Maybe the handOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled? Waiting additional [250 milliseconds] before stopping the remaining entities.
+23:14:05.201 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: HandOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled by some of the entities in shard [0] after [1 second], stopping the remaining [1] entities.
+23:14:05.201 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: HandOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled by some of the entities in shard [0] after [1 second], stopping the remaining [1] entities.
+=== BootstrapWorkTimingTest [baseline, no burst]: 15 cycles ===
+start() ms per cycle: [1804, 325, 236, 341, 209, 214, 266, 198, 239, 199, 189, 199, 177, 178, 174]  sum=4948 min=174 max=1804 mean=329
+stop() ms per cycle: [212, 237, 1258, 1246, 1247, 1248, 223, 1265, 1230, 1245, 1238, 227, 1237, 1238, 1238]  sum=14589 min=212 max=1265 mean=972
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 19.686 s - in repro.BootstrapWorkTimingTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  21.786 s
+[INFO] Finished at: 2026-09-22T23:14:05+10:00
+[INFO] ------------------------------------------------------------------------

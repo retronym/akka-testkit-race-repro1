@@ -1,0 +1,8 @@
+\- io.akka:akka-runtime-dev_2.13:jar:1.6.15:runtime
++- io.akka:akka-runtime-core_2.13:jar:1.6.15:runtime
+|  +- com.lightbend.akka:akka-projection-core_2.13:jar:1.6.20:runtime
+|  +- com.typesafe.akka:akka-cluster_2.13:jar:2.10.20:runtime
+|  +- com.typesafe.akka:akka-cluster-sharding_2.13:jar:2.10.20:runtime
+|  +- com.typesafe.akka:akka-cluster-sharding-typed_2.13:jar:2.10.20:runtime
+|  +- com.typesafe.akka:akka-cluster-typed_2.13:jar:2.10.20:runtime
+|  |  +- com.typesafe.akka:akka-cluster-tools_2.13:jar:2.10.20:runtime

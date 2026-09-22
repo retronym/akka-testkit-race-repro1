@@ -132,8 +132,10 @@ same cycle in both runs.
 
 ## What the stall is
 
-The snippets below are from one stalled cycle of `withBurstFromOnStartup`, at debug level, under
-`logs/`. Timestamps are kept so the gaps are readable.
+The snippets below are from one stalled cycle of `withBurstFromOnStartup`, at debug level, in
+`logs/20260922-230636/withBurstFromOnStartup-run1.log`. The runs behind every number in this file
+are committed under `logs/`, one directory per harness invocation, each with the dependency tree
+the run resolved. Timestamps are kept so the gaps are readable.
 
 The hook is not awaited. The burst starts, `start()` returns while it is still issuing, and the
 test calls `stop()` about ten milliseconds later:
