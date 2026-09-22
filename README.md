@@ -339,10 +339,10 @@ and the region's willingness to wait out a full phase timeout for it are two hal
 gap. A single node is where it shows, because a single node is where "no other member can take this
 shard" is certain.
 
-**The candidate fix removes it.** The akka-core working tree on branch `upstream-fixes-2.10.20`
-carried an uncommitted change to `ShardRegion.scala` that had never been built into a jar, so every
-number above was measured against the released sharding artifact. Built and published into the same
-repository, it changes both halves of the wait:
+**A candidate fix was tried, and does not hold up on retest.** The akka-core working tree on
+branch `upstream-fixes-2.10.20` carried an uncommitted change to `ShardRegion.scala` that had never
+been built into a jar, so every number above was measured against the released sharding artifact.
+Built and published into the same repository, it changes both halves of the wait:
 
 ```scala
    private def tryCompleteGracefulShutdownIfInProgress(): Unit =
@@ -383,7 +383,8 @@ repository, it changes both halves of the wait:
 +    } else if (totBufSize >= bufferSize) {
 ```
 
-Four quiet runs of the `onStartup()` arm against that jar, in `logs/20260922-233638`:
+Four quiet runs of the `onStartup()` arm against that jar, in `logs/20260922-233638`, were read at
+the time as confirming the fix:
 
 ```
 stop() run 1: [154, 31, 19, 13, 13, 15, 14, 13, 33, 10, 14, 26, 36, 14, 16]
@@ -392,27 +393,48 @@ stop() run 3: [98, 19, 51, 45, 23, 21, 76, 20, 16, 33, 19, 14, 13, 13, 13]
 stop() run 4: [144, 24, 14, 14, 14, 14, 25, 12, 12, 6, 15, 7, 5, 7, 4]
 ```
 
-The prediction holds, and more than the stall goes with it:
+No stalled cycle in 60, against 7 in 90 on the same arm without this jar; the graceful shutdown
+warning absent from every run; the bimodal floor of about 230 milliseconds and about 1.25 seconds
+gone, every cycle between 4 and 154 milliseconds. That reading does not survive a retest.
 
-- No stalled cycle in 60, against 7 in 90 on the same arm without this jar.
-- The graceful shutdown warning does not appear in any run.
-- The bimodal floor of about 230 milliseconds and about 1.25 seconds is gone. Every cycle is
-  between 4 and 154 milliseconds, which is the range the after-start arm already had.
-- In a debug run of the same arm, `logs/20260922-234113`, the entity region logs no shard home
-  request and no buffered message at all, and `onStartup()` no longer fails with
-  `TimeoutException: Command to entity ... timed out`. The region hands its one shard off in about
-  eighty milliseconds and stops.
+**Retest.** The same commit, `19d34a3`, rebuilt from a clean checkout rather than reused from the
+working tree, and run again, quiet, against `withBurstFromOnStartup`:
 
-The two jarsets differ only in this artifact, so the comparison is that change alone. The drop
-paths the diff adds are not reached in these runs: the stall is gone because nothing ends up
-buffered against a shutting-down region, not because the buffer is emptied.
+```
+stop() run 1: [9056, 1255, 237, 227, 1257, 227, 1258, 1247, 1236, 1235, 1257, 1248, 1247, 1237, 227]
+stop() run 2: [9063, 1256, 1249, 1257, 1258, 218, 1234, 1234, 1248, 1228, 1245, 1236, 1257, 1265, 1258]
+stop() run 3: [1109, 1253, 1236, 1257, 248, 1244, 227, 1248, 1247, 1247, 1248, 1237, 1248, 1256, 1237]
+stop() run 4: [78, 1245, 234, 1256, 1246, 1246, 1247, 1236, 9025, 1239, 1257, 1246, 1315, 1248, 1257]
+```
+
+3 stalled cycles in 60, at the same 9.0-9.1-second signature the fix was meant to remove, in 3 of
+the 4 runs. The floor is back to the same ~230ms/~1.25s bimodal shape the unfixed jar has, not the
+4-154ms range the original four runs showed. Retesting the fix against the minimal jarset this
+project's own bisection found sufficient, [akka-core#33000](https://github.com/akka/akka-core/pull/33000)
+alone plus the same fix cherry-picked onto it with no conflicts, is worse: 5 stalled cycles in 90,
+in 4 of 6 runs, debug level.
+
+Nothing about the diff or the commit differs between the two attempts; the checkout, cherry-pick
+and publishM2 steps are the same script, `.mvn-bisect/build-core-combo.sh`, run twice against the
+same SHA on different occasions. What changed is not established. A debug run of the failing
+combination shows the fix's own log lines never firing at all: `grep -c "dropping \[.\] buffered
+messages that no other member"` on a stalled run returns zero, meaning `bufferMessage` and
+`tryCompleteGracefulShutdownIfInProgress`'s new branches are not the code path this particular
+buffered message goes through. Worse, in that same run the entity region's own log is silent for
+the entire stall: no `Requesting shard home for` line at all between the last shard handoff and
+the graceful shutdown timeout warning, where the original diagnosis assumed periodic retries would
+appear. Either there is a second path into the same nine-second wait that the fix does not cover,
+or the first four runs were not measuring what they were read as measuring. Both keep this
+candidate fix open rather than closed, and the "most likely root cause" reading above should be
+read as a hypothesis that explains some stalls, not a settled explanation of all of them.
 
 **One layer above, the service side deserves its own question.** `start()` returns while
 `onStartup()` is still issuing commands, so a caller that stops the runtime promptly stops it with
 work in flight, and the hook then fails with `TimeoutException: Command to entity ... timed out`.
 Whether a startup hook should be awaited, and what a caller is entitled to assume when `start()`
-returns, is a question for the SDK and runtime rather than for sharding. Fixing the sharding side
-removes the nine seconds. It does not make the in-flight commands succeed.
+returns, is a question for the SDK and runtime rather than for sharding. That question stands on
+its own regardless of whether the sharding-side fix above turns out to remove the nine seconds:
+even a sharding fix that works would not make the in-flight commands themselves succeed.
 
 **What is not the cause.** Shard home lookups are ordinary traffic on the jarset that stalls: 45 to
 74 per run, in stalled and clean runs alike. Wide fan-out is not required either, since one view and two consumers are

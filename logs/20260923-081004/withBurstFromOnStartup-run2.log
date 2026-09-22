@@ -1,0 +1,478 @@
+[INFO] Scanning for projects...
+[INFO] ------------------------------------------------------------------------
+[INFO] Detecting the operating system and CPU architecture
+[INFO] ------------------------------------------------------------------------
+[INFO] os.detected.name: osx
+[INFO] os.detected.arch: aarch_64
+[INFO] os.detected.bitness: 64
+[INFO] os.detected.version: 27.0
+[INFO] os.detected.version.major: 27
+[INFO] os.detected.version.minor: 0
+[INFO] os.detected.classifier: osx-aarch_64
+[INFO] 
+[INFO] ---------------< io.akka.repro:akka-testkit-race-repro >----------------
+[INFO] Building akka-testkit-race-repro 0.1.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- enforcer:3.5.0:enforce (enforce-build-rules) @ akka-testkit-race-repro ---
+[INFO] No dependency conflicts with Akka runtime detected.
+[INFO] Rule 0: akka.javasdk.enforcer.AkkaRuntimeDependencyRule(akkaRuntimeDependencyCheck) passed
+[INFO] Rule 1: org.apache.maven.enforcer.rules.version.RequireMavenVersion passed
+[INFO] Rule 2: org.apache.maven.enforcer.rules.version.RequireJavaVersion passed
+[INFO] 
+[INFO] --- antrun:3.1.0:run (clean-on-missing-descriptor) @ akka-testkit-race-repro ---
+[INFO] Executing tasks
+[INFO] Executed tasks
+[INFO] 
+[INFO] --- build-helper:3.2.0:add-source (add-java-source) @ akka-testkit-race-repro ---
+[INFO] Source directory: /Users/jz/code/akka-testkit-race-repro/target/generated-sources/akka-grpc-java added.
+[INFO] 
+[INFO] --- resources:3.4.0:resources (default-resources) @ akka-testkit-race-repro ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.13.0:compile (default-compile) @ akka-testkit-race-repro ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- build-helper:3.2.0:add-test-source (add-integration-test-source) @ akka-testkit-race-repro ---
+[INFO] Test Source directory: /Users/jz/code/akka-testkit-race-repro/src/it/java added.
+[INFO] 
+[INFO] --- build-helper:3.2.0:add-test-resource (add-integration-test-resource) @ akka-testkit-race-repro ---
+[INFO] 
+[INFO] --- resources:3.4.0:testResources (default-testResources) @ akka-testkit-race-repro ---
+[INFO] Copying 2 resources from src/test/resources to target/test-classes
+[INFO] skip non existing resourceDirectory /Users/jz/code/akka-testkit-race-repro/src/it/resources
+[INFO] 
+[INFO] --- compiler:3.13.0:testCompile (default-testCompile) @ akka-testkit-race-repro ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:2.22.2:test (default-test) @ akka-testkit-race-repro ---
+[WARNING] The system property akka.javasdk.dev-mode.project-artifact-id is configured twice! The property appears in <argLine/> and any of <systemPropertyVariables/>, <systemProperties/> or user property.
+[WARNING] The system property logback.configurationFile is configured twice! The property appears in <argLine/> and any of <systemPropertyVariables/>, <systemProperties/> or user property.
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running repro.BootstrapWorkTimingTest
+08:10:39.298 INFO  akka.runtime.AkkaRuntimeMain - Starting Akka Runtime version [1.6.15]
+08:10:39.483 INFO  akka.javasdk.impl.ComponentLocator$ - Looking for component descriptors matching pattern [META-INF/akka-javasdk-components_*.conf]
+08:10:39.531 INFO  akka.javasdk.testkit.TestKit - Eventing TestKit booting up on port: 63609
+08:10:39.642 INFO  akka.javasdk.testkit.TestKit - Checking runtime status
+08:10:39.752 INFO  akka.cluster.sharding.ShardRegion - passivation-race-entity: Automatic entity passivation: composite strategy with limit of [10000] active entities, admission window (least recently used entities) with proportions [initial = 0.01, min = 0.01, max = 1.0] adapting with hill-climbing optimizer [adjust multiplier = 10.0, initial step = 0.0625, restart threshold = 0.05, step decay = 0.98], admit using frequency sketch [width multiplier = 4, reset multiplier = 10.0, depth = 4, counter bits = 4], main (least recently used entities (segmented with [2] levels with proportions of [0.20, 0.80]))
+08:10:39.813 INFO  akka.runtime.DiscoveryManager - Service components: EventSourcedEntity: [1], Consumer: [2], View: [1]
+08:10:39.897 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: Automatic entity passivation: disabled
+08:10:39.901 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: Automatic entity passivation: disabled
+08:10:39.904 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: Automatic entity passivation: disabled
+08:10:39.955 INFO  akka.runtime.DiscoveryManager - Akka Runtime started at 127.0.0.1:63608
+08:10:39.956 INFO  repro.Bootstrap - onStartup burst of 8 starting
+08:10:40.098 INFO  akka.javasdk.testkit.TestKit - Runtime started
+08:10:40.163 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: Dropping [1] buffered messages to shard [0] during hand off to avoid re-ordering
+08:10:40.165 WARN  akka.cluster.sharding.ShardRegion - _timer: Dropping [1] buffered messages to shard [993] during hand off to avoid re-ordering
+08:10:40.172 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: Dropping [1] buffered messages to shard [0] during hand off to avoid re-ordering
+08:10:40.932 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: [1] of the entities in shard [0] not stopped after [750 milliseconds]. Maybe the handOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled? Waiting additional [250 milliseconds] before stopping the remaining entities.
+08:10:41.181 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: HandOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled by some of the entities in shard [0] after [1 second], stopping the remaining [1] entities.
+08:10:41.190 WARN  a.s.s.RestartWithBackoffSource - Restarting stream due to failure [1]: akka.projection.r2dbc.internal.R2dbcOffsetStore$AttemptToUseStoppedOffsetStore: eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a [0-1023], correlation [057d2678-8c72-4745-aa9a-2575c2050028]: R2dbcOffsetStore was stopped
+08:10:49.122 WARN  akka.cluster.sharding.ShardRegion - passivation-race-entity: Graceful shutdown of shard region timed out, region will be stopped. Remaining shards [], remaining buffered messages [1].
+08:10:49.296 INFO  akka.runtime.AkkaRuntimeMain - Starting Akka Runtime version [1.6.15]
+08:10:49.314 INFO  akka.javasdk.impl.ComponentLocator$ - Looking for component descriptors matching pattern [META-INF/akka-javasdk-components_*.conf]
+08:10:49.331 INFO  akka.javasdk.testkit.TestKit - Eventing TestKit booting up on port: 63615
+08:10:49.336 INFO  akka.javasdk.testkit.TestKit - Checking runtime status
+08:10:49.404 INFO  akka.cluster.sharding.ShardRegion - passivation-race-entity: Automatic entity passivation: composite strategy with limit of [10000] active entities, admission window (least recently used entities) with proportions [initial = 0.01, min = 0.01, max = 1.0] adapting with hill-climbing optimizer [adjust multiplier = 10.0, initial step = 0.0625, restart threshold = 0.05, step decay = 0.98], admit using frequency sketch [width multiplier = 4, reset multiplier = 10.0, depth = 4, counter bits = 4], main (least recently used entities (segmented with [2] levels with proportions of [0.20, 0.80]))
+08:10:49.411 INFO  akka.runtime.DiscoveryManager - Service components: EventSourcedEntity: [1], Consumer: [2], View: [1]
+08:10:49.414 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: Automatic entity passivation: disabled
+08:10:49.416 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: Automatic entity passivation: disabled
+08:10:49.419 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: Automatic entity passivation: disabled
+08:10:49.420 INFO  akka.runtime.DiscoveryManager - Akka Runtime started at 127.0.0.1:63614
+08:10:49.420 INFO  repro.Bootstrap - onStartup burst of 8 starting
+08:10:49.463 INFO  akka.javasdk.testkit.TestKit - Runtime started
+08:10:49.669 WARN  akka.cluster.sharding.ShardRegion - passivation-race-entity: Dropping [1] buffered messages to shard [364] during hand off to avoid re-ordering
+08:10:49.681 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: Dropping [1] buffered messages to shard [0] during hand off to avoid re-ordering
+08:10:49.681 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: Dropping [1] buffered messages to shard [0] during hand off to avoid re-ordering
+08:10:50.450 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: [1] of the entities in shard [0] not stopped after [750 milliseconds]. Maybe the handOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled? Waiting additional [250 milliseconds] before stopping the remaining entities.
+08:10:50.700 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: HandOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled by some of the entities in shard [0] after [1 second], stopping the remaining [1] entities.
+08:10:50.812 INFO  akka.runtime.AkkaRuntimeMain - Starting Akka Runtime version [1.6.15]
+08:10:50.823 INFO  akka.javasdk.impl.ComponentLocator$ - Looking for component descriptors matching pattern [META-INF/akka-javasdk-components_*.conf]
+08:10:50.831 INFO  akka.javasdk.testkit.TestKit - Eventing TestKit booting up on port: 63620
+08:10:50.835 INFO  akka.javasdk.testkit.TestKit - Checking runtime status
+08:10:50.904 INFO  akka.cluster.sharding.ShardRegion - passivation-race-entity: Automatic entity passivation: composite strategy with limit of [10000] active entities, admission window (least recently used entities) with proportions [initial = 0.01, min = 0.01, max = 1.0] adapting with hill-climbing optimizer [adjust multiplier = 10.0, initial step = 0.0625, restart threshold = 0.05, step decay = 0.98], admit using frequency sketch [width multiplier = 4, reset multiplier = 10.0, depth = 4, counter bits = 4], main (least recently used entities (segmented with [2] levels with proportions of [0.20, 0.80]))
+08:10:50.910 INFO  akka.runtime.DiscoveryManager - Service components: EventSourcedEntity: [1], Consumer: [2], View: [1]
+08:10:50.913 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: Automatic entity passivation: disabled
+08:10:50.914 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: Automatic entity passivation: disabled
+08:10:50.915 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: Automatic entity passivation: disabled
+08:10:50.918 INFO  akka.runtime.DiscoveryManager - Akka Runtime started at 127.0.0.1:63619
+08:10:50.919 INFO  repro.Bootstrap - onStartup burst of 8 starting
+08:10:50.960 INFO  akka.javasdk.testkit.TestKit - Runtime started
+08:10:51.170 WARN  akka.cluster.sharding.ShardRegion - passivation-race-entity: Dropping [1] buffered messages to shard [351] during hand off to avoid re-ordering
+08:10:51.190 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: Dropping [1] buffered messages to shard [0] during hand off to avoid re-ordering
+08:10:51.948 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: [1] of the entities in shard [0] not stopped after [750 milliseconds]. Maybe the handOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled? Waiting additional [250 milliseconds] before stopping the remaining entities.
+08:10:51.948 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: [1] of the entities in shard [0] not stopped after [750 milliseconds]. Maybe the handOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled? Waiting additional [250 milliseconds] before stopping the remaining entities.
+08:10:52.197 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: HandOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled by some of the entities in shard [0] after [1 second], stopping the remaining [1] entities.
+08:10:52.198 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: HandOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled by some of the entities in shard [0] after [1 second], stopping the remaining [1] entities.
+08:10:52.280 INFO  akka.runtime.AkkaRuntimeMain - Starting Akka Runtime version [1.6.15]
+08:10:52.290 INFO  akka.javasdk.impl.ComponentLocator$ - Looking for component descriptors matching pattern [META-INF/akka-javasdk-components_*.conf]
+08:10:52.300 INFO  akka.javasdk.testkit.TestKit - Eventing TestKit booting up on port: 63625
+08:10:52.306 INFO  akka.javasdk.testkit.TestKit - Checking runtime status
+08:10:52.367 INFO  akka.cluster.sharding.ShardRegion - passivation-race-entity: Automatic entity passivation: composite strategy with limit of [10000] active entities, admission window (least recently used entities) with proportions [initial = 0.01, min = 0.01, max = 1.0] adapting with hill-climbing optimizer [adjust multiplier = 10.0, initial step = 0.0625, restart threshold = 0.05, step decay = 0.98], admit using frequency sketch [width multiplier = 4, reset multiplier = 10.0, depth = 4, counter bits = 4], main (least recently used entities (segmented with [2] levels with proportions of [0.20, 0.80]))
+08:10:52.371 INFO  akka.runtime.DiscoveryManager - Service components: EventSourcedEntity: [1], Consumer: [2], View: [1]
+08:10:52.373 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: Automatic entity passivation: disabled
+08:10:52.375 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: Automatic entity passivation: disabled
+08:10:52.375 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: Automatic entity passivation: disabled
+08:10:52.378 INFO  akka.runtime.DiscoveryManager - Akka Runtime started at 127.0.0.1:63624
+08:10:52.378 INFO  repro.Bootstrap - onStartup burst of 8 starting
+08:10:52.426 INFO  akka.javasdk.testkit.TestKit - Runtime started
+08:10:52.636 WARN  akka.cluster.sharding.ShardRegion - passivation-race-entity: Dropping [1] buffered messages to shard [677] during hand off to avoid re-ordering
+08:10:53.413 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: [1] of the entities in shard [0] not stopped after [750 milliseconds]. Maybe the handOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled? Waiting additional [250 milliseconds] before stopping the remaining entities.
+08:10:53.414 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: [1] of the entities in shard [0] not stopped after [750 milliseconds]. Maybe the handOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled? Waiting additional [250 milliseconds] before stopping the remaining entities.
+08:10:53.414 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: [1] of the entities in shard [0] not stopped after [750 milliseconds]. Maybe the handOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled? Waiting additional [250 milliseconds] before stopping the remaining entities.
+08:10:53.663 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: HandOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled by some of the entities in shard [0] after [1 second], stopping the remaining [1] entities.
+08:10:53.664 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: HandOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled by some of the entities in shard [0] after [1 second], stopping the remaining [1] entities.
+08:10:53.665 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: HandOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled by some of the entities in shard [0] after [1 second], stopping the remaining [1] entities.
+08:10:53.751 INFO  akka.runtime.AkkaRuntimeMain - Starting Akka Runtime version [1.6.15]
+08:10:53.759 INFO  akka.javasdk.impl.ComponentLocator$ - Looking for component descriptors matching pattern [META-INF/akka-javasdk-components_*.conf]
+08:10:53.766 INFO  akka.javasdk.testkit.TestKit - Eventing TestKit booting up on port: 63630
+08:10:53.768 INFO  akka.javasdk.testkit.TestKit - Checking runtime status
+08:10:53.840 INFO  akka.cluster.sharding.ShardRegion - passivation-race-entity: Automatic entity passivation: composite strategy with limit of [10000] active entities, admission window (least recently used entities) with proportions [initial = 0.01, min = 0.01, max = 1.0] adapting with hill-climbing optimizer [adjust multiplier = 10.0, initial step = 0.0625, restart threshold = 0.05, step decay = 0.98], admit using frequency sketch [width multiplier = 4, reset multiplier = 10.0, depth = 4, counter bits = 4], main (least recently used entities (segmented with [2] levels with proportions of [0.20, 0.80]))
+08:10:53.843 INFO  akka.runtime.DiscoveryManager - Service components: EventSourcedEntity: [1], Consumer: [2], View: [1]
+08:10:53.844 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: Automatic entity passivation: disabled
+08:10:53.844 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: Automatic entity passivation: disabled
+08:10:53.845 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: Automatic entity passivation: disabled
+08:10:53.846 INFO  akka.runtime.DiscoveryManager - Akka Runtime started at 127.0.0.1:63629
+08:10:53.847 INFO  repro.Bootstrap - onStartup burst of 8 starting
+08:10:53.890 INFO  akka.javasdk.testkit.TestKit - Runtime started
+08:10:54.133 ERROR repro.Bootstrap - onStartup() threw an exception
+java.util.concurrent.TimeoutException: Command to entity [passivation-race-entity] id [2b763191-e413-4d39-8c62-2cf2d92e0719] timed out.
+	at kalix.runtime.eventsourcedentity.EventSourcedSupport$$anonfun$$nestedInanonfun$handleCommand$1$1.applyOrElse(EventSourcedEntitySupportFactory.scala:191)
+	at kalix.runtime.eventsourcedentity.EventSourcedSupport$$anonfun$$nestedInanonfun$handleCommand$1$1.applyOrElse(EventSourcedEntitySupportFactory.scala:189)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:523)
+	at akka.dispatch.BatchingExecutor$AbstractBatch.processBatch(BatchingExecutor.scala:64)
+	at akka.dispatch.BatchingExecutor$BlockableBatch.$anonfun$run$1(BatchingExecutor.scala:101)
+	at scala.runtime.java8.JFunction0$mcV$sp.apply(JFunction0$mcV$sp.scala:18)
+	at scala.concurrent.BlockContext$.withBlockContext(BlockContext.scala:94)
+	at akka.dispatch.BatchingExecutor$BlockableBatch.run(BatchingExecutor.scala:101)
+	at akka.dispatch.TaskInvocation.run(AbstractDispatcher.scala:48)
+	at akka.dispatch.ForkJoinExecutorConfigurator$AkkaForkJoinTask.exec(ForkJoinExecutorConfigurator.scala:60)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:507)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1450)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:2019)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:187)
+08:10:54.877 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: [1] of the entities in shard [0] not stopped after [750 milliseconds]. Maybe the handOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled? Waiting additional [250 milliseconds] before stopping the remaining entities.
+08:10:55.126 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: HandOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled by some of the entities in shard [0] after [1 second], stopping the remaining [1] entities.
+08:10:55.130 WARN  a.s.s.RestartWithBackoffSource - Restarting stream due to failure [1]: akka.projection.r2dbc.internal.R2dbcOffsetStore$AttemptToUseStoppedOffsetStore: eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b [0-1023], correlation [603012c2-dff8-423f-9f44-35a878933038]: R2dbcOffsetStore was stopped
+08:10:55.216 INFO  akka.runtime.AkkaRuntimeMain - Starting Akka Runtime version [1.6.15]
+08:10:55.224 INFO  akka.javasdk.impl.ComponentLocator$ - Looking for component descriptors matching pattern [META-INF/akka-javasdk-components_*.conf]
+08:10:55.231 INFO  akka.javasdk.testkit.TestKit - Eventing TestKit booting up on port: 63635
+08:10:55.234 INFO  akka.javasdk.testkit.TestKit - Checking runtime status
+08:10:55.298 INFO  akka.cluster.sharding.ShardRegion - passivation-race-entity: Automatic entity passivation: composite strategy with limit of [10000] active entities, admission window (least recently used entities) with proportions [initial = 0.01, min = 0.01, max = 1.0] adapting with hill-climbing optimizer [adjust multiplier = 10.0, initial step = 0.0625, restart threshold = 0.05, step decay = 0.98], admit using frequency sketch [width multiplier = 4, reset multiplier = 10.0, depth = 4, counter bits = 4], main (least recently used entities (segmented with [2] levels with proportions of [0.20, 0.80]))
+08:10:55.301 INFO  akka.runtime.DiscoveryManager - Service components: EventSourcedEntity: [1], Consumer: [2], View: [1]
+08:10:55.304 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: Automatic entity passivation: disabled
+08:10:55.306 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: Automatic entity passivation: disabled
+08:10:55.306 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: Automatic entity passivation: disabled
+08:10:55.307 INFO  akka.runtime.DiscoveryManager - Akka Runtime started at 127.0.0.1:63634
+08:10:55.307 INFO  repro.Bootstrap - onStartup burst of 8 starting
+08:10:55.307 INFO  akka.runtime.DiscoveryManager - Eventing initialized
+08:10:55.359 INFO  akka.javasdk.testkit.TestKit - Runtime started
+08:10:55.568 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: Dropping [1] buffered messages to shard [0] during hand off to avoid re-ordering
+08:10:55.568 WARN  akka.cluster.sharding.ShardRegion - passivation-race-entity: Dropping [1] buffered messages to shard [402] during hand off to avoid re-ordering
+08:10:55.568 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: Dropping [1] buffered messages to shard [0] during hand off to avoid re-ordering
+08:10:55.568 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: Dropping [1] buffered messages to shard [0] during hand off to avoid re-ordering
+08:10:55.628 INFO  akka.runtime.AkkaRuntimeMain - Starting Akka Runtime version [1.6.15]
+08:10:55.635 INFO  akka.javasdk.impl.ComponentLocator$ - Looking for component descriptors matching pattern [META-INF/akka-javasdk-components_*.conf]
+08:10:55.640 INFO  akka.javasdk.testkit.TestKit - Eventing TestKit booting up on port: 63641
+08:10:55.643 INFO  akka.javasdk.testkit.TestKit - Checking runtime status
+08:10:55.708 INFO  akka.cluster.sharding.ShardRegion - passivation-race-entity: Automatic entity passivation: composite strategy with limit of [10000] active entities, admission window (least recently used entities) with proportions [initial = 0.01, min = 0.01, max = 1.0] adapting with hill-climbing optimizer [adjust multiplier = 10.0, initial step = 0.0625, restart threshold = 0.05, step decay = 0.98], admit using frequency sketch [width multiplier = 4, reset multiplier = 10.0, depth = 4, counter bits = 4], main (least recently used entities (segmented with [2] levels with proportions of [0.20, 0.80]))
+08:10:55.711 INFO  akka.runtime.DiscoveryManager - Service components: EventSourcedEntity: [1], Consumer: [2], View: [1]
+08:10:55.712 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: Automatic entity passivation: disabled
+08:10:55.713 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: Automatic entity passivation: disabled
+08:10:55.713 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: Automatic entity passivation: disabled
+08:10:55.714 INFO  akka.runtime.DiscoveryManager - Akka Runtime started at 127.0.0.1:63640
+08:10:55.715 INFO  repro.Bootstrap - onStartup burst of 8 starting
+08:10:55.769 INFO  akka.javasdk.testkit.TestKit - Runtime started
+08:10:55.976 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: Dropping [1] buffered messages to shard [0] during hand off to avoid re-ordering
+08:10:55.976 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: Dropping [1] buffered messages to shard [0] during hand off to avoid re-ordering
+08:10:55.990 ERROR repro.Bootstrap - onStartup() threw an exception
+java.util.concurrent.TimeoutException: Command to entity [passivation-race-entity] id [53dc5e47-3312-407f-84f7-c1a1daf0e3d5] timed out.
+	at kalix.runtime.eventsourcedentity.EventSourcedSupport$$anonfun$$nestedInanonfun$handleCommand$1$1.applyOrElse(EventSourcedEntitySupportFactory.scala:191)
+	at kalix.runtime.eventsourcedentity.EventSourcedSupport$$anonfun$$nestedInanonfun$handleCommand$1$1.applyOrElse(EventSourcedEntitySupportFactory.scala:189)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:523)
+	at akka.dispatch.BatchingExecutor$AbstractBatch.processBatch(BatchingExecutor.scala:64)
+	at akka.dispatch.BatchingExecutor$BlockableBatch.$anonfun$run$1(BatchingExecutor.scala:101)
+	at scala.runtime.java8.JFunction0$mcV$sp.apply(JFunction0$mcV$sp.scala:18)
+	at scala.concurrent.BlockContext$.withBlockContext(BlockContext.scala:94)
+	at akka.dispatch.BatchingExecutor$BlockableBatch.run(BatchingExecutor.scala:101)
+	at akka.dispatch.TaskInvocation.run(AbstractDispatcher.scala:48)
+	at akka.dispatch.ForkJoinExecutorConfigurator$AkkaForkJoinTask.exec(ForkJoinExecutorConfigurator.scala:60)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:507)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1450)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:2019)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:187)
+08:10:56.746 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: [1] of the entities in shard [0] not stopped after [750 milliseconds]. Maybe the handOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled? Waiting additional [250 milliseconds] before stopping the remaining entities.
+08:10:56.995 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: HandOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled by some of the entities in shard [0] after [1 second], stopping the remaining [1] entities.
+08:10:56.998 WARN  a.s.s.RestartWithBackoffSource - Restarting stream due to failure [1]: akka.projection.r2dbc.internal.R2dbcOffsetStore$AttemptToUseStoppedOffsetStore: eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a [0-1023], correlation [50606070-6c8e-4c0c-8d6c-fe3999af9f57]: R2dbcOffsetStore was stopped
+08:10:57.061 INFO  akka.runtime.AkkaRuntimeMain - Starting Akka Runtime version [1.6.15]
+08:10:57.068 INFO  akka.javasdk.impl.ComponentLocator$ - Looking for component descriptors matching pattern [META-INF/akka-javasdk-components_*.conf]
+08:10:57.074 INFO  akka.javasdk.testkit.TestKit - Eventing TestKit booting up on port: 63646
+08:10:57.078 INFO  akka.javasdk.testkit.TestKit - Checking runtime status
+08:10:57.143 INFO  akka.cluster.sharding.ShardRegion - passivation-race-entity: Automatic entity passivation: composite strategy with limit of [10000] active entities, admission window (least recently used entities) with proportions [initial = 0.01, min = 0.01, max = 1.0] adapting with hill-climbing optimizer [adjust multiplier = 10.0, initial step = 0.0625, restart threshold = 0.05, step decay = 0.98], admit using frequency sketch [width multiplier = 4, reset multiplier = 10.0, depth = 4, counter bits = 4], main (least recently used entities (segmented with [2] levels with proportions of [0.20, 0.80]))
+08:10:57.145 INFO  akka.runtime.DiscoveryManager - Service components: EventSourcedEntity: [1], Consumer: [2], View: [1]
+08:10:57.147 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: Automatic entity passivation: disabled
+08:10:57.147 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: Automatic entity passivation: disabled
+08:10:57.148 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: Automatic entity passivation: disabled
+08:10:57.150 INFO  akka.runtime.DiscoveryManager - Akka Runtime started at 127.0.0.1:63645
+08:10:57.151 INFO  repro.Bootstrap - onStartup burst of 8 starting
+08:10:57.206 INFO  akka.javasdk.testkit.TestKit - Runtime started
+08:10:57.412 WARN  akka.cluster.sharding.ShardRegion - passivation-race-entity: Dropping [1] buffered messages to shard [47] during hand off to avoid re-ordering
+08:10:57.412 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: Dropping [1] buffered messages to shard [0] during hand off to avoid re-ordering
+08:10:58.181 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: [1] of the entities in shard [0] not stopped after [750 milliseconds]. Maybe the handOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled? Waiting additional [250 milliseconds] before stopping the remaining entities.
+08:10:58.181 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: [1] of the entities in shard [0] not stopped after [750 milliseconds]. Maybe the handOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled? Waiting additional [250 milliseconds] before stopping the remaining entities.
+08:10:58.431 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: HandOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled by some of the entities in shard [0] after [1 second], stopping the remaining [1] entities.
+08:10:58.431 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: HandOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled by some of the entities in shard [0] after [1 second], stopping the remaining [1] entities.
+08:10:58.494 INFO  akka.runtime.AkkaRuntimeMain - Starting Akka Runtime version [1.6.15]
+08:10:58.503 INFO  akka.javasdk.impl.ComponentLocator$ - Looking for component descriptors matching pattern [META-INF/akka-javasdk-components_*.conf]
+08:10:58.509 INFO  akka.javasdk.testkit.TestKit - Eventing TestKit booting up on port: 63651
+08:10:58.511 INFO  akka.javasdk.testkit.TestKit - Checking runtime status
+08:10:58.579 INFO  akka.cluster.sharding.ShardRegion - passivation-race-entity: Automatic entity passivation: composite strategy with limit of [10000] active entities, admission window (least recently used entities) with proportions [initial = 0.01, min = 0.01, max = 1.0] adapting with hill-climbing optimizer [adjust multiplier = 10.0, initial step = 0.0625, restart threshold = 0.05, step decay = 0.98], admit using frequency sketch [width multiplier = 4, reset multiplier = 10.0, depth = 4, counter bits = 4], main (least recently used entities (segmented with [2] levels with proportions of [0.20, 0.80]))
+08:10:58.581 INFO  akka.runtime.DiscoveryManager - Service components: EventSourcedEntity: [1], Consumer: [2], View: [1]
+08:10:58.583 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: Automatic entity passivation: disabled
+08:10:58.583 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: Automatic entity passivation: disabled
+08:10:58.584 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: Automatic entity passivation: disabled
+08:10:58.584 INFO  akka.runtime.DiscoveryManager - Akka Runtime started at 127.0.0.1:63650
+08:10:58.585 INFO  repro.Bootstrap - onStartup burst of 8 starting
+08:10:58.630 INFO  akka.javasdk.testkit.TestKit - Runtime started
+08:10:58.848 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: Dropping [1] buffered messages to shard [0] during hand off to avoid re-ordering
+08:10:58.848 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: Dropping [1] buffered messages to shard [0] during hand off to avoid re-ordering
+08:10:58.864 ERROR repro.Bootstrap - onStartup() threw an exception
+java.util.concurrent.TimeoutException: Command to entity [passivation-race-entity] id [8672be2b-2c92-4dfc-bfac-74fa61fba6bc] timed out.
+	at kalix.runtime.eventsourcedentity.EventSourcedSupport$$anonfun$$nestedInanonfun$handleCommand$1$1.applyOrElse(EventSourcedEntitySupportFactory.scala:191)
+	at kalix.runtime.eventsourcedentity.EventSourcedSupport$$anonfun$$nestedInanonfun$handleCommand$1$1.applyOrElse(EventSourcedEntitySupportFactory.scala:189)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:523)
+	at akka.dispatch.BatchingExecutor$AbstractBatch.processBatch(BatchingExecutor.scala:64)
+	at akka.dispatch.BatchingExecutor$BlockableBatch.$anonfun$run$1(BatchingExecutor.scala:101)
+	at scala.runtime.java8.JFunction0$mcV$sp.apply(JFunction0$mcV$sp.scala:18)
+	at scala.concurrent.BlockContext$.withBlockContext(BlockContext.scala:94)
+	at akka.dispatch.BatchingExecutor$BlockableBatch.run(BatchingExecutor.scala:101)
+	at akka.dispatch.TaskInvocation.run(AbstractDispatcher.scala:48)
+	at akka.dispatch.ForkJoinExecutorConfigurator$AkkaForkJoinTask.exec(ForkJoinExecutorConfigurator.scala:60)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:507)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1450)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:2019)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:187)
+08:10:59.617 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: [1] of the entities in shard [0] not stopped after [750 milliseconds]. Maybe the handOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled? Waiting additional [250 milliseconds] before stopping the remaining entities.
+08:10:59.867 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: HandOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled by some of the entities in shard [0] after [1 second], stopping the remaining [1] entities.
+08:10:59.870 WARN  a.s.s.RestartWithBackoffSource - Restarting stream due to failure [1]: akka.projection.r2dbc.internal.R2dbcOffsetStore$AttemptToUseStoppedOffsetStore: eventSourcedProjection-passivation-race-entity-passivation-race-view [0-1023], correlation [25080188-87de-4532-a3cd-ef4239365795]: R2dbcOffsetStore was stopped
+08:10:59.926 INFO  akka.runtime.AkkaRuntimeMain - Starting Akka Runtime version [1.6.15]
+08:10:59.933 INFO  akka.javasdk.impl.ComponentLocator$ - Looking for component descriptors matching pattern [META-INF/akka-javasdk-components_*.conf]
+08:10:59.939 INFO  akka.javasdk.testkit.TestKit - Eventing TestKit booting up on port: 63656
+08:10:59.942 INFO  akka.javasdk.testkit.TestKit - Checking runtime status
+08:11:00.008 INFO  akka.cluster.sharding.ShardRegion - passivation-race-entity: Automatic entity passivation: composite strategy with limit of [10000] active entities, admission window (least recently used entities) with proportions [initial = 0.01, min = 0.01, max = 1.0] adapting with hill-climbing optimizer [adjust multiplier = 10.0, initial step = 0.0625, restart threshold = 0.05, step decay = 0.98], admit using frequency sketch [width multiplier = 4, reset multiplier = 10.0, depth = 4, counter bits = 4], main (least recently used entities (segmented with [2] levels with proportions of [0.20, 0.80]))
+08:11:00.011 INFO  akka.runtime.DiscoveryManager - Service components: EventSourcedEntity: [1], Consumer: [2], View: [1]
+08:11:00.013 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: Automatic entity passivation: disabled
+08:11:00.014 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: Automatic entity passivation: disabled
+08:11:00.016 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: Automatic entity passivation: disabled
+08:11:00.018 INFO  akka.runtime.DiscoveryManager - Akka Runtime started at 127.0.0.1:63655
+08:11:00.018 INFO  repro.Bootstrap - onStartup burst of 8 starting
+08:11:00.077 INFO  akka.javasdk.testkit.TestKit - Runtime started
+08:11:00.276 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: Dropping [1] buffered messages to shard [0] during hand off to avoid re-ordering
+08:11:00.288 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: Dropping [1] buffered messages to shard [0] during hand off to avoid re-ordering
+08:11:00.288 ERROR repro.Bootstrap - onStartup() threw an exception
+java.util.concurrent.TimeoutException: Command to entity [passivation-race-entity] id [f6a5046a-b933-4eb5-be26-997b24435a26] timed out.
+	at kalix.runtime.eventsourcedentity.EventSourcedSupport$$anonfun$$nestedInanonfun$handleCommand$1$1.applyOrElse(EventSourcedEntitySupportFactory.scala:191)
+	at kalix.runtime.eventsourcedentity.EventSourcedSupport$$anonfun$$nestedInanonfun$handleCommand$1$1.applyOrElse(EventSourcedEntitySupportFactory.scala:189)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:523)
+	at akka.dispatch.BatchingExecutor$AbstractBatch.processBatch(BatchingExecutor.scala:64)
+	at akka.dispatch.BatchingExecutor$BlockableBatch.$anonfun$run$1(BatchingExecutor.scala:101)
+	at scala.runtime.java8.JFunction0$mcV$sp.apply(JFunction0$mcV$sp.scala:18)
+	at scala.concurrent.BlockContext$.withBlockContext(BlockContext.scala:94)
+	at akka.dispatch.BatchingExecutor$BlockableBatch.run(BatchingExecutor.scala:101)
+	at akka.dispatch.TaskInvocation.run(AbstractDispatcher.scala:48)
+	at akka.dispatch.ForkJoinExecutorConfigurator$AkkaForkJoinTask.exec(ForkJoinExecutorConfigurator.scala:60)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:507)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1450)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:2019)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:187)
+08:11:01.046 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: [1] of the entities in shard [0] not stopped after [750 milliseconds]. Maybe the handOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled? Waiting additional [250 milliseconds] before stopping the remaining entities.
+08:11:01.297 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: HandOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled by some of the entities in shard [0] after [1 second], stopping the remaining [1] entities.
+08:11:01.298 WARN  a.s.s.RestartWithBackoffSource - Restarting stream due to failure [1]: akka.projection.r2dbc.internal.R2dbcOffsetStore$AttemptToUseStoppedOffsetStore: eventSourcedProjection-passivation-race-entity-passivation-race-view [0-1023], correlation [9d9d9fb3-d3c8-48ce-8b7c-8f02101564a3]: R2dbcOffsetStore was stopped
+08:11:01.368 INFO  akka.runtime.AkkaRuntimeMain - Starting Akka Runtime version [1.6.15]
+08:11:01.375 INFO  akka.javasdk.impl.ComponentLocator$ - Looking for component descriptors matching pattern [META-INF/akka-javasdk-components_*.conf]
+08:11:01.381 INFO  akka.javasdk.testkit.TestKit - Eventing TestKit booting up on port: 63661
+08:11:01.383 INFO  akka.javasdk.testkit.TestKit - Checking runtime status
+08:11:01.453 INFO  akka.cluster.sharding.ShardRegion - passivation-race-entity: Automatic entity passivation: composite strategy with limit of [10000] active entities, admission window (least recently used entities) with proportions [initial = 0.01, min = 0.01, max = 1.0] adapting with hill-climbing optimizer [adjust multiplier = 10.0, initial step = 0.0625, restart threshold = 0.05, step decay = 0.98], admit using frequency sketch [width multiplier = 4, reset multiplier = 10.0, depth = 4, counter bits = 4], main (least recently used entities (segmented with [2] levels with proportions of [0.20, 0.80]))
+08:11:01.455 INFO  akka.runtime.DiscoveryManager - Service components: EventSourcedEntity: [1], Consumer: [2], View: [1]
+08:11:01.458 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: Automatic entity passivation: disabled
+08:11:01.459 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: Automatic entity passivation: disabled
+08:11:01.460 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: Automatic entity passivation: disabled
+08:11:01.461 INFO  akka.runtime.DiscoveryManager - Akka Runtime started at 127.0.0.1:63660
+08:11:01.461 INFO  repro.Bootstrap - onStartup burst of 8 starting
+08:11:01.503 INFO  akka.javasdk.testkit.TestKit - Runtime started
+08:11:01.736 ERROR repro.Bootstrap - onStartup() threw an exception
+java.util.concurrent.TimeoutException: Command to entity [passivation-race-entity] id [5a11b2b4-d744-4f31-81f8-eddadbd8f52d] timed out.
+	at kalix.runtime.eventsourcedentity.EventSourcedSupport$$anonfun$$nestedInanonfun$handleCommand$1$1.applyOrElse(EventSourcedEntitySupportFactory.scala:191)
+	at kalix.runtime.eventsourcedentity.EventSourcedSupport$$anonfun$$nestedInanonfun$handleCommand$1$1.applyOrElse(EventSourcedEntitySupportFactory.scala:189)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:523)
+	at akka.dispatch.BatchingExecutor$AbstractBatch.processBatch(BatchingExecutor.scala:64)
+	at akka.dispatch.BatchingExecutor$BlockableBatch.$anonfun$run$1(BatchingExecutor.scala:101)
+	at scala.runtime.java8.JFunction0$mcV$sp.apply(JFunction0$mcV$sp.scala:18)
+	at scala.concurrent.BlockContext$.withBlockContext(BlockContext.scala:94)
+	at akka.dispatch.BatchingExecutor$BlockableBatch.run(BatchingExecutor.scala:101)
+	at akka.dispatch.TaskInvocation.run(AbstractDispatcher.scala:48)
+	at akka.dispatch.ForkJoinExecutorConfigurator$AkkaForkJoinTask.exec(ForkJoinExecutorConfigurator.scala:60)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:507)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1450)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:2019)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:187)
+08:11:02.488 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: [1] of the entities in shard [0] not stopped after [750 milliseconds]. Maybe the handOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled? Waiting additional [250 milliseconds] before stopping the remaining entities.
+08:11:02.488 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: [1] of the entities in shard [0] not stopped after [750 milliseconds]. Maybe the handOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled? Waiting additional [250 milliseconds] before stopping the remaining entities.
+08:11:02.738 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: HandOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled by some of the entities in shard [0] after [1 second], stopping the remaining [1] entities.
+08:11:02.739 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: HandOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled by some of the entities in shard [0] after [1 second], stopping the remaining [1] entities.
+08:11:02.739 WARN  a.s.s.RestartWithBackoffSource - Restarting stream due to failure [1]: akka.projection.r2dbc.internal.R2dbcOffsetStore$AttemptToUseStoppedOffsetStore: eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b [0-1023], correlation [c06134bb-2b04-4026-bca4-90e91cd2e248]: R2dbcOffsetStore was stopped
+08:11:02.739 WARN  a.s.s.RestartWithBackoffSource - Restarting stream due to failure [1]: akka.projection.r2dbc.internal.R2dbcOffsetStore$AttemptToUseStoppedOffsetStore: eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a [0-1023], correlation [2924f3ef-0eba-4b6c-9b85-234a14d34754]: R2dbcOffsetStore was stopped
+08:11:02.789 INFO  akka.runtime.AkkaRuntimeMain - Starting Akka Runtime version [1.6.15]
+08:11:02.794 INFO  akka.javasdk.impl.ComponentLocator$ - Looking for component descriptors matching pattern [META-INF/akka-javasdk-components_*.conf]
+08:11:02.807 INFO  akka.javasdk.testkit.TestKit - Eventing TestKit booting up on port: 63667
+08:11:02.809 INFO  akka.javasdk.testkit.TestKit - Checking runtime status
+08:11:02.872 INFO  akka.cluster.sharding.ShardRegion - passivation-race-entity: Automatic entity passivation: composite strategy with limit of [10000] active entities, admission window (least recently used entities) with proportions [initial = 0.01, min = 0.01, max = 1.0] adapting with hill-climbing optimizer [adjust multiplier = 10.0, initial step = 0.0625, restart threshold = 0.05, step decay = 0.98], admit using frequency sketch [width multiplier = 4, reset multiplier = 10.0, depth = 4, counter bits = 4], main (least recently used entities (segmented with [2] levels with proportions of [0.20, 0.80]))
+08:11:02.874 INFO  akka.runtime.DiscoveryManager - Service components: EventSourcedEntity: [1], Consumer: [2], View: [1]
+08:11:02.875 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: Automatic entity passivation: disabled
+08:11:02.876 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: Automatic entity passivation: disabled
+08:11:02.876 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: Automatic entity passivation: disabled
+08:11:02.877 INFO  akka.runtime.DiscoveryManager - Akka Runtime started at 127.0.0.1:63666
+08:11:02.877 INFO  repro.Bootstrap - onStartup burst of 8 starting
+08:11:02.932 INFO  akka.javasdk.testkit.TestKit - Runtime started
+08:11:03.141 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: Dropping [1] buffered messages to shard [0] during hand off to avoid re-ordering
+08:11:03.161 ERROR repro.Bootstrap - onStartup() threw an exception
+java.util.concurrent.TimeoutException: Command to entity [passivation-race-entity] id [3b39734d-aadb-4ef6-b030-6b92f3d85bd2] timed out.
+	at kalix.runtime.eventsourcedentity.EventSourcedSupport$$anonfun$$nestedInanonfun$handleCommand$1$1.applyOrElse(EventSourcedEntitySupportFactory.scala:191)
+	at kalix.runtime.eventsourcedentity.EventSourcedSupport$$anonfun$$nestedInanonfun$handleCommand$1$1.applyOrElse(EventSourcedEntitySupportFactory.scala:189)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:523)
+	at akka.dispatch.BatchingExecutor$AbstractBatch.processBatch(BatchingExecutor.scala:64)
+	at akka.dispatch.BatchingExecutor$BlockableBatch.$anonfun$run$1(BatchingExecutor.scala:101)
+	at scala.runtime.java8.JFunction0$mcV$sp.apply(JFunction0$mcV$sp.scala:18)
+	at scala.concurrent.BlockContext$.withBlockContext(BlockContext.scala:94)
+	at akka.dispatch.BatchingExecutor$BlockableBatch.run(BatchingExecutor.scala:101)
+	at akka.dispatch.TaskInvocation.run(AbstractDispatcher.scala:48)
+	at akka.dispatch.ForkJoinExecutorConfigurator$AkkaForkJoinTask.exec(ForkJoinExecutorConfigurator.scala:60)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:507)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1450)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:2019)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:187)
+08:11:03.910 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: [1] of the entities in shard [0] not stopped after [750 milliseconds]. Maybe the handOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled? Waiting additional [250 milliseconds] before stopping the remaining entities.
+08:11:03.910 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: [1] of the entities in shard [0] not stopped after [750 milliseconds]. Maybe the handOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled? Waiting additional [250 milliseconds] before stopping the remaining entities.
+08:11:04.159 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: HandOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled by some of the entities in shard [0] after [1 second], stopping the remaining [1] entities.
+08:11:04.159 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: HandOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled by some of the entities in shard [0] after [1 second], stopping the remaining [1] entities.
+08:11:04.160 WARN  a.s.s.RestartWithBackoffSource - Restarting stream due to failure [1]: akka.projection.r2dbc.internal.R2dbcOffsetStore$AttemptToUseStoppedOffsetStore: eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a [0-1023], correlation [b2caf4a0-5081-46d9-8bea-2570e6c71ecd]: R2dbcOffsetStore was stopped
+08:11:04.160 WARN  a.s.s.RestartWithBackoffSource - Restarting stream due to failure [1]: akka.projection.r2dbc.internal.R2dbcOffsetStore$AttemptToUseStoppedOffsetStore: eventSourcedProjection-passivation-race-entity-passivation-race-view [0-1023], correlation [5a5cbc3d-1aea-4143-832d-c40131aa0f41]: R2dbcOffsetStore was stopped
+08:11:04.211 INFO  akka.runtime.AkkaRuntimeMain - Starting Akka Runtime version [1.6.15]
+08:11:04.216 INFO  akka.javasdk.impl.ComponentLocator$ - Looking for component descriptors matching pattern [META-INF/akka-javasdk-components_*.conf]
+08:11:04.221 INFO  akka.javasdk.testkit.TestKit - Eventing TestKit booting up on port: 63672
+08:11:04.223 INFO  akka.javasdk.testkit.TestKit - Checking runtime status
+08:11:04.287 INFO  akka.cluster.sharding.ShardRegion - passivation-race-entity: Automatic entity passivation: composite strategy with limit of [10000] active entities, admission window (least recently used entities) with proportions [initial = 0.01, min = 0.01, max = 1.0] adapting with hill-climbing optimizer [adjust multiplier = 10.0, initial step = 0.0625, restart threshold = 0.05, step decay = 0.98], admit using frequency sketch [width multiplier = 4, reset multiplier = 10.0, depth = 4, counter bits = 4], main (least recently used entities (segmented with [2] levels with proportions of [0.20, 0.80]))
+08:11:04.290 INFO  akka.runtime.DiscoveryManager - Service components: EventSourcedEntity: [1], Consumer: [2], View: [1]
+08:11:04.291 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: Automatic entity passivation: disabled
+08:11:04.292 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: Automatic entity passivation: disabled
+08:11:04.292 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: Automatic entity passivation: disabled
+08:11:04.294 INFO  akka.runtime.DiscoveryManager - Akka Runtime started at 127.0.0.1:63671
+08:11:04.294 INFO  repro.Bootstrap - onStartup burst of 8 starting
+08:11:04.347 INFO  akka.javasdk.testkit.TestKit - Runtime started
+08:11:04.580 ERROR repro.Bootstrap - onStartup() threw an exception
+java.util.concurrent.TimeoutException: Command to entity [passivation-race-entity] id [4c17bfea-43cc-4a3d-830a-24e3a60138df] timed out.
+	at kalix.runtime.eventsourcedentity.EventSourcedSupport$$anonfun$$nestedInanonfun$handleCommand$1$1.applyOrElse(EventSourcedEntitySupportFactory.scala:191)
+	at kalix.runtime.eventsourcedentity.EventSourcedSupport$$anonfun$$nestedInanonfun$handleCommand$1$1.applyOrElse(EventSourcedEntitySupportFactory.scala:189)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:523)
+	at akka.dispatch.BatchingExecutor$AbstractBatch.processBatch(BatchingExecutor.scala:64)
+	at akka.dispatch.BatchingExecutor$BlockableBatch.$anonfun$run$1(BatchingExecutor.scala:101)
+	at scala.runtime.java8.JFunction0$mcV$sp.apply(JFunction0$mcV$sp.scala:18)
+	at scala.concurrent.BlockContext$.withBlockContext(BlockContext.scala:94)
+	at akka.dispatch.BatchingExecutor$BlockableBatch.run(BatchingExecutor.scala:101)
+	at akka.dispatch.TaskInvocation.run(AbstractDispatcher.scala:48)
+	at akka.dispatch.ForkJoinExecutorConfigurator$AkkaForkJoinTask.exec(ForkJoinExecutorConfigurator.scala:60)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:507)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1450)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:2019)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:187)
+08:11:05.325 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: [1] of the entities in shard [0] not stopped after [750 milliseconds]. Maybe the handOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled? Waiting additional [250 milliseconds] before stopping the remaining entities.
+08:11:05.326 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: [1] of the entities in shard [0] not stopped after [750 milliseconds]. Maybe the handOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled? Waiting additional [250 milliseconds] before stopping the remaining entities.
+08:11:05.326 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: [1] of the entities in shard [0] not stopped after [750 milliseconds]. Maybe the handOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled? Waiting additional [250 milliseconds] before stopping the remaining entities.
+08:11:05.575 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: HandOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled by some of the entities in shard [0] after [1 second], stopping the remaining [1] entities.
+08:11:05.575 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: HandOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled by some of the entities in shard [0] after [1 second], stopping the remaining [1] entities.
+08:11:05.576 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: HandOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled by some of the entities in shard [0] after [1 second], stopping the remaining [1] entities.
+08:11:05.576 WARN  a.s.s.RestartWithBackoffSource - Restarting stream due to failure [1]: akka.projection.r2dbc.internal.R2dbcOffsetStore$AttemptToUseStoppedOffsetStore: eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a [0-1023], correlation [be3f9316-528f-49a5-b2fd-0d50bf414708]: R2dbcOffsetStore was stopped
+08:11:05.576 WARN  a.s.s.RestartWithBackoffSource - Restarting stream due to failure [1]: akka.projection.r2dbc.internal.R2dbcOffsetStore$AttemptToUseStoppedOffsetStore: eventSourcedProjection-passivation-race-entity-passivation-race-view [0-1023], correlation [6b9e1e13-444a-4fbc-8c28-11b4f4bf8140]: R2dbcOffsetStore was stopped
+08:11:05.577 WARN  a.s.s.RestartWithBackoffSource - Restarting stream due to failure [1]: akka.projection.r2dbc.internal.R2dbcOffsetStore$AttemptToUseStoppedOffsetStore: eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b [0-1023], correlation [2322dcac-9899-4612-a0f6-474838219883]: R2dbcOffsetStore was stopped
+[ERROR] [09/23/2026 08:11:05.592] [akka-runtime-akka.actor.default-dispatcher-5] [akka://akka-runtime@127.0.0.1:63673/system/pool-master] connection pool for Pool(shared->http://localhost:63671) has shut down unexpectedly
+java.lang.IllegalStateException: Pool shutdown unexpectedly
+	at akka.http.impl.engine.client.PoolInterface$Logic.postStop(PoolInterface.scala:208)
+	at akka.stream.impl.fusing.GraphInterpreter.finalizeStage(GraphInterpreter.scala:618)
+	at akka.stream.impl.fusing.GraphInterpreter.finish(GraphInterpreter.scala:328)
+	at akka.stream.impl.fusing.GraphInterpreterShell.tryAbort(ActorGraphInterpreter.scala:689)
+	at akka.stream.impl.fusing.ActorGraphInterpreter.$anonfun$postStop$1(ActorGraphInterpreter.scala:846)
+	at akka.stream.impl.fusing.ActorGraphInterpreter.$anonfun$postStop$1$adapted(ActorGraphInterpreter.scala:846)
+	at scala.collection.immutable.Set$Set1.foreach(Set.scala:177)
+	at akka.stream.impl.fusing.ActorGraphInterpreter.postStop(ActorGraphInterpreter.scala:846)
+	at akka.actor.Actor.aroundPostStop(Actor.scala:561)
+	at akka.actor.Actor.aroundPostStop$(Actor.scala:561)
+	at akka.stream.impl.fusing.ActorGraphInterpreter.aroundPostStop(ActorGraphInterpreter.scala:716)
+	at akka.actor.dungeon.FaultHandling.finishTerminate(FaultHandling.scala:243)
+	at akka.actor.dungeon.FaultHandling.terminate(FaultHandling.scala:200)
+	at akka.actor.dungeon.FaultHandling.terminate$(FaultHandling.scala:169)
+	at akka.actor.ActorCell.terminate(ActorCell.scala:406)
+	at akka.actor.ActorCell.invokeAll$1(ActorCell.scala:515)
+	at akka.actor.ActorCell.systemInvoke(ActorCell.scala:531)
+	at akka.dispatch.Mailbox.processAllSystemMessages(Mailbox.scala:293)
+	at akka.dispatch.Mailbox.run(Mailbox.scala:228)
+	at akka.dispatch.Mailbox.exec(Mailbox.scala:241)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:507)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1450)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:2019)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:187)
+
+08:11:05.647 INFO  akka.runtime.AkkaRuntimeMain - Starting Akka Runtime version [1.6.15]
+08:11:05.654 INFO  akka.javasdk.impl.ComponentLocator$ - Looking for component descriptors matching pattern [META-INF/akka-javasdk-components_*.conf]
+08:11:05.660 INFO  akka.javasdk.testkit.TestKit - Eventing TestKit booting up on port: 63677
+08:11:05.662 INFO  akka.javasdk.testkit.TestKit - Checking runtime status
+08:11:05.734 INFO  akka.cluster.sharding.ShardRegion - passivation-race-entity: Automatic entity passivation: composite strategy with limit of [10000] active entities, admission window (least recently used entities) with proportions [initial = 0.01, min = 0.01, max = 1.0] adapting with hill-climbing optimizer [adjust multiplier = 10.0, initial step = 0.0625, restart threshold = 0.05, step decay = 0.98], admit using frequency sketch [width multiplier = 4, reset multiplier = 10.0, depth = 4, counter bits = 4], main (least recently used entities (segmented with [2] levels with proportions of [0.20, 0.80]))
+08:11:05.737 INFO  akka.runtime.DiscoveryManager - Service components: EventSourcedEntity: [1], Consumer: [2], View: [1]
+08:11:05.739 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: Automatic entity passivation: disabled
+08:11:05.739 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: Automatic entity passivation: disabled
+08:11:05.740 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: Automatic entity passivation: disabled
+08:11:05.741 INFO  akka.runtime.DiscoveryManager - Akka Runtime started at 127.0.0.1:63676
+08:11:05.741 INFO  repro.Bootstrap - onStartup burst of 8 starting
+08:11:05.784 INFO  akka.javasdk.testkit.TestKit - Runtime started
+08:11:06.004 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: Dropping [1] buffered messages to shard [0] during hand off to avoid re-ordering
+08:11:06.005 WARN  akka.cluster.sharding.ShardRegion - passivation-race-entity: Dropping [1] buffered messages to shard [183] during hand off to avoid re-ordering
+08:11:06.770 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: [1] of the entities in shard [0] not stopped after [750 milliseconds]. Maybe the handOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled? Waiting additional [250 milliseconds] before stopping the remaining entities.
+08:11:06.771 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: [1] of the entities in shard [0] not stopped after [750 milliseconds]. Maybe the handOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled? Waiting additional [250 milliseconds] before stopping the remaining entities.
+08:11:07.021 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: HandOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled by some of the entities in shard [0] after [1 second], stopping the remaining [1] entities.
+08:11:07.022 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: HandOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled by some of the entities in shard [0] after [1 second], stopping the remaining [1] entities.
+08:11:07.088 INFO  akka.runtime.AkkaRuntimeMain - Starting Akka Runtime version [1.6.15]
+08:11:07.093 INFO  akka.javasdk.impl.ComponentLocator$ - Looking for component descriptors matching pattern [META-INF/akka-javasdk-components_*.conf]
+08:11:07.098 INFO  akka.javasdk.testkit.TestKit - Eventing TestKit booting up on port: 63682
+08:11:07.100 INFO  akka.javasdk.testkit.TestKit - Checking runtime status
+08:11:07.166 INFO  akka.cluster.sharding.ShardRegion - passivation-race-entity: Automatic entity passivation: composite strategy with limit of [10000] active entities, admission window (least recently used entities) with proportions [initial = 0.01, min = 0.01, max = 1.0] adapting with hill-climbing optimizer [adjust multiplier = 10.0, initial step = 0.0625, restart threshold = 0.05, step decay = 0.98], admit using frequency sketch [width multiplier = 4, reset multiplier = 10.0, depth = 4, counter bits = 4], main (least recently used entities (segmented with [2] levels with proportions of [0.20, 0.80]))
+08:11:07.168 INFO  akka.runtime.DiscoveryManager - Service components: EventSourcedEntity: [1], Consumer: [2], View: [1]
+08:11:07.169 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: Automatic entity passivation: disabled
+08:11:07.170 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: Automatic entity passivation: disabled
+08:11:07.171 INFO  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: Automatic entity passivation: disabled
+08:11:07.172 INFO  akka.runtime.DiscoveryManager - Akka Runtime started at 127.0.0.1:63681
+08:11:07.172 INFO  repro.Bootstrap - onStartup burst of 8 starting
+08:11:07.216 INFO  akka.javasdk.testkit.TestKit - Runtime started
+08:11:07.434 WARN  akka.cluster.sharding.ShardRegion - passivation-race-entity: Dropping [1] buffered messages to shard [22] during hand off to avoid re-ordering
+08:11:07.434 WARN  akka.cluster.sharding.ShardRegion - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-b: Dropping [1] buffered messages to shard [0] during hand off to avoid re-ordering
+08:11:08.214 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: [1] of the entities in shard [0] not stopped after [750 milliseconds]. Maybe the handOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled? Waiting additional [250 milliseconds] before stopping the remaining entities.
+08:11:08.214 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: [1] of the entities in shard [0] not stopped after [750 milliseconds]. Maybe the handOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled? Waiting additional [250 milliseconds] before stopping the remaining entities.
+08:11:08.464 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-view: HandOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled by some of the entities in shard [0] after [1 second], stopping the remaining [1] entities.
+08:11:08.465 WARN  a.c.s.ShardRegion$HandOffStopper - sharded-daemon-process-eventSourcedProjection-passivation-race-entity-passivation-race-consumer-a: HandOffStopMessage [akka.projection.ProjectionBehavior$Stop$] is not handled by some of the entities in shard [0] after [1 second], stopping the remaining [1] entities.
+=== BootstrapWorkTimingTest [burst from onStartup()]: 15 cycles ===
+start() ms per cycle: [1536, 299, 239, 215, 205, 210, 191, 201, 189, 198, 197, 183, 177, 178, 166]  sum=4384 min=166 max=1536 mean=292
+stop() ms per cycle: [9063, 1256, 1249, 1257, 1258, 218, 1234, 1234, 1248, 1228, 1245, 1236, 1257, 1265, 1258]  sum=25506 min=218 max=9063 mean=1700
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 30.033 s - in repro.BootstrapWorkTimingTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  32.181 s
+[INFO] Finished at: 2026-09-23T08:11:08+10:00
+[INFO] ------------------------------------------------------------------------
