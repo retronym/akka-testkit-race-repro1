@@ -59,9 +59,28 @@ grep -c "Requesting shard home for" run.log
 
 A per-cycle shard lookup is normal. The stop() duration is what to read.
 
-## Observed
+## Running against a patched jarset
 
-One run on akka-javasdk 3.6.3, JDK 27, macOS, milliseconds per cycle:
+The numbers below separate into two groups depending on which Akka build the test runs against.
+To run against a local build of the Akka jars, put them in a repository of their own and use it as
+the head of a split repository, leaving the shared one as the tail:
+
+```bash
+mvn test -Dtest=BootstrapWorkTimingTest \
+  -Dmaven.repo.local=/path/to/patched/repo \
+  -Dmaven.repo.local.tail="$HOME/.m2/repository"
+```
+
+Confirm which artifacts the run resolved before reading any numbers:
+
+```bash
+mvn dependency:tree -Dmaven.repo.local=... -Dmaven.repo.local.tail=... | grep akka-cluster
+```
+
+## Observed on the released jars
+
+akka-javasdk 3.6.3 with the artifacts it resolves from Maven, JDK 27, macOS. Milliseconds per
+cycle:
 
 ```
 [baseline, no burst]
@@ -77,8 +96,73 @@ start(): [1634, 1643, 1645, 1638, 1649, 1635, 172, 1644, 1623, 1631, 1627, 1620,
 stop():  [1025, 1025, 1034, 1029, 1025, 1025, 2198, 1026, 1025, 1026, 1027, 1035, 1032, 1028, 1027]
 ```
 
-A stop() of about 2.2 seconds against a floor of about 1.0 second follows an anomalously fast
-start(), around 200 milliseconds against a normal 1.6 seconds, which is a start() that returned
-before the cluster had settled. In this run that pairing appeared in the baseline arm as well as in
-the onStartup arm, and the largest stop() was 2.2 seconds rather than the 10 seconds seen in the
-service this was extracted from.
+Every stop() sits near one second and the longest is 2.2 seconds. That floor is high enough to hide
+a longer stall, and the 2.2 second outlier appears in the baseline arm too, so these numbers do not
+separate the arms.
+
+## Observed on a patched jarset
+
+The same test against a local build carrying akka-core #32997, #32998 and #33000, akka-projection
+#1457 and akka-runtime #5718, resolved as akka-runtime 1.6.15, akka-cluster 2.10.20 and
+akka-projection 1.6.20. Two runs of all three arms:
+
+```
+[baseline, no burst]
+stop() run 1: [163, 1257, 1265, 1247, 226, 1249, 1237, 1247, 228, 217, 1225, 1248, 1248, 218, 1238]
+stop() run 2: [1163, 226, 226, 1257, 1247, 245, 1269, 1244, 1237, 237, 236, 226, 1248, 1235, 1250]
+
+[burst after start() returns]
+stop() run 1: [7, 7, 5, 8, 5, 5, 12, 10, 11, 7, 10, 6, 12, 16, 5]
+stop() run 2: [11, 10, 10, 12, 9, 5, 10, 13, 4, 5, 12, 6, 9, 7, 13]
+
+[burst from onStartup()]
+stop() run 1: [1238, 1249, 9027, 1240, 1237, 1248, 1258, 1248, 1247, 217, 228, 1238, 1247, 1246, 1238]
+stop() run 2: [1246, 227, 9028, 249, 1246, 1238, 1238, 1249, 219, 238, 218, 228, 1237, 1278, 1238]
+```
+
+The patched jars take the ordinary stop() down to single digit milliseconds, which is what makes
+the stall visible: a cycle of about 9.03 seconds against a floor of about 8 milliseconds, at the
+same cycle in both runs.
+
+## What the stall is
+
+The stalled cycle carries this line, and it is the only warning in the run:
+
+```
+akka.cluster.sharding.ShardRegion - _timer: Graceful shutdown of shard region timed out,
+region will be stopped. Remaining shards [], remaining buffered messages [1].
+```
+
+A shard region holds one message that was buffered before a shard home was assigned to it. The
+region owns no shards, so nothing will ever deliver that message, and graceful shutdown waits its
+whole timeout before giving up. The region is the runtime's own `_timer` region, not the region of
+the entity the test drives.
+
+## What the arms show
+
+Run each arm on its own to keep one arm's cycles from warming up the next:
+
+```bash
+mvn test -Dtest='BootstrapWorkTimingTest#withBurstFromOnStartup' ...
+```
+
+Run that way, on the patched jarset:
+
+```
+[burst from onStartup()]
+stop(): [9049, 222, 1256, 1266, 1243, 1246, 1248, 237, 217, 1247, 1236, 1246, 1239, 1237, 1250]
+
+[baseline, no burst]
+stop(): [141, 245, 1265, 1254, 225, 236, 1238, 247, 1238, 217, 227, 1258, 1258, 238, 1237]
+
+[burst after start() returns]
+stop(): [9051, 15, 14, 14, 6, 9, 11, 15, 9, 9, 14, 13, 12, 16, 9]
+```
+
+Two things separate here:
+
+- The stall needs the burst, and it does not need `onStartup()`. Both burst arms stall once, and
+  the arm that sends no commands at all never does. The graceful shutdown warning appears exactly
+  once per JVM fork in every run that sends a burst, and never in a run that does not.
+- Sending the burst from `onStartup()` does raise the ordinary stop() cost, from about 8
+  milliseconds to a floor that alternates between about 220 milliseconds and about 1.25 seconds.
