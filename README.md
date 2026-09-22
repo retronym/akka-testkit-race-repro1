@@ -133,6 +133,33 @@ same cycle in both runs.
 
 ## What the stall is
 
+The sequence below is the same stalled cycle as the log excerpts that follow it, with the
+timestamps from that log. The coordinator receives the request for shard 427 but never answers it,
+because by then the region has already asked to shut down and, as the only member, there is no
+other region the shard could be allocated to.
+
+```mermaid
+sequenceDiagram
+    participant Test as Test / onStartup()
+    participant Region as ShardRegion<br/>passivation-race-entity
+    participant Coord as ShardCoordinator
+
+    Test->>Region: burst of 8 commands (23:06:42.366)
+    Region->>Coord: GetShardHome(257)
+    Coord-->>Region: shard 257 allocated (23:06:42.384)
+    Note over Test: TestKit.start() returns (23:06:42.474)
+    Test->>Region: stop() (≈23:06:42.485)
+    Region->>Region: graceful shutdown begins,<br/>shard 257 shutting down (23:06:42.485)
+    Region->>Coord: GetShardHome(427) (23:06:42.527)
+    Note over Coord: region already shutting down;<br/>only member, so activeRegions is empty;<br/>falls through — no reply, no log
+    loop every 2s until GracefulShutdownTimeout
+        Region->>Coord: "Requesting shard home for [427]"<br/>[1] buffered message
+    end
+    Note over Region: GracefulShutdownTimeout fires (23:06:51.499)<br/>≈9.01s after shutdown began
+    Region->>Region: drop buffered message, region stopped
+    Test-->>Test: onStartup() throws TimeoutException (23:06:55.001)
+```
+
 The snippets below are from one stalled cycle of `withBurstFromOnStartup`, at debug level, in
 `logs/20260922-230636/withBurstFromOnStartup-run1.log`. The runs behind every number in this file
 are committed under `logs/`, one directory per harness invocation, each with the dependency tree
