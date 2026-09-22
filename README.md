@@ -416,17 +416,37 @@ in 4 of 6 runs, debug level.
 
 Nothing about the diff or the commit differs between the two attempts; the checkout, cherry-pick
 and publishM2 steps are the same script, `.mvn-bisect/build-core-combo.sh`, run twice against the
-same SHA on different occasions. What changed is not established. A debug run of the failing
-combination shows the fix's own log lines never firing at all: `grep -c "dropping \[.\] buffered
-messages that no other member"` on a stalled run returns zero, meaning `bufferMessage` and
-`tryCompleteGracefulShutdownIfInProgress`'s new branches are not the code path this particular
-buffered message goes through. Worse, in that same run the entity region's own log is silent for
-the entire stall: no `Requesting shard home for` line at all between the last shard handoff and
-the graceful shutdown timeout warning, where the original diagnosis assumed periodic retries would
-appear. Either there is a second path into the same nine-second wait that the fix does not cover,
-or the first four runs were not measuring what they were read as measuring. Both keep this
-candidate fix open rather than closed, and the "most likely root cause" reading above should be
-read as a hypothesis that explains some stalls, not a settled explanation of all of them.
+same SHA on different occasions. A debug run of the failing combination first showed the fix's own
+log lines never firing at all, and the entity region's own log silent for the entire stall, no
+`Requesting shard home for` line where the original diagnosis assumed periodic retries would
+appear. That silence turned out to be a second, pre-existing gap in this project rather than a
+clue about the fix: `src/test/resources/include-dev-loggers.xml` raises `akka.cluster.sharding` to
+debug, then names `akka.cluster.sharding.ShardRegion` specifically at `INFO`, which as the more
+specific logger wins and silently drops every debug line the fix and the original diagnosis both
+depend on, including `Request shard [{}] home`, `Shard [{}] handoff complete`, and both of the
+fix's own new log lines. Raising that one logger back to debug for a single run (not committed;
+`src/test/resources/include-dev-loggers.xml`'s comment records why it is `INFO`, and the harness
+reads it as-is) makes the whole sequence visible, and finds the actual reason.
+
+**Why the fix does not fire.** In the stalled cycle, shards `678` and `210` both finish handoff at
+`08:19:04.941`, which is also the instant `shards` becomes empty, and shard `691`'s command is
+buffered in that same instant. `gracefulShutdownInProgress` was already `true`, seven milliseconds
+earlier. The fix's `bufferMessage` checks `gracefulShutdownInProgress && isOnlyMember` before
+buffering anything, so it should have dropped shard 691's message right there instead of buffering
+it. It did not: the message was buffered normally and retried every two seconds for nine seconds,
+exactly as on the unpatched jar. The one condition left that could make `bufferMessage` skip the
+drop is `isOnlyMember` reading `false`. `isOnlyMember` reads `cluster.state.members` live against
+`cluster.selfUniqueAddress`, and this is a single-node cluster maybe a second into its own
+lifecycle, still handling its first shard allocations, so a still-settling local view of cluster
+membership at exactly this point is the standing explanation: the fix's guard was written and
+apparently validated against a cluster whose membership view has already settled, not against one
+still converging while its first commands are in flight, which is what `onStartup()` sending a
+burst produces on every cycle here. Confirming that reading against the actual `Cluster` state at
+that instant, rather than inferring it from the fix's own behavior, is the next step, not yet done.
+
+Either that gap or another one still open keeps this candidate fix from being ready to propose
+upstream, and the "most likely root cause" reading above should be read as a hypothesis that
+explains some stalls, not a settled explanation of all of them.
 
 **One layer above, the service side deserves its own question.** `start()` returns while
 `onStartup()` is still issuing commands, so a caller that stops the runtime promptly stops it with
