@@ -237,9 +237,10 @@ config includes last. `./harness.sh --quiet` puts them back to WARN for a run.
 ## Where the root cause is likely to be
 
 This is a reading of the evidence above, not a diagnosis anyone has confirmed. Line numbers are
-from akka-core at tag 2.10.20.
+from akka-core at v2.10.20 plus the three fixes that this jarset carries, commit 749f432 on branch
+`upstream-fixes-2.10.20`.
 
-**The nine seconds are a known timeout, not a hang.** `ShardRegion.scala:1013` arms
+**The nine seconds are a known timeout, not a hang.** `ShardRegion.scala:1017` arms
 `GracefulShutdownTimeout` at the `cluster-sharding-shutdown-region` phase timeout minus one second.
 That phase defaults to ten seconds in `akka-actor/src/main/resources/reference.conf`, which gives
 nine, and every stalled cycle measured between 9027 and 9072 milliseconds. Nothing is deadlocked.
@@ -255,8 +256,8 @@ nothing about 427 at all. The region cannot tell "not yet" from "never", so it r
 timer fires.
 
 **The region then waits for a message that can never be delivered.**
-`tryCompleteGracefulShutdownIfInProgress` at `ShardRegion.scala:1171` completes the shutdown only
-when `shardBuffers.isEmpty`. One buffered message is enough to hold the whole region open for the
+`tryCompleteGracefulShutdownIfInProgress` at `ShardRegion.scala:1172` completes the shutdown only
+when `gracefulShutdownInProgress && shards.isEmpty && shardBuffers.isEmpty`. One buffered message is enough to hold the whole region open for the
 full nine seconds, and at the end that message is dropped anyway. The wait buys nothing on a single
 node.
 
