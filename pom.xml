@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <!-- The SDK parent carries the component annotation processors and the compiler release. It is
+       not on Maven Central: resolving it needs the Akka repository, whose URL comes from
+       https://account.akka.io/token. -->
+  <parent>
+    <groupId>io.akka</groupId>
+    <artifactId>akka-javasdk-parent</artifactId>
+    <version>3.6.3</version>
+    <relativePath/>
+  </parent>
+
+  <groupId>io.akka.repro</groupId>
+  <artifactId>akka-testkit-race-repro</artifactId>
+  <version>0.1.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>akka-testkit-race-repro</name>
+  <description>Standalone reproduction of the GetShardHome stall seen when sharded entity work runs inside ServiceSetup.onStartup()</description>
+
+  <properties>
+    <maven.compiler.release>21</maven.compiler.release>
+    <junit.version>5.11.4</junit.version>
+    <assertj.version>3.27.7</assertj.version>
+    <!-- Nothing here is published or shipped as an image. -->
+    <maven.deploy.skip>true</maven.deploy.skip>
+    <skip.deploy>true</skip.deploy>
+    <docker.skip>true</docker.skip>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <version>${junit.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <version>${assertj.version}</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+</project>
