@@ -5,7 +5,10 @@
      cycle reports at the end.
 
      Debug logging is itself a timing change. The level is a property so a run can be repeated
-     with it lowered, which is what ./harness.sh --quiet does. -->
+     with it lowered, which is what the harness quiet flag does.
+
+     Keep two consecutive hyphens out of this comment. XML forbids them inside one, and logback
+     reports the parse failure and carries on with the loggers unset. -->
 <included>
     <logger name="akka.cluster.sharding" level="${repro.akka.log.level:-DEBUG}"/>
     <logger name="akka.cluster.singleton" level="${repro.akka.log.level:-DEBUG}"/>

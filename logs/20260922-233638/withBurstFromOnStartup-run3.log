@@ -1,0 +1,325 @@
+[INFO] Scanning for projects...
+[INFO] ------------------------------------------------------------------------
+[INFO] Detecting the operating system and CPU architecture
+[INFO] ------------------------------------------------------------------------
+[INFO] os.detected.name: osx
+[INFO] os.detected.arch: aarch_64
+[INFO] os.detected.bitness: 64
+[INFO] os.detected.version: 27.0
+[INFO] os.detected.version.major: 27
+[INFO] os.detected.version.minor: 0
+[INFO] os.detected.classifier: osx-aarch_64
+[INFO] 
+[INFO] ---------------< io.akka.repro:akka-testkit-race-repro >----------------
+[INFO] Building akka-testkit-race-repro 0.1.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- enforcer:3.5.0:enforce (enforce-build-rules) @ akka-testkit-race-repro ---
+[INFO] No dependency conflicts with Akka runtime detected.
+[INFO] Rule 0: akka.javasdk.enforcer.AkkaRuntimeDependencyRule(akkaRuntimeDependencyCheck) passed
+[INFO] Rule 1: org.apache.maven.enforcer.rules.version.RequireMavenVersion passed
+[INFO] Rule 2: org.apache.maven.enforcer.rules.version.RequireJavaVersion passed
+[INFO] 
+[INFO] --- antrun:3.1.0:run (clean-on-missing-descriptor) @ akka-testkit-race-repro ---
+[INFO] Executing tasks
+[INFO] Executed tasks
+[INFO] 
+[INFO] --- build-helper:3.2.0:add-source (add-java-source) @ akka-testkit-race-repro ---
+[INFO] Source directory: /Users/jz/code/akka-testkit-race-repro/target/generated-sources/akka-grpc-java added.
+[INFO] 
+[INFO] --- resources:3.4.0:resources (default-resources) @ akka-testkit-race-repro ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.13.0:compile (default-compile) @ akka-testkit-race-repro ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- build-helper:3.2.0:add-test-source (add-integration-test-source) @ akka-testkit-race-repro ---
+[INFO] Test Source directory: /Users/jz/code/akka-testkit-race-repro/src/it/java added.
+[INFO] 
+[INFO] --- build-helper:3.2.0:add-test-resource (add-integration-test-resource) @ akka-testkit-race-repro ---
+[INFO] 
+[INFO] --- resources:3.4.0:testResources (default-testResources) @ akka-testkit-race-repro ---
+[INFO] Copying 2 resources from src/test/resources to target/test-classes
+[INFO] skip non existing resourceDirectory /Users/jz/code/akka-testkit-race-repro/src/it/resources
+[INFO] 
+[INFO] --- compiler:3.13.0:testCompile (default-testCompile) @ akka-testkit-race-repro ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:2.22.2:test (default-test) @ akka-testkit-race-repro ---
+[WARNING] The system property akka.javasdk.dev-mode.project-artifact-id is configured twice! The property appears in <argLine/> and any of <systemPropertyVariables/>, <systemProperties/> or user property.
+[WARNING] The system property logback.configurationFile is configured twice! The property appears in <argLine/> and any of <systemPropertyVariables/>, <systemProperties/> or user property.
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running repro.BootstrapWorkTimingTest
+23:37:20,371 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Found logback-core version 1.5.38
+23:37:20,372 |-INFO in ch.qos.logback.classic.util.ContextInitializer@79c97cb - No custom configurators were discovered as a service.
+23:37:20,373 |-INFO in ch.qos.logback.classic.util.ContextInitializer@79c97cb - Trying to configure with ch.qos.logback.classic.util.DefaultJoranConfigurator
+23:37:20,374 |-INFO in ch.qos.logback.classic.util.ContextInitializer@79c97cb - Constructed configurator of type class ch.qos.logback.classic.util.DefaultJoranConfigurator
+23:37:20,389 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Found resource [logback-runtime-dev-mode.xml] at [jar:file:/Users/jz/code/worktrees/nexus/vibrant-swanson-e4f544/.mvn/tier1/io/akka/akka-runtime-dev_2.13/1.6.15/akka-runtime-dev_2.13-1.6.15.jar!/logback-runtime-dev-mode.xml]
+23:37:20,553 |-INFO in ch.qos.logback.classic.model.processor.ConfigurationModelHandlerFull - Scan attribute not set or set to unrecognized value.
+23:37:20,553 |-INFO in ch.qos.logback.core.model.processor.ConversionRuleModelHandler - registering conversion word rewriteLogger with class [akka.runtime.logging.LogbackDevModeRewriteLogger]
+23:37:20,554 |-INFO in ch.qos.logback.core.model.processor.ConversionRuleModelHandler - registering conversion word rewriteMsg with class [akka.runtime.logging.LogbackDevModeRewriteMessage]
+23:37:20,560 |-INFO in ch.qos.logback.core.model.processor.IncludeModelHandler - Including configuration file [file:/Users/jz/code/akka-testkit-race-repro/target/test-classes/include-dev-loggers.xml]
+23:37:20,569 |-ERROR in ch.qos.logback.core.joran.event.SaxEventRecorder@2d9caaeb - XML_PARSING - Parsing fatal error on line 8 and column 52
+23:37:20,570 |-ERROR in ch.qos.logback.core.joran.event.SaxEventRecorder@2d9caaeb - org.xml.sax.SAXParseException; lineNumber: 8; columnNumber: 52; The string "--" is not permitted within comments.
+23:37:20,570 |-ERROR in ch.qos.logback.core.model.processor.IncludeModelHandler - Error processing XML data in [include-dev-loggers.xml] ch.qos.logback.core.joran.spi.JoranException: Problem parsing XML document. See previously reported errors.
+	at ch.qos.logback.core.joran.spi.JoranException: Problem parsing XML document. See previously reported errors.
+	at 	at ch.qos.logback.core.joran.event.SaxEventRecorder.recordEvents(SaxEventRecorder.java:99)
+	at 	at ch.qos.logback.core.joran.event.SaxEventRecorder.recordEvents(SaxEventRecorder.java:82)
+	at 	at ch.qos.logback.core.model.processor.IncludeModelHandler.populateSaxEventRecorder(IncludeModelHandler.java:147)
+	at 	at ch.qos.logback.core.model.processor.IncludeModelHandler.buildModelFromIncludedFile(IncludeModelHandler.java:114)
+	at 	at ch.qos.logback.core.model.processor.IncludeModelHandler.handle(IncludeModelHandler.java:67)
+	at 	at ch.qos.logback.core.model.processor.DefaultProcessor.mainTraverse(DefaultProcessor.java:207)
+	at 	at ch.qos.logback.core.model.processor.DefaultProcessor.mainTraverse(DefaultProcessor.java:215)
+	at 	at ch.qos.logback.core.model.processor.DefaultProcessor.process(DefaultProcessor.java:102)
+	at 	at ch.qos.logback.core.joran.GenericXMLConfigurator.processModel(GenericXMLConfigurator.java:239)
+	at 	at ch.qos.logback.core.joran.GenericXMLConfigurator.doConfigure(GenericXMLConfigurator.java:195)
+	at 	at ch.qos.logback.core.joran.GenericXMLConfigurator.doConfigure(GenericXMLConfigurator.java:139)
+	at 	at ch.qos.logback.core.joran.GenericXMLConfigurator.doConfigure(GenericXMLConfigurator.java:76)
+	at 	at ch.qos.logback.classic.util.DefaultJoranConfigurator.configureByResource(DefaultJoranConfigurator.java:82)
+	at 	at ch.qos.logback.classic.util.DefaultJoranConfigurator.configure(DefaultJoranConfigurator.java:49)
+	at 	at ch.qos.logback.classic.util.ContextInitializer.invokeConfigure(ContextInitializer.java:161)
+	at 	at ch.qos.logback.classic.util.ContextInitializer.autoConfig(ContextInitializer.java:109)
+	at 	at ch.qos.logback.classic.util.ContextInitializer.autoConfig(ContextInitializer.java:67)
+	at 	at ch.qos.logback.classic.spi.LogbackServiceProvider.initializeLoggerContext(LogbackServiceProvider.java:65)
+	at 	at ch.qos.logback.classic.spi.LogbackServiceProvider.initialize(LogbackServiceProvider.java:58)
+	at 	at org.slf4j.LoggerFactory.bind(LoggerFactory.java:199)
+	at 	at org.slf4j.LoggerFactory.performInitialization(LoggerFactory.java:186)
+	at 	at org.slf4j.LoggerFactory.getProvider(LoggerFactory.java:496)
+	at 	at org.slf4j.LoggerFactory.getILoggerFactory(LoggerFactory.java:482)
+	at 	at org.slf4j.LoggerFactory.getLogger(LoggerFactory.java:431)
+	at 	at org.slf4j.LoggerFactory.getLogger(LoggerFactory.java:457)
+	at 	at akka.javasdk.testkit.TestKit.<clinit>(TestKit.java:827)
+	at 	at repro.BootstrapWorkTimingTest.cycle(BootstrapWorkTimingTest.java:49)
+	at 	at repro.BootstrapWorkTimingTest.withBurstFromOnStartup(BootstrapWorkTimingTest.java:28)
+	at 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at 	at java.base/java.lang.reflect.Method.invoke(Method.java:583)
+	at 	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:767)
+	at 	at org.junit.jupiter.engine.execution.MethodInvocation.proceed(MethodInvocation.java:60)
+	at 	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$ValidatingInvocation.proceed(InvocationInterceptorChain.java:131)
+	at 	at org.junit.jupiter.engine.extension.SameThreadTimeoutInvocation.proceed(SameThreadTimeoutInvocation.java:45)
+	at 	at org.junit.jupiter.engine.extension.TimeoutExtension.intercept(TimeoutExtension.java:156)
+	at 	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestableMethod(TimeoutExtension.java:147)
+	at 	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestMethod(TimeoutExtension.java:86)
+	at 	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker$ReflectiveInterceptorCall.lambda$ofVoidMethod$0(InterceptingExecutableInvoker.java:103)
+	at 	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.lambda$invoke$0(InterceptingExecutableInvoker.java:93)
+	at 	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$InterceptedInvocation.proceed(InvocationInterceptorChain.java:106)
+	at 	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.proceed(InvocationInterceptorChain.java:64)
+	at 	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.chainAndInvoke(InvocationInterceptorChain.java:45)
+	at 	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.invoke(InvocationInterceptorChain.java:37)
+	at 	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:92)
+	at 	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:86)
+	at 	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeTestMethod$8(TestMethodTestDescriptor.java:217)
+	at 	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at 	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeTestMethod(TestMethodTestDescriptor.java:213)
+	at 	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:138)
+	at 	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:68)
+	at 	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:156)
+	at 	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at 	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:146)
+	at 	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at 	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:144)
+	at 	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at 	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:143)
+	at 	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:100)
+	at 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1612)
+	at 	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
+	at 	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:160)
+	at 	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at 	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:146)
+	at 	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at 	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:144)
+	at 	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at 	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:143)
+	at 	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:100)
+	at 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1612)
+	at 	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
+	at 	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:160)
+	at 	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at 	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:146)
+	at 	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at 	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:144)
+	at 	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at 	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:143)
+	at 	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:100)
+	at 	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:35)
+	at 	at org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57)
+	at 	at org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:54)
+	at 	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:220)
+	at 	at org.junit.platform.launcher.core.DefaultLauncher.lambda$execute$6(DefaultLauncher.java:188)
+	at 	at org.junit.platform.launcher.core.DefaultLauncher.withInterceptedStreams(DefaultLauncher.java:202)
+	at 	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:181)
+	at 	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:128)
+	at 	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invokeAllTests(JUnitPlatformProvider.java:150)
+	at 	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invoke(JUnitPlatformProvider.java:124)
+	at 	at org.apache.maven.surefire.booter.ForkedBooter.invokeProviderInSameClassLoader(ForkedBooter.java:384)
+	at 	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:345)
+	at 	at org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:126)
+	at 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:418)
+Caused by: org.xml.sax.SAXParseException: The string "--" is not permitted within comments.
+	at 	at java.xml/com.sun.org.apache.xerces.internal.parsers.AbstractSAXParser.parse(AbstractSAXParser.java:1252)
+	at 	at java.xml/com.sun.org.apache.xerces.internal.jaxp.SAXParserImpl$JAXPSAXParser.parse(SAXParserImpl.java:629)
+	at 	at java.xml/com.sun.org.apache.xerces.internal.jaxp.SAXParserImpl.parse(SAXParserImpl.java:328)
+	at 	at ch.qos.logback.core.joran.event.SaxEventRecorder.recordEvents(SaxEventRecorder.java:92)
+	at 	... 91 common frames omitted
+23:37:20,573 |-INFO in ch.qos.logback.core.model.processor.AppenderModelHandler - Processing appender named [STDOUT]
+23:37:20,574 |-INFO in ch.qos.logback.core.model.processor.AppenderModelHandler - About to instantiate appender of type [ch.qos.logback.core.ConsoleAppender]
+23:37:20,592 |-INFO in ch.qos.logback.core.model.processor.ImplicitModelHandler - Assuming default type [ch.qos.logback.classic.encoder.PatternLayoutEncoder] for [encoder] property
+23:37:20,652 |-INFO in ch.qos.logback.core.ConsoleAppender[STDOUT] - NOTE: Writing to the console can be slow. Try to avoid logging to the 
+23:37:20,652 |-INFO in ch.qos.logback.core.ConsoleAppender[STDOUT] - console in production environments, especially in high volume systems.
+23:37:20,652 |-INFO in ch.qos.logback.core.ConsoleAppender[STDOUT] - See also https://logback.qos.ch/codes.html#slowConsole
+23:37:20,655 |-INFO in ch.qos.logback.classic.model.processor.LoggerModelHandler - Setting level of logger [akka] to WARN
+23:37:20,655 |-INFO in ch.qos.logback.classic.model.processor.LoggerModelHandler - Setting level of logger [kalix] to WARN
+23:37:20,655 |-INFO in ch.qos.logback.classic.model.processor.LoggerModelHandler - Setting level of logger [akka.runtime.AkkaRuntimeMain] to INFO
+23:37:20,655 |-INFO in ch.qos.logback.classic.model.processor.LoggerModelHandler - Setting level of logger [kalix.runtime.DiscoveryManager] to INFO
+23:37:20,655 |-INFO in ch.qos.logback.classic.model.processor.LoggerModelHandler - Setting level of logger [kalix.runtime.http.HttpEndpointMethodDefinition] to INFO
+23:37:20,655 |-INFO in ch.qos.logback.classic.model.processor.LoggerModelHandler - Setting level of logger [kalix.runtime.VersionCheck] to INFO
+23:37:20,655 |-INFO in ch.qos.logback.classic.model.processor.LoggerModelHandler - Setting level of logger [kalix.runtime.AkkaRuntimeConfigLoader] to INFO
+23:37:20,655 |-INFO in ch.qos.logback.classic.model.processor.LoggerModelHandler - Setting level of logger [akka.javasdk] to INFO
+23:37:20,655 |-INFO in ch.qos.logback.classic.model.processor.LoggerModelHandler - Setting level of logger [dev.langchain4j.model.bedrock.AwsLoggingInterceptor] to DEBUG
+23:37:20,657 |-INFO in ch.qos.logback.classic.model.processor.LoggerModelHandler - Setting additivity of logger [dev.langchain4j.model.bedrock.AwsLoggingInterceptor] to false
+23:37:20,658 |-INFO in ch.qos.logback.core.model.processor.AppenderRefModelHandler - Attaching appender named [STDOUT] to Logger[dev.langchain4j.model.bedrock.AwsLoggingInterceptor]
+23:37:20,668 |-INFO in ch.qos.logback.classic.model.processor.RootLoggerModelHandler - Setting level of ROOT logger to INFO
+23:37:20,668 |-INFO in ch.qos.logback.core.model.processor.AppenderRefModelHandler - Attaching appender named [STDOUT] to Logger[ROOT]
+23:37:20,668 |-INFO in ch.qos.logback.core.model.processor.DefaultProcessor@3ddc6915 - End of configuration.
+23:37:20,673 |-INFO in ch.qos.logback.classic.util.ContextInitializer@79c97cb - ch.qos.logback.classic.util.DefaultJoranConfigurator.configure() call lasted 296 milliseconds. ExecutionStatus=DO_NOT_INVOKE_NEXT_IF_ANY
+
+23:37:23.076 INFO  akka.runtime.AkkaRuntimeMain - Starting Akka Runtime version [1.6.15]
+23:37:23.463 INFO  akka.javasdk.impl.ComponentLocator$ - Looking for component descriptors matching pattern [META-INF/akka-javasdk-components_*.conf]
+23:37:23.585 INFO  akka.javasdk.testkit.TestKit - Eventing TestKit booting up on port: 55931
+23:37:23.848 INFO  akka.javasdk.testkit.TestKit - Checking runtime status
+23:37:24.541 INFO  akka.runtime.DiscoveryManager - Service components: EventSourcedEntity: [1], Consumer: [2], View: [1]
+23:37:25.344 INFO  akka.runtime.DiscoveryManager - Akka Runtime started at 127.0.0.1:55930
+23:37:25.346 INFO  repro.Bootstrap - onStartup burst of 8 starting
+23:37:25.851 INFO  repro.Bootstrap - onStartup burst of 8 done
+23:37:25.884 INFO  akka.javasdk.testkit.TestKit - Runtime started
+23:37:26.208 INFO  akka.runtime.AkkaRuntimeMain - Starting Akka Runtime version [1.6.15]
+23:37:26.245 INFO  akka.javasdk.impl.ComponentLocator$ - Looking for component descriptors matching pattern [META-INF/akka-javasdk-components_*.conf]
+23:37:26.273 INFO  akka.javasdk.testkit.TestKit - Eventing TestKit booting up on port: 55941
+23:37:26.281 INFO  akka.javasdk.testkit.TestKit - Checking runtime status
+23:37:26.362 INFO  akka.runtime.DiscoveryManager - Service components: EventSourcedEntity: [1], Consumer: [2], View: [1]
+23:37:26.380 INFO  akka.runtime.DiscoveryManager - Akka Runtime started at 127.0.0.1:55940
+23:37:26.381 INFO  repro.Bootstrap - onStartup burst of 8 starting
+23:37:26.424 INFO  akka.javasdk.testkit.TestKit - Runtime started
+23:37:26.610 INFO  akka.runtime.AkkaRuntimeMain - Starting Akka Runtime version [1.6.15]
+23:37:26.632 INFO  akka.javasdk.impl.ComponentLocator$ - Looking for component descriptors matching pattern [META-INF/akka-javasdk-components_*.conf]
+23:37:26.647 INFO  akka.javasdk.testkit.TestKit - Eventing TestKit booting up on port: 55946
+23:37:26.654 INFO  akka.javasdk.testkit.TestKit - Checking runtime status
+23:37:26.754 INFO  akka.runtime.DiscoveryManager - Service components: EventSourcedEntity: [1], Consumer: [2], View: [1]
+23:37:26.770 INFO  akka.runtime.DiscoveryManager - Akka Runtime started at 127.0.0.1:55945
+23:37:26.771 INFO  repro.Bootstrap - onStartup burst of 8 starting
+23:37:26.799 INFO  akka.javasdk.testkit.TestKit - Runtime started
+23:37:26.987 INFO  akka.runtime.AkkaRuntimeMain - Starting Akka Runtime version [1.6.15]
+23:37:27.016 INFO  akka.javasdk.impl.ComponentLocator$ - Looking for component descriptors matching pattern [META-INF/akka-javasdk-components_*.conf]
+23:37:27.035 INFO  akka.javasdk.testkit.TestKit - Eventing TestKit booting up on port: 55952
+23:37:27.053 INFO  akka.javasdk.testkit.TestKit - Checking runtime status
+23:37:27.119 INFO  akka.runtime.DiscoveryManager - Service components: EventSourcedEntity: [1], Consumer: [2], View: [1]
+23:37:27.134 INFO  akka.runtime.DiscoveryManager - Akka Runtime started at 127.0.0.1:55951
+23:37:27.135 INFO  repro.Bootstrap - onStartup burst of 8 starting
+23:37:27.193 INFO  akka.javasdk.testkit.TestKit - Runtime started
+23:37:27.589 INFO  akka.runtime.AkkaRuntimeMain - Starting Akka Runtime version [1.6.15]
+23:37:27.669 INFO  akka.javasdk.impl.ComponentLocator$ - Looking for component descriptors matching pattern [META-INF/akka-javasdk-components_*.conf]
+23:37:27.707 INFO  akka.javasdk.testkit.TestKit - Eventing TestKit booting up on port: 55957
+23:37:27.793 INFO  akka.javasdk.testkit.TestKit - Checking runtime status
+23:37:27.795 INFO  akka.runtime.DiscoveryManager - Service components: EventSourcedEntity: [1], Consumer: [2], View: [1]
+23:37:27.806 INFO  akka.runtime.DiscoveryManager - Akka Runtime started at 127.0.0.1:55956
+23:37:27.806 INFO  repro.Bootstrap - onStartup burst of 8 starting
+23:37:27.816 INFO  akka.javasdk.testkit.TestKit - Runtime started
+23:37:28.115 INFO  akka.runtime.AkkaRuntimeMain - Starting Akka Runtime version [1.6.15]
+23:37:28.135 INFO  akka.javasdk.impl.ComponentLocator$ - Looking for component descriptors matching pattern [META-INF/akka-javasdk-components_*.conf]
+23:37:28.153 INFO  akka.javasdk.testkit.TestKit - Eventing TestKit booting up on port: 55961
+23:37:28.162 INFO  akka.javasdk.testkit.TestKit - Checking runtime status
+23:37:28.237 INFO  akka.runtime.DiscoveryManager - Service components: EventSourcedEntity: [1], Consumer: [2], View: [1]
+23:37:28.250 INFO  akka.runtime.DiscoveryManager - Akka Runtime started at 127.0.0.1:55960
+23:37:28.251 INFO  repro.Bootstrap - onStartup burst of 8 starting
+23:37:28.302 INFO  akka.javasdk.testkit.TestKit - Runtime started
+23:37:28.662 INFO  akka.runtime.AkkaRuntimeMain - Starting Akka Runtime version [1.6.15]
+23:37:28.685 INFO  akka.javasdk.impl.ComponentLocator$ - Looking for component descriptors matching pattern [META-INF/akka-javasdk-components_*.conf]
+23:37:28.702 INFO  akka.javasdk.testkit.TestKit - Eventing TestKit booting up on port: 55966
+23:37:28.724 INFO  akka.javasdk.testkit.TestKit - Checking runtime status
+23:37:28.792 INFO  akka.runtime.DiscoveryManager - Service components: EventSourcedEntity: [1], Consumer: [2], View: [1]
+23:37:28.801 INFO  akka.runtime.DiscoveryManager - Akka Runtime started at 127.0.0.1:55965
+23:37:28.801 INFO  repro.Bootstrap - onStartup burst of 8 starting
+23:37:28.876 INFO  akka.javasdk.testkit.TestKit - Runtime started
+23:37:29.108 INFO  akka.runtime.AkkaRuntimeMain - Starting Akka Runtime version [1.6.15]
+23:37:29.126 INFO  akka.javasdk.impl.ComponentLocator$ - Looking for component descriptors matching pattern [META-INF/akka-javasdk-components_*.conf]
+23:37:29.146 INFO  akka.javasdk.testkit.TestKit - Eventing TestKit booting up on port: 55971
+23:37:29.155 INFO  akka.javasdk.testkit.TestKit - Checking runtime status
+23:37:29.237 INFO  akka.runtime.DiscoveryManager - Service components: EventSourcedEntity: [1], Consumer: [2], View: [1]
+23:37:29.252 INFO  akka.runtime.DiscoveryManager - Akka Runtime started at 127.0.0.1:55970
+23:37:29.253 INFO  repro.Bootstrap - onStartup burst of 8 starting
+23:37:29.290 INFO  akka.javasdk.testkit.TestKit - Runtime started
+23:37:29.431 INFO  akka.runtime.AkkaRuntimeMain - Starting Akka Runtime version [1.6.15]
+23:37:29.458 INFO  akka.javasdk.impl.ComponentLocator$ - Looking for component descriptors matching pattern [META-INF/akka-javasdk-components_*.conf]
+23:37:29.486 INFO  akka.javasdk.testkit.TestKit - Eventing TestKit booting up on port: 55976
+23:37:29.500 INFO  akka.javasdk.testkit.TestKit - Checking runtime status
+23:37:29.558 INFO  akka.runtime.DiscoveryManager - Service components: EventSourcedEntity: [1], Consumer: [2], View: [1]
+23:37:29.568 INFO  akka.runtime.DiscoveryManager - Akka Runtime started at 127.0.0.1:55975
+23:37:29.568 INFO  repro.Bootstrap - onStartup burst of 8 starting
+23:37:29.637 INFO  akka.javasdk.testkit.TestKit - Runtime started
+23:37:29.783 INFO  akka.runtime.AkkaRuntimeMain - Starting Akka Runtime version [1.6.15]
+23:37:29.808 INFO  akka.javasdk.impl.ComponentLocator$ - Looking for component descriptors matching pattern [META-INF/akka-javasdk-components_*.conf]
+23:37:29.825 INFO  akka.javasdk.testkit.TestKit - Eventing TestKit booting up on port: 55981
+23:37:29.832 INFO  akka.javasdk.testkit.TestKit - Checking runtime status
+23:37:29.913 INFO  akka.runtime.DiscoveryManager - Service components: EventSourcedEntity: [1], Consumer: [2], View: [1]
+23:37:29.922 INFO  akka.runtime.DiscoveryManager - Akka Runtime started at 127.0.0.1:55980
+23:37:29.922 INFO  repro.Bootstrap - onStartup burst of 8 starting
+23:37:29.968 INFO  akka.javasdk.testkit.TestKit - Runtime started
+23:37:30.256 INFO  akka.runtime.AkkaRuntimeMain - Starting Akka Runtime version [1.6.15]
+23:37:30.332 INFO  akka.javasdk.impl.ComponentLocator$ - Looking for component descriptors matching pattern [META-INF/akka-javasdk-components_*.conf]
+23:37:30.353 INFO  akka.javasdk.testkit.TestKit - Eventing TestKit booting up on port: 55986
+23:37:30.360 INFO  akka.javasdk.testkit.TestKit - Checking runtime status
+23:37:30.438 INFO  akka.runtime.DiscoveryManager - Service components: EventSourcedEntity: [1], Consumer: [2], View: [1]
+23:37:30.447 INFO  akka.runtime.DiscoveryManager - Akka Runtime started at 127.0.0.1:55985
+23:37:30.448 INFO  repro.Bootstrap - onStartup burst of 8 starting
+23:37:30.496 INFO  akka.javasdk.testkit.TestKit - Runtime started
+23:37:30.681 INFO  akka.runtime.AkkaRuntimeMain - Starting Akka Runtime version [1.6.15]
+23:37:30.719 INFO  akka.javasdk.impl.ComponentLocator$ - Looking for component descriptors matching pattern [META-INF/akka-javasdk-components_*.conf]
+23:37:30.747 INFO  akka.javasdk.testkit.TestKit - Eventing TestKit booting up on port: 55991
+23:37:30.759 INFO  akka.javasdk.testkit.TestKit - Checking runtime status
+23:37:30.824 INFO  akka.runtime.DiscoveryManager - Service components: EventSourcedEntity: [1], Consumer: [2], View: [1]
+23:37:30.831 INFO  akka.runtime.DiscoveryManager - Akka Runtime started at 127.0.0.1:55990
+23:37:30.832 INFO  repro.Bootstrap - onStartup burst of 8 starting
+23:37:30.890 INFO  akka.javasdk.testkit.TestKit - Runtime started
+23:37:31.055 INFO  akka.runtime.AkkaRuntimeMain - Starting Akka Runtime version [1.6.15]
+23:37:31.081 INFO  akka.javasdk.impl.ComponentLocator$ - Looking for component descriptors matching pattern [META-INF/akka-javasdk-components_*.conf]
+23:37:31.104 INFO  akka.javasdk.testkit.TestKit - Eventing TestKit booting up on port: 55996
+23:37:31.114 INFO  akka.javasdk.testkit.TestKit - Checking runtime status
+23:37:31.183 INFO  akka.runtime.DiscoveryManager - Service components: EventSourcedEntity: [1], Consumer: [2], View: [1]
+23:37:31.192 INFO  akka.runtime.DiscoveryManager - Akka Runtime started at 127.0.0.1:55995
+23:37:31.193 INFO  repro.Bootstrap - onStartup burst of 8 starting
+23:37:31.249 INFO  akka.javasdk.testkit.TestKit - Runtime started
+23:37:31.357 INFO  akka.runtime.AkkaRuntimeMain - Starting Akka Runtime version [1.6.15]
+23:37:31.372 INFO  akka.javasdk.impl.ComponentLocator$ - Looking for component descriptors matching pattern [META-INF/akka-javasdk-components_*.conf]
+23:37:31.385 INFO  akka.javasdk.testkit.TestKit - Eventing TestKit booting up on port: 56001
+23:37:31.390 INFO  akka.javasdk.testkit.TestKit - Checking runtime status
+23:37:31.460 INFO  akka.runtime.DiscoveryManager - Service components: EventSourcedEntity: [1], Consumer: [2], View: [1]
+23:37:31.468 INFO  akka.runtime.DiscoveryManager - Akka Runtime started at 127.0.0.1:56000
+23:37:31.469 INFO  repro.Bootstrap - onStartup burst of 8 starting
+23:37:31.518 INFO  akka.javasdk.testkit.TestKit - Runtime started
+23:37:31.610 INFO  akka.runtime.AkkaRuntimeMain - Starting Akka Runtime version [1.6.15]
+23:37:31.627 INFO  akka.javasdk.impl.ComponentLocator$ - Looking for component descriptors matching pattern [META-INF/akka-javasdk-components_*.conf]
+23:37:31.640 INFO  akka.javasdk.testkit.TestKit - Eventing TestKit booting up on port: 56006
+23:37:31.644 INFO  akka.javasdk.testkit.TestKit - Checking runtime status
+23:37:31.721 INFO  akka.runtime.DiscoveryManager - Service components: EventSourcedEntity: [1], Consumer: [2], View: [1]
+23:37:31.730 INFO  akka.runtime.DiscoveryManager - Akka Runtime started at 127.0.0.1:56005
+23:37:31.731 INFO  repro.Bootstrap - onStartup burst of 8 starting
+23:37:31.777 INFO  akka.javasdk.testkit.TestKit - Runtime started
+=== BootstrapWorkTimingTest [burst from onStartup()]: 15 cycles ===
+start() ms per cycle: [5108, 436, 354, 342, 576, 462, 555, 333, 325, 313, 493, 374, 343, 255, 244]  sum=10513 min=244 max=5108 mean=700
+stop() ms per cycle: [98, 19, 51, 45, 23, 21, 76, 20, 16, 33, 19, 14, 13, 13, 13]  sum=474 min=13 max=98 mean=31
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 11.672 s - in repro.BootstrapWorkTimingTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  16.400 s
+[INFO] Finished at: 2026-09-22T23:37:32+10:00
+[INFO] ------------------------------------------------------------------------

@@ -8,7 +8,8 @@ that burst from `ServiceSetup.onStartup()` makes the stall common rather than ra
 the runtime. Related upstream issues: akka-core#33001 and lightbend/akka-runtime#5719.
 
 The stall is only visible against Akka jars carrying the fixes listed under "Observed on a patched
-jarset". On the released jars an ordinary stop() takes about a second, which hides it.
+jarset". On the released jars an ordinary stop() takes about a second, which hides it. A further
+change to `ShardRegion`, built on top of those, removes the stall; see the last section.
 
 The project carries no business logic. It holds one bare entity, three projections over it, a
 `ServiceSetup` whose startup hook sends a small burst of commands to that entity, and one test that
@@ -236,7 +237,8 @@ config includes last. `./harness.sh --quiet` puts them back to WARN for a run.
 
 ## Where the root cause is likely to be
 
-This is a reading of the evidence above, not a diagnosis anyone has confirmed. Line numbers are
+The first three points below are a reading of the evidence above. The fourth was then tested, and
+it holds. Line numbers are
 from akka-core at v2.10.20 plus the three fixes that this jarset carries, commit 749f432 on branch
 `upstream-fixes-2.10.20`.
 
@@ -266,15 +268,73 @@ and the region's willingness to wait out a full phase timeout for it are two hal
 gap. A single node is where it shows, because a single node is where "no other member can take this
 shard" is certain.
 
-**A candidate fix is already written and was not in these jars.** The akka-core working tree on
-branch `upstream-fixes-2.10.20` carries an uncommitted change to `ShardRegion.scala` that guards
-both `bufferMessage` and `tryCompleteGracefulShutdownIfInProgress` with `isOnlyMember`, dropping
-buffered messages at once rather than waiting for a shard home no other member could host, plus a
-new `SingleNodeGracefulShutdownSpec`. The jarset these runs used contains no
-`akka-cluster-sharding` artifact at all, so every number here was measured against the released
-sharding jar. Building that change and rerunning `./harness.sh` is the next experiment, and the
-prediction is specific: the stall disappears from the `onStartup()` arm, and the graceful shutdown
-warning stops appearing.
+**The candidate fix removes it.** The akka-core working tree on branch `upstream-fixes-2.10.20`
+carried an uncommitted change to `ShardRegion.scala` that had never been built into a jar, so every
+number above was measured against the released sharding artifact. Built and published into the same
+repository, it changes both halves of the wait:
+
+```scala
+   private def tryCompleteGracefulShutdownIfInProgress(): Unit =
+-    if (gracefulShutdownInProgress && shards.isEmpty && shardBuffers.isEmpty) {
+-      log.debug("{}: Completed graceful shutdown of region.", typeName)
+-      context.stop(self) // all shards have been rebalanced, complete graceful shutdown
++    if (gracefulShutdownInProgress && shards.isEmpty) {
++      if (shardBuffers.isEmpty) {
++        log.debug("{}: Completed graceful shutdown of region.", typeName)
++        context.stop(self) // all shards have been rebalanced, complete graceful shutdown
++      } else if (isOnlyMember) {
++        // No other member can host these shards, so the coordinator can never answer the
++        // GetShardHome requests the buffers are waiting for. Waiting for the graceful shutdown
++        // timeout drops the same messages a phase timeout later.
++        log.debug(
++          "{}: Completed graceful shutdown of region, dropping [{}] buffered messages that no " +
++          "other member can take over.",
++          typeName,
++          shardBuffers.totalSize)
++        dropShardBuffers()
++        context.stop(self)
++      }
+     }
+
++  // No other member, in any status, that could host a shard of this region.
++  private def isOnlyMember: Boolean =
++    cluster.state.members.forall(_.uniqueAddress == cluster.selfUniqueAddress)
+
+   def bufferMessage(shardId: ShardId, msg: Any, snd: ActorRef) = {
+     val totBufSize = shardBuffers.totalSize
+-    if (totBufSize >= bufferSize) {
++    if (gracefulShutdownInProgress && isOnlyMember) {
++      // This region is going away and no other member can take the shard over, so buffering
++      // would only wait for a shard home that never comes.
++      log.debug("{}: Region is shutting down, dropping message for shard [{}]", typeName, shardId)
++      context.system.deadLetters ! msg
++      instrumentation.messageDropped(typeName)
++    } else if (totBufSize >= bufferSize) {
+```
+
+Four quiet runs of the `onStartup()` arm against that jar, in `logs/20260922-233638`:
+
+```
+stop() run 1: [154, 31, 19, 13, 13, 15, 14, 13, 33, 10, 14, 26, 36, 14, 16]
+stop() run 2: [102, 22, 13, 32, 23, 14, 11, 24, 15, 15, 11, 15, 24, 15, 32]
+stop() run 3: [98, 19, 51, 45, 23, 21, 76, 20, 16, 33, 19, 14, 13, 13, 13]
+stop() run 4: [144, 24, 14, 14, 14, 14, 25, 12, 12, 6, 15, 7, 5, 7, 4]
+```
+
+The prediction holds, and more than the stall goes with it:
+
+- No stalled cycle in 60, against 7 in 90 on the same arm without this jar.
+- The graceful shutdown warning does not appear in any run.
+- The bimodal floor of about 230 milliseconds and about 1.25 seconds is gone. Every cycle is
+  between 4 and 154 milliseconds, which is the range the after-start arm already had.
+- In a debug run of the same arm, `logs/20260922-234113`, the entity region logs no shard home
+  request and no buffered message at all, and `onStartup()` no longer fails with
+  `TimeoutException: Command to entity ... timed out`. The region hands its one shard off in about
+  eighty milliseconds and stops.
+
+The two jarsets differ only in this artifact, so the comparison is that change alone. The drop
+paths the diff adds are not reached in these runs: the stall is gone because nothing ends up
+buffered against a shutting-down region, not because the buffer is emptied.
 
 **One layer above, the service side deserves its own question.** `start()` returns while
 `onStartup()` is still issuing commands, so a caller that stops the runtime promptly stops it with
@@ -283,6 +343,6 @@ Whether a startup hook should be awaited, and what a caller is entitled to assum
 returns, is a question for the SDK and runtime rather than for sharding. Fixing the sharding side
 removes the nine seconds. It does not make the in-flight commands succeed.
 
-**What is not the cause.** Shard home lookups are ordinary traffic: 45 to 74 per run, in stalled
-and clean runs alike. Wide fan-out is not required either, since one view and two consumers are
+**What is not the cause.** Shard home lookups are ordinary traffic on the jarset that stalls: 45 to
+74 per run, in stalled and clean runs alike. Wide fan-out is not required either, since one view and two consumers are
 enough. Neither is the entity's own work, which is one event.
