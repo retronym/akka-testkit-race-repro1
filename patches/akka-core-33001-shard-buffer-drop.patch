@@ -1,0 +1,170 @@
+From 19d34a32b72053867ea1d8ff3b6881b576b69573 Mon Sep 17 00:00:00 2001
+From: Jason Zaugg <jzaugg@gmail.com>
+Date: Tue, 22 Sep 2026 23:30:13 +1000
+Subject: [PATCH] spike: drop shard buffers a shutting-down region cannot
+ deliver
+
+---
+ .../akka/cluster/sharding/ShardRegion.scala   | 39 +++++++-
+ .../SingleNodeGracefulShutdownSpec.scala      | 90 +++++++++++++++++++
+ 2 files changed, 125 insertions(+), 4 deletions(-)
+ create mode 100644 akka-cluster-sharding/src/test/scala/akka/cluster/sharding/SingleNodeGracefulShutdownSpec.scala
+
+diff --git a/akka-cluster-sharding/src/main/scala/akka/cluster/sharding/ShardRegion.scala b/akka-cluster-sharding/src/main/scala/akka/cluster/sharding/ShardRegion.scala
+index 13a0403..8ef7d78 100644
+--- a/akka-cluster-sharding/src/main/scala/akka/cluster/sharding/ShardRegion.scala
++++ b/akka-cluster-sharding/src/main/scala/akka/cluster/sharding/ShardRegion.scala
+@@ -1169,11 +1169,36 @@ private[akka] class ShardRegion(
+     }
+ 
+   private def tryCompleteGracefulShutdownIfInProgress(): Unit =
+-    if (gracefulShutdownInProgress && shards.isEmpty && shardBuffers.isEmpty) {
+-      log.debug("{}: Completed graceful shutdown of region.", typeName)
+-      context.stop(self) // all shards have been rebalanced, complete graceful shutdown
++    if (gracefulShutdownInProgress && shards.isEmpty) {
++      if (shardBuffers.isEmpty) {
++        log.debug("{}: Completed graceful shutdown of region.", typeName)
++        context.stop(self) // all shards have been rebalanced, complete graceful shutdown
++      } else if (isOnlyMember) {
++        // No other member can host these shards, so the coordinator can never answer the
++        // GetShardHome requests the buffers are waiting for. Waiting for the graceful shutdown
++        // timeout drops the same messages a phase timeout later.
++        log.debug(
++          "{}: Completed graceful shutdown of region, dropping [{}] buffered messages that no " +
++          "other member can take over.",
++          typeName,
++          shardBuffers.totalSize)
++        dropShardBuffers()
++        context.stop(self)
++      }
+     }
+ 
++  // No other member, in any status, that could host a shard of this region.
++  private def isOnlyMember: Boolean =
++    cluster.state.members.forall(_.uniqueAddress == cluster.selfUniqueAddress)
++
++  private def dropShardBuffers(): Unit = {
++    var bufferedShards = List.empty[ShardId]
++    shardBuffers.foreach { case (shardId, _) => bufferedShards ::= shardId }
++    bufferedShards.foreach(
++      shardBuffers.drop(_, "Region is shutting down and no other member can host the shard", context.system.deadLetters))
++    instrumentation.shardRegionBufferSize(typeName, shardBuffers.totalSize)
++  }
++
+   def startRegistration(): Unit = {
+     nextRegistrationDelay = initRegistrationDelay
+ 
+@@ -1290,7 +1315,13 @@ private[akka] class ShardRegion(
+ 
+   def bufferMessage(shardId: ShardId, msg: Any, snd: ActorRef) = {
+     val totBufSize = shardBuffers.totalSize
+-    if (totBufSize >= bufferSize) {
++    if (gracefulShutdownInProgress && isOnlyMember) {
++      // This region is going away and no other member can take the shard over, so buffering
++      // would only wait for a shard home that never comes.
++      log.debug("{}: Region is shutting down, dropping message for shard [{}]", typeName, shardId)
++      context.system.deadLetters ! msg
++      instrumentation.messageDropped(typeName)
++    } else if (totBufSize >= bufferSize) {
+       if (loggedFullBufferWarning)
+         log.debug("{}: Buffer is full, dropping message for shard [{}]", typeName, shardId)
+       else {
+diff --git a/akka-cluster-sharding/src/test/scala/akka/cluster/sharding/SingleNodeGracefulShutdownSpec.scala b/akka-cluster-sharding/src/test/scala/akka/cluster/sharding/SingleNodeGracefulShutdownSpec.scala
+new file mode 100644
+index 0000000..49e3fb7
+--- /dev/null
++++ b/akka-cluster-sharding/src/test/scala/akka/cluster/sharding/SingleNodeGracefulShutdownSpec.scala
+@@ -0,0 +1,90 @@
++/*
++ * Copyright (C) 2026-2025 Lightbend Inc. <https://www.lightbend.com>
++ */
++
++package akka.cluster.sharding
++
++import scala.concurrent.Await
++import scala.concurrent.duration._
++
++import akka.actor.CoordinatedShutdown
++import akka.actor.Props
++import akka.cluster.Cluster
++import akka.cluster.MemberStatus
++import akka.testkit.AkkaSpec
++import akka.testkit.TestActors.EchoActor
++import akka.testkit.TestProbe
++import akka.testkit.WithLogCapturing
++
++object SingleNodeGracefulShutdownSpec {
++  val config =
++    """
++    akka.loglevel = DEBUG
++    akka.loggers = ["akka.testkit.SilenceAllTestEventListener"]
++    akka.actor.provider = "cluster"
++    akka.remote.artery.canonical.port = 0
++    akka.persistence.journal.plugin = "akka.persistence.journal.inmem"
++    akka.cluster.sharding.verbose-debug-logging = on
++    akka.cluster.sharding.remember-entities = on
++    akka.cluster.sharding.remember-entities-store = eventsourced
++    akka.cluster.sharding.state-store-mode = ddata
++    """
++
++  val extractEntityId: ShardRegion.ExtractEntityId = {
++    case msg: Int => (msg.toString, msg)
++  }
++
++  val extractShardId: ShardRegion.ExtractShardId = {
++    case msg: Int => msg.toString
++    case _        => throw new IllegalArgumentException()
++  }
++
++  val ShardCount = 14
++}
++
++class SingleNodeGracefulShutdownSpec extends AkkaSpec(SingleNodeGracefulShutdownSpec.config) with WithLogCapturing {
++  import SingleNodeGracefulShutdownSpec._
++
++  "A single node cluster with remember-entities" must {
++    "shut its shard regions down without waiting for shard home retries" in {
++      val cluster = Cluster(system)
++      cluster.join(cluster.selfAddress)
++      awaitAssert(cluster.selfMember.status shouldEqual MemberStatus.Up, 10.seconds)
++
++      val region = ClusterSharding(system).start(
++        "type1",
++        Props[EchoActor](),
++        ClusterShardingSettings(system),
++        extractEntityId,
++        extractShardId)
++
++      // One entity per shard, so several shards are deallocated concurrently on the way out.
++      val probe = TestProbe()
++      (1 to ShardCount).foreach { id =>
++        region.tell(id, probe.ref)
++        probe.expectMsg(10.seconds, id)
++      }
++
++      // Traffic that continues into the shutdown. A message arriving for a shard the coordinator
++      // has just deallocated makes the region ask for that shard's home again.
++      @volatile var keepSending = true
++      val sender = new Thread(() => {
++        while (keepSending) {
++          (1 to ShardCount).foreach(id => region.tell(id, system.deadLetters))
++          Thread.sleep(5)
++        }
++      })
++      sender.setDaemon(true)
++      sender.start()
++
++      val started = System.nanoTime()
++      Await.result(CoordinatedShutdown(system).run(CoordinatedShutdown.UnknownReason), 30.seconds)
++      val elapsed = (System.nanoTime() - started).nanos
++      keepSending = false
++
++      info(s"CoordinatedShutdown took ${elapsed.toMillis}ms")
++      // One node has no hand-over partner and nothing to rebalance, so nothing here has to wait.
++      elapsed should be < 5.seconds
++    }
++  }
++}
+-- 
+2.55.0
+

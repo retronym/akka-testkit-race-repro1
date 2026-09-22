@@ -341,47 +341,23 @@ shard" is certain.
 
 **A candidate fix removes it, confirmed directly.** The akka-core working tree on branch
 `upstream-fixes-2.10.20` carried an uncommitted change to `ShardRegion.scala` that had never been
-built into a jar, so every number above was measured against the released sharding artifact. Built
-and published into the same repository, it changes both halves of the wait:
+built into a jar, so every number above was measured against the released sharding artifact.
+[`patches/akka-core-33001-shard-buffer-drop.patch`](patches/akka-core-33001-shard-buffer-drop.patch)
+is that change, exported with `git format-patch` from the commit it was built and tested as,
+`19d34a3` on that branch, applicable with `git am` against akka-core `v2.10.20`. It touches two
+files: `ShardRegion.scala`, and a new `SingleNodeGracefulShutdownSpec.scala` that reproduces the
+gap this project also reproduces, inside akka-core's own test suite rather than through a whole
+Akka SDK service.
 
-```scala
-   private def tryCompleteGracefulShutdownIfInProgress(): Unit =
--    if (gracefulShutdownInProgress && shards.isEmpty && shardBuffers.isEmpty) {
--      log.debug("{}: Completed graceful shutdown of region.", typeName)
--      context.stop(self) // all shards have been rebalanced, complete graceful shutdown
-+    if (gracefulShutdownInProgress && shards.isEmpty) {
-+      if (shardBuffers.isEmpty) {
-+        log.debug("{}: Completed graceful shutdown of region.", typeName)
-+        context.stop(self) // all shards have been rebalanced, complete graceful shutdown
-+      } else if (isOnlyMember) {
-+        // No other member can host these shards, so the coordinator can never answer the
-+        // GetShardHome requests the buffers are waiting for. Waiting for the graceful shutdown
-+        // timeout drops the same messages a phase timeout later.
-+        log.debug(
-+          "{}: Completed graceful shutdown of region, dropping [{}] buffered messages that no " +
-+          "other member can take over.",
-+          typeName,
-+          shardBuffers.totalSize)
-+        dropShardBuffers()
-+        context.stop(self)
-+      }
-     }
-
-+  // No other member, in any status, that could host a shard of this region.
-+  private def isOnlyMember: Boolean =
-+    cluster.state.members.forall(_.uniqueAddress == cluster.selfUniqueAddress)
-
-   def bufferMessage(shardId: ShardId, msg: Any, snd: ActorRef) = {
-     val totBufSize = shardBuffers.totalSize
--    if (totBufSize >= bufferSize) {
-+    if (gracefulShutdownInProgress && isOnlyMember) {
-+      // This region is going away and no other member can take the shard over, so buffering
-+      // would only wait for a shard home that never comes.
-+      log.debug("{}: Region is shutting down, dropping message for shard [{}]", typeName, shardId)
-+      context.system.deadLetters ! msg
-+      instrumentation.messageDropped(typeName)
-+    } else if (totBufSize >= bufferSize) {
-```
+`ShardRegion.scala` changes both halves of the wait. `tryCompleteGracefulShutdownIfInProgress`
+no longer requires `shardBuffers.isEmpty` to complete a shutdown whose shards are all gone; a
+region that is the only member, meaning no other node the coordinator could ever hand those
+buffered shards to, drops them and completes instead of falling through to wait out the phase
+timeout. `bufferMessage` makes the same check going forward: a region already shutting down, and
+already the only member, drops an incoming message for an unallocated shard immediately rather
+than buffering it to wait on a `GetShardHome` the coordinator can never answer. The new
+`isOnlyMember` reads `cluster.state.members` against `cluster.selfUniqueAddress`, live, at the
+point either check runs.
 
 Four quiet runs of the `onStartup()` arm against that jar, in `logs/20260922-233638`:
 
