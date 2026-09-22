@@ -131,6 +131,29 @@ The patched jars take the ordinary stop() down to single digit milliseconds, whi
 the stall visible: a cycle of about 9.03 seconds against a floor of about 8 milliseconds, at the
 same cycle in both runs.
 
+## Which patch the stall needs
+
+The five patches above were carried together because that is what the trainer investigation this
+project was extracted from happened to be testing. Bisecting them against `withBurstFromOnStartup`,
+with `harness.sh --patched`, akka-projection and akka-runtime left at their released versions
+throughout:
+
+| akka-core patches carried | akka-projection / akka-runtime | Runs × cycles | Stalled cycles | Ordinary stop() |
+|---|---|---|---|---|
+| #32997 + #32998 | released | 3 × 15 = 45 | 0 | ~15-20ms |
+| #32997 + #32998 + #33000 | released | 4 × 15 = 60 | 4 | ~1.25s |
+| #33000 alone | released | 4 × 15 = 60 | 3 | ~2.2-2.3s |
+
+**#33000 ("retry singleton identification from proxy with backoff") is the whole requirement.**
+Alone, with neither of the other two akka-core patches and neither of the non-core ones, it
+reproduces the same 9.0-10.0-second stall at the same rate as every combination that includes it,
+roughly one cycle in 15 to 20. #32997 and #32998 only change how fast an ordinary, non-stalled
+stop() completes: with them and without #33000, the whole eight-command burst finishes inside
+onStartup() in about 180 milliseconds, before start() returns, so there is nothing left in flight
+for a stop() to race against, and 45 cycles produced no stall at all. akka-projection#1457 and
+akka-runtime#5718 were never in any of these three builds and the stall reproduces without them just
+as it does with them.
+
 ## What the stall is
 
 The sequence below is the same stalled cycle as the log excerpts that follow it, with the
@@ -151,9 +174,9 @@ sequenceDiagram
     Test->>Region: stop() (≈23:06:42.485)
     Region->>Region: graceful shutdown begins,<br/>shard 257 shutting down (23:06:42.485)
     Region->>Coord: GetShardHome(427) (23:06:42.527)
-    Note over Coord: region already shutting down;<br/>only member, so activeRegions is empty;<br/>falls through — no reply, no log
+    Note over Coord: region already shutting down,<br/>only member, so activeRegions is empty,<br/>falls through, no reply, no log
     loop every 2s until GracefulShutdownTimeout
-        Region->>Coord: "Requesting shard home for [427]"<br/>[1] buffered message
+        Region->>Coord: Requesting shard home for [427]<br/>[1] buffered message
     end
     Note over Region: GracefulShutdownTimeout fires (23:06:51.499)<br/>≈9.01s after shutdown began
     Region->>Region: drop buffered message, region stopped
